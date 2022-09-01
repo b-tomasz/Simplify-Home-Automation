@@ -5,10 +5,10 @@
 ARCH=$(uname -m)
 echo Die Architektur ist: $ARCH
 
-if [[ $ARCH == 'aarch64' ]]
+if [[ $ARCH == "aarch64" ]]
 then
-echo Prüfung bestanden!
+    echo Prüfung bestanden!
 else
-echo Prüfung fehlgeschlagen!
+    echo Prüfung fehlgeschlagen!
 then    
 fi
