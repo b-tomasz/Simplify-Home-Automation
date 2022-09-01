@@ -9,5 +9,5 @@ if [[ $ARCH == "aarch64" ]]
 then
     echo Prüfung bestanden!
 else
-    echo Prüfung fehlgeschlagen!
+    echo Prüfung fehlgeschlagen!ysd
 fi
