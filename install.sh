@@ -18,3 +18,17 @@ apt-get update
 apt-get upgrade -y
 apt-get autoremove -y
 apt-get clean -y
+
+
+rm /tmp/installScript -r &> /dev/null
+mkdir /tmp/installScript
+cd /tmp/installScript
+
+pwd
+ls -lisa
+
+
+
+
+
+
