@@ -1,5 +1,5 @@
 #!/bin/bash
-#Script ausführen mit: 
+#Script ausführen mit:
 #rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
 ARCH=$(uname -m)
@@ -10,5 +10,4 @@ then
     echo Prüfung bestanden!
 else
     echo Prüfung fehlgeschlagen!
-then    
 fi
