@@ -2,6 +2,13 @@
 #Script ausführen mit: 
 #rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
-echo Architektur wird geprüft!
-$ARCH=test
+ARCH=$(uname -m)
 echo Die Architektur ist: $ARCH
+
+if [[ $ARCH == 'aarch64' ]]
+then
+echo Prüfung bestanden!
+else
+echo Prüfung fehlgeschlagen!
+then    
+fi
