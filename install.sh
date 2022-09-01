@@ -28,6 +28,8 @@ pwd
 ls -lisa
 
 
+apt-get install dialog -y
+
 DIALOG_RESULT=result
 
 # Generate the dialog box
@@ -42,7 +44,7 @@ width of the input box, in that case, the \n
 input field will be automatically scrolled. \n
 You can use BACKSPACE to correct errors. \n\n
 Try entering your name below:" \
-16 51 2> $tmp_file
+16 51 2> $DIALOG_RESULT
 
 
 
