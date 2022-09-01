@@ -46,5 +46,7 @@ You can use BACKSPACE to correct errors. \n\n
 Try entering your name below:" \
 16 51 2> $DIALOG_RESULT
 
+clear
 
-
+echo Test: $?
+echo $DIALOG_RESULT
