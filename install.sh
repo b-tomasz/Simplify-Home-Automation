@@ -9,5 +9,12 @@ if [[ $ARCH == "aarch64" ]]
 then
     echo Prüfung bestanden!
 else
-    echo Prüfung fehlgeschlagen!ysd
+    echo Prüfung fehlgeschlagen!
 fi
+
+
+echo System wird upgedated!
+apt-get update
+apt-get upgrade -y
+apt-get autoremove -y
+apt-get clean -y
