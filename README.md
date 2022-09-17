@@ -1,8 +1,8 @@
 # Simplify-Home-Automation
 
 Prerequisits:
-> Raspberry Pi \
-> Home Network
+> - Raspberry Pi \
+> - Home Network
 
 All Folder get created in   /var/homeautomation \
 Scriptfolder                /var/homeautomation/script \
