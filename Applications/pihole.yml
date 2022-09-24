@@ -1,0 +1,66 @@
+version: "3"
+
+# Inspired By:
+# https://www.youtube.com/watch?v=DM65_JyGxCo
+# https://github.com/pi-hole/docker-pi-hole#readme
+# https://hub.docker.com/r/ubuntu/bind9
+#
+#
+
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "80:80/tcp"
+      
+    depends_on:
+      - bind9
+      
+    environment:
+      TZ: 'Europe/Berlin'
+      WEBPASSWORD: '1234'
+      PIHOLE_DNS_: '10.0.10.20'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '/var/homeautomation/pihole/voulumes/pihole/etc-pihole:/etc/pihole'
+      - '/var/homeautomation/pihole/voulumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'    
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
+    restart: unless-stopped
+    networks:
+      pihole:
+        ipv4_address: 10.0.10.10
+        
+  bind9:
+    container_name: bind9
+    image: ubuntu/bind9:latest
+    
+    volumes:
+      - /var/homeautomation/pihole/voulumes/bind9/etc-bind:/etc/bind/:Z
+      #- /var/homeautomation/pihole/voulumes/bind9/var-cache-bind:/var/cache/bind:Z
+      - /var/homeautomation/pihole/voulumes/bind9/var-lib-bind:/var/lib/bind:Z
+    
+    
+    environment:
+      TZ: 'Europe/Berlin'
+      
+      
+    restart: unless-stopped
+    networks:
+      pihole:
+        ipv4_address: 10.0.10.20
+   
+networks:
+  pihole:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.10.0/24"
