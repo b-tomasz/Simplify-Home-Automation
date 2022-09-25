@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null; bash install.sh
+#rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null; bash install-portainer.sh
 
 # create Applikations folder
 mkdir -p /var/homeautomation/portainer
