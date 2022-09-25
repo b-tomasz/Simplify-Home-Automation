@@ -29,8 +29,8 @@ services:
       PIHOLE_DNS_: '10.0.20.20'
     # Volumes store your data between container upgrades
     volumes:
-      - '/var/homeautomation/pihole/voulumes/pihole/etc-pihole:/etc/pihole'
-      - '/var/homeautomation/pihole/voulumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'    
+      - '/var/homeautomation/pihole/volumes/pihole/etc-pihole:/etc/pihole'
+      - '/var/homeautomation/pihole/volumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'    
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
@@ -44,9 +44,9 @@ services:
     image: ubuntu/bind9:latest
     
     volumes:
-      - /var/homeautomation/pihole/voulumes/bind9/etc-bind:/etc/bind/:Z
-      #- /var/homeautomation/pihole/voulumes/bind9/var-cache-bind:/var/cache/bind:Z
-      - /var/homeautomation/pihole/voulumes/bind9/var-lib-bind:/var/lib/bind:Z
+      - /var/homeautomation/pihole/volumes/bind9/etc-bind:/etc/bind/:Z
+      #- /var/homeautomation/pihole/volumes/bind9/var-cache-bind:/var/cache/bind:Z
+      - /var/homeautomation/pihole/volumes/bind9/var-lib-bind:/var/lib/bind:Z
     
     
     environment:

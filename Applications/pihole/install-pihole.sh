@@ -7,8 +7,8 @@ mkdir -p /var/homeautomation/pihole
 
 
 # create bind9 config File 
-mkdir -p /var/homeautomation/pihole/voulumes/bind9/etc-bind
-cd /var/homeautomation/pihole/voulumes/bind9/etc-bind
+mkdir -p /var/homeautomation/pihole/volumes/bind9/etc-bind
+cd /var/homeautomation/pihole/volumes/bind9/etc-bind
 echo "options {
 	directory \"/var/cache/bind\";
 
