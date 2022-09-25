@@ -26,7 +26,7 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: '1234'
-      PIHOLE_DNS_: '10.0.10.20'
+      PIHOLE_DNS_: '10.0.20.20'
     # Volumes store your data between container upgrades
     volumes:
       - '/var/homeautomation/pihole/voulumes/pihole/etc-pihole:/etc/pihole'
@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
     networks:
       pihole:
-        ipv4_address: 10.0.10.10
+        ipv4_address: 10.0.20.10
         
   bind9:
     container_name: bind9
@@ -56,11 +56,11 @@ services:
     restart: unless-stopped
     networks:
       pihole:
-        ipv4_address: 10.0.10.20
+        ipv4_address: 10.0.20.20
    
 networks:
   pihole:
     ipam:
       driver: default
       config:
-        - subnet: "10.0.10.0/24"
+        - subnet: "10.0.20.0/24"
