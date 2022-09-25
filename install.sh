@@ -48,5 +48,37 @@ Try entering your name below:" \
 
 clear
 
+DIALOG_RESULT=result
+##Test Checklist
+dialog --title "INPUT BOX" \
+  --clear  \
+  --checklist \
+"Hi, this is an input dialog box. You can use \n
+this to ask questions that require the user \n
+to input a string as the answer. You can \n
+input strings of length longer than the \n
+width of the input box, in that case, the \n
+input field will be automatically scrolled. \n
+You can use BACKSPACE to correct errors. \n\n
+Try entering your name below:" \
+16 51 2 Ttest Test1 TEst2 TEst3 Test4> $DIALOG_RESULT
+
+
+pizza=`dialog --checklist "Pizza mit ..." 0 0 4 \
+ Käse "" on\
+ Salami "" off\
+ Schinken "" off\
+ Thunfisch "" off 3>&1 1>&2 2>&3`
+dialog --clear
+clear
+echo "Ihre Bestellung: Pizza mit $pizza"
+
 echo Test: $?
 echo $DIALOG_RESULT
+
+
+
+
+# install docker
+
+apt install docker.io docker-compose
