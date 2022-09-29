@@ -70,7 +70,7 @@ update_system () {
         } | whiptail --gauge "Update System..." 6 50 0
         
     else
-        echo "Update of System Skipped by User" $LOG_PWD/install.log
+        echo "Update of System Skipped by User" >> $LOG_PWD/install.log
         return
     fi
     
@@ -115,7 +115,7 @@ else
 fi
 
 #Update the System
-echo "Start Update" $LOG_PWD/install.log
+echo "Start Update" >> $LOG_PWD/install.log
 update_system
 
 # Install Docker
