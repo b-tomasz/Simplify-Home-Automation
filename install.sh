@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
+#cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
 #
 # Inspired BY:
@@ -17,12 +17,15 @@
 #
 #
 
+# Create Script/Log Folder
+mkdir -p /var/homeautomation/script/log
+cd /var/homeautomation/script
+
 ### Variables
 
-$SCRIPT_PWD = $(pwd)
-$SCRIPT_NAME = install.sh
-$LOG_PWD = /var/homeautomation/script/log
-$WORKING_PWD = /var/homeautomation/script
+$SCRIPT_PWD=/tmp
+$SCRIPT_NAME=install.sh
+$LOG_PWD=/var/homeautomation/script/log
 
 
 ### Functions:
@@ -40,7 +43,7 @@ exit_script () {
     
     # Remove the install Script
     rm $SCRIPT_PWD/$SCRIPT_NAME
-    echo finish!!
+    printf finish!!
     
     exit 1
 }
@@ -49,18 +52,18 @@ exit_script () {
 update_system () {
     
     {
-        echo "\n----------Update System----------\n" >> $LOG_PWD/update.log
+        printf "\n----------Update System----------\n" >> $LOG_PWD/update.log
         apt-get update  -y -q >> $LOG_PWD/update.log
-        echo 20
+        printf 20
         
-        echo "\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
+        printf "\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
         apt-get upgrade -y -q >> $LOG_PWD/update.log
-        echo 60
+        printf 60
         
-        echo "\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
+        printf "\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
         apt-get autoremove -y -q >> $LOG_PWD/update.log
         apt-get clean -y -q >> $LOG_PWD/update.log
-        echo 100
+        printf 100
         
         sleep 0.5
         
@@ -75,14 +78,14 @@ check_docker_installation () {
     
     
     if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
-        echo "User selected Yes, exit status was $?."
+        printf "User selected Yes, exit status was $?."
     else
-        echo "Install of Docker aborted"
+        printf "Install of Docker aborted"
         exit_script
     fi
     
-    echo Test: $?
-    echo $DIALOG_RESULT
+    printf Test: $?
+    printf $DIALOG_RESULT
     
     
     # install docker
@@ -99,18 +102,14 @@ check_docker_installation () {
 
 
 ARCH=$(uname -m)
-echo The Architecture is: $ARCH
+printf The Architecture is: $ARCH
 
 if [[ $ARCH == "aarch64" ]]
 then
-    echo Prüfung bestanden!
+    printf Prüfung bestanden!
 else
-    echo Prüfung fehlgeschlagen!
+    printf Prüfung fehlgeschlagen!
 fi
-
-#create Script/Log Folder and change to script Folder
-mkdir -p $LOG_PWD
-cd $WORKING_PWD
 
 #Update the System
 update_system
@@ -128,5 +127,5 @@ update_system
 
 
 # Finished all without Error
-echo "\n\n\nScript finished Succesfuly"
+printf "\\n\\n\\nScript finished Succesfuly"
 exit_script
