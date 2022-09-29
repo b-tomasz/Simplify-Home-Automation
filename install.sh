@@ -55,16 +55,16 @@ update_system () {
             printf "\n\n----------Update System----------\n" >> $LOG_PWD/update.log
             apt-get update  -y -q >> $LOG_PWD/update.log
             
-            echo -e "XXX\n20\Upgrade System...\nXXX"
+            echo -e "XXX\n20\nUpgrade System...\nXXX"
             printf "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
             apt-get upgrade -y -q >> $LOG_PWD/update.log
             
-            echo -e "XXX\n60\Cleanup System...\nXXX"
+            echo -e "XXX\n60\nCleanup System...\nXXX"
             printf "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
             apt-get autoremove -y -q >> $LOG_PWD/update.log
             apt-get clean -y -q >> $LOG_PWD/update.log
             
-            echo -e "XXX\n100\Finished...\nXXX"
+            echo -e "XXX\n100\nFinished...\nXXX"
             sleep 0.5
             
         } | whiptail --gauge "Update System..." 6 50 0
