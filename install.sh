@@ -19,6 +19,8 @@
 
 ### Variables
 
+SCRIPT_PWD = $(pwd)
+SCRIPT_NAME = install.sh
 LOG_PWD = /var/homeautomation/script/log
 
 
@@ -32,6 +34,12 @@ exit_script () {
     rm -r $LOG_PWD
     
     
+
+
+
+    rm $SCRIPT_PWD/$SCRIPT_NAME
+    echo finish!!
+
     exit 1
 }
 
