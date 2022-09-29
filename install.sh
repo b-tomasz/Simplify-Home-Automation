@@ -150,7 +150,7 @@ echo "Start Update" >> $LOG_PWD/install.log
 update_system
 
 # Install Docker
-# check_docker_installation
+check_docker_installation
 
 
 
