@@ -2,6 +2,70 @@
 #Script ausführen mit:
 #rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
+#
+# Inspired BY:
+# Grafisches Menu:
+# https://en.wikibooks.org/wiki/Bash_Shell_Scripting/Whiptail
+# https://linux.die.net/man/1/whiptail
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+### Variables
+
+LOG_PWD = /var/homeautomation/script/log
+
+
+### Functions:
+
+# Function for aborting Script.
+exit_script () {
+    #Remove all Files used by the Script
+
+    # Remove Log Folder
+    rm -r $LOG_PWD
+    
+    
+    exit 1
+}
+
+update_system () {
+    
+    mkdir -p $LOG_PWD
+    
+    {
+        
+        echo "\n----------Update System----------\n" >> $LOG_PWD/update.log
+        apt-get update  -y -q >> $LOG_PWD/update.log
+        echo 20
+        
+        echo "\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
+        apt-get upgrade -y -q >> $LOG_PWD/update.log
+        echo 60
+        
+        echo "\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
+        apt-get autoremove -y -q >> $LOG_PWD/update.log
+        apt-get clean -y -q >> $LOG_PWD/update.log
+        echo 100
+        
+        sleep 0.5
+        
+    } | whiptail --gauge "Install Updates..." 6 50 0
+    
+}
+
+
+
+
+### Script
+
+
 ARCH=$(uname -m)
 echo Die Architektur ist: $ARCH
 
@@ -13,11 +77,8 @@ else
 fi
 
 
-echo System wird upgedated!
-apt-get update
-apt-get upgrade -y
-apt-get autoremove -y
-apt-get clean -y
+update_system
+
 
 
 rm /tmp/installScript -r &> /dev/null
@@ -28,50 +89,17 @@ pwd
 ls -lisa
 
 
-apt-get install dialog -y
+
 
 DIALOG_RESULT=result
 
-# Generate the dialog box
-dialog --title "INPUT BOX" \
-  --clear  \
-  --inputbox \
-"Hi, this is an input dialog box. You can use \n
-this to ask questions that require the user \n
-to input a string as the answer. You can \n
-input strings of length longer than the \n
-width of the input box, in that case, the \n
-input field will be automatically scrolled. \n
-You can use BACKSPACE to correct errors. \n\n
-Try entering your name below:" \
-16 51 2> $DIALOG_RESULT
 
-clear
-
-DIALOG_RESULT=result
-##Test Checklist
-dialog --title "INPUT BOX" \
-  --clear  \
-  --checklist \
-"Hi, this is an input dialog box. You can use \n
-this to ask questions that require the user \n
-to input a string as the answer. You can \n
-input strings of length longer than the \n
-width of the input box, in that case, the \n
-input field will be automatically scrolled. \n
-You can use BACKSPACE to correct errors. \n\n
-Try entering your name below:" \
-16 51 2 Ttest Test1 TEst2 TEst3 Test4> $DIALOG_RESULT
-
-
-pizza=`dialog --checklist "Pizza mit ..." 0 0 4 \
- Käse "" on\
- Salami "" off\
- Schinken "" off\
- Thunfisch "" off 3>&1 1>&2 2>&3`
-dialog --clear
-clear
-echo "Ihre Bestellung: Pizza mit $pizza"
+if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
+    echo "User selected Yes, exit status was $?."
+else
+    echo "Install of Docker aborted"
+    exit_script
+fi
 
 echo Test: $?
 echo $DIALOG_RESULT
@@ -82,3 +110,5 @@ echo $DIALOG_RESULT
 # install docker
 
 apt install docker.io docker-compose
+
+
