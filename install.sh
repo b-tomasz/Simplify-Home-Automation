@@ -19,9 +19,10 @@
 
 ### Variables
 
-SCRIPT_PWD = $(pwd)
-SCRIPT_NAME = install.sh
-LOG_PWD = /var/homeautomation/script/log
+$SCRIPT_PWD = $(pwd)
+$SCRIPT_NAME = install.sh
+$LOG_PWD = /var/homeautomation/script/log
+$WORKING_PWD = /var/homeautomation/script
 
 
 ### Functions:
@@ -29,26 +30,25 @@ LOG_PWD = /var/homeautomation/script/log
 # Function for aborting Script.
 exit_script () {
     #Remove all Files used by the Script
-
+    
     # Remove Log Folder
     rm -r $LOG_PWD
     
     
-
-
-
+    
+    
+    
+    # Remove the install Script
     rm $SCRIPT_PWD/$SCRIPT_NAME
     echo finish!!
-
+    
     exit 1
 }
 
+# Update the Systen
 update_system () {
     
-    mkdir -p $LOG_PWD
-    
     {
-        
         echo "\n----------Update System----------\n" >> $LOG_PWD/update.log
         apt-get update  -y -q >> $LOG_PWD/update.log
         echo 20
@@ -68,6 +68,30 @@ update_system () {
     
 }
 
+# Install Docker
+check_docker_installation () {
+    
+    DIALOG_RESULT=result
+    
+    
+    if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
+        echo "User selected Yes, exit status was $?."
+    else
+        echo "Install of Docker aborted"
+        exit_script
+    fi
+    
+    echo Test: $?
+    echo $DIALOG_RESULT
+    
+    
+    # install docker
+    
+    apt install docker.io docker-compose
+    
+    
+}
+
 
 
 
@@ -75,7 +99,7 @@ update_system () {
 
 
 ARCH=$(uname -m)
-echo Die Architektur ist: $ARCH
+echo The Architecture is: $ARCH
 
 if [[ $ARCH == "aarch64" ]]
 then
@@ -84,39 +108,25 @@ else
     echo Prüfung fehlgeschlagen!
 fi
 
+#create Script/Log Folder and change to script Folder
+mkdir -p $LOG_PWD
+cd $WORKING_PWD
 
+#Update the System
 update_system
 
-
-
-rm /tmp/installScript -r &> /dev/null
-mkdir /tmp/installScript
-cd /tmp/installScript
-
-pwd
-ls -lisa
+# Install Docker
+# check_docker_installation
 
 
 
 
-DIALOG_RESULT=result
-
-
-if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
-    echo "User selected Yes, exit status was $?."
-else
-    echo "Install of Docker aborted"
-    exit_script
-fi
-
-echo Test: $?
-echo $DIALOG_RESULT
 
 
 
 
-# install docker
-
-apt install docker.io docker-compose
 
 
+# Finished all without Error
+echo "\n\n\nScript finished Succesfuly"
+exit_script
