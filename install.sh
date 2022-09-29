@@ -23,9 +23,9 @@ cd /var/homeautomation/script
 
 ### Variables
 
-$SCRIPT_PWD=/tmp
-$SCRIPT_NAME=install.sh
-$LOG_PWD=/var/homeautomation/script/log
+SCRIPT_PWD=/tmp
+SCRIPT_NAME=install.sh
+LOG_PWD=/var/homeautomation/script/log
 
 
 ### Functions:
@@ -41,40 +41,44 @@ exit_script () {
     
     
     
-    # Remove the install Script
-    rm $SCRIPT_PWD/$SCRIPT_NAME
-    printf finish!!
     
+    # Remove the install Script and Exit
+    rm $SCRIPT_PWD/$SCRIPT_NAME
     exit 1
 }
 
 # Update the Systen
 update_system () {
-    
-    {
-        printf "\n----------Update System----------\n" >> $LOG_PWD/update.log
-        apt-get update  -y -q >> $LOG_PWD/update.log
-        printf 20
+    if (whiptail --title "Update System" --yesno "Do you want to Update Your System?" --yes-button "Update" --no-button "Skip" 8 78); then
         
-        printf "\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
-        apt-get upgrade -y -q >> $LOG_PWD/update.log
-        printf 60
+        {
+            printf "\n\n----------Update System----------\n" >> $LOG_PWD/update.log
+            apt-get update  -y -q >> $LOG_PWD/update.log
+            
+            echo -e "XXX\n20\Upgrade System...\nXXX"
+            printf "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
+            apt-get upgrade -y -q >> $LOG_PWD/update.log
+            
+            echo -e "XXX\n60\Cleanup System...\nXXX"
+            printf "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
+            apt-get autoremove -y -q >> $LOG_PWD/update.log
+            apt-get clean -y -q >> $LOG_PWD/update.log
+            
+            echo -e "XXX\n100\Finished...\nXXX"
+            sleep 0.5
+            
+        } | whiptail --gauge "Update System..." 6 50 0
         
-        printf "\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
-        apt-get autoremove -y -q >> $LOG_PWD/update.log
-        apt-get clean -y -q >> $LOG_PWD/update.log
-        printf 100
-        
-        sleep 0.5
-        
-    } | whiptail --gauge "Install Updates..." 6 50 0
+    else
+        echo "Update of System Skipped by User" $LOG_PWD/install.log
+        return
+    fi
     
 }
 
 # Install Docker
 check_docker_installation () {
     
-    DIALOG_RESULT=result
     
     
     if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
@@ -85,7 +89,6 @@ check_docker_installation () {
     fi
     
     printf Test: $?
-    printf $DIALOG_RESULT
     
     
     # install docker
@@ -112,6 +115,7 @@ else
 fi
 
 #Update the System
+echo "Start Update" $LOG_PWD/install.log
 update_system
 
 # Install Docker
@@ -127,5 +131,5 @@ update_system
 
 
 # Finished all without Error
-printf "\\n\\n\\nScript finished Succesfuly"
+printf "\n\n\nScript finished Succesfuly\n\n"
 exit_script
