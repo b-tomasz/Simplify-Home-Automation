@@ -149,7 +149,7 @@ if [[ $ARCH == "aarch64" ]]
 then
     whiptail --title "System Architecture" --infobox "Your Architecture is $ARCH" --ok-button "Continue" 8 78
 else
-    if (whiptail --title "Install Docker" --yesno "Your Architecture is $ARCH\n Your Platform is not Supported\n Ignor this at your own risk" --yes-button "Ignore" --no-button "Exit" 8 78); then
+    if (whiptail --title "System Architecture" --yesno "Your Architecture is $ARCH\n Your Platform is not Supported\n Ignor this at your own risk" --yes-button "Ignore" --no-button "Exit" 8 78); then
           return
     else
             # Exit Script
