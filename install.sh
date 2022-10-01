@@ -43,7 +43,7 @@ exit_script () {
     unset NEEDRESTART_SUSPEND
     
     # Restart Sevices, where needed
-    needrestart -r a >> $LOG_PWD/install.log
+    needrestart -r a -q >> $LOG_PWD/install.log
 
     # Restart DHCP Service
     service dhcpcd restart
@@ -89,7 +89,7 @@ check_docker_installation () {
     
     # Check if Docker is installed completly
     
-    if (dpkg -s docker.io docker-compose); then
+    if (dpkg -s docker.io docker-compose >> $LOG_PWD/install.log); then
         # Docker is already installed
         
         echo "Docker is already installed" >> $LOG_PWD/install.log
