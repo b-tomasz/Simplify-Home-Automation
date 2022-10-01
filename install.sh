@@ -43,7 +43,7 @@ exit_script () {
     unset NEEDRESTART_SUSPEND
     
     # Restart Sevices, where needed
-    needrestart -r a
+    needrestart -r a  >> $LOG_PWD/install.log
     
     
     # Remove the install Script and Exit
