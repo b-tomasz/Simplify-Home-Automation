@@ -17,8 +17,10 @@ For each Application a seprate network is created
 
 
 ## Application List with IPaddress
-
-Bitwareden  10.0.0. \
-DNS         10.0.0. \
-PiHole      10.0.0. 
+|Container  |IP address |Ports|
+|---|---|---|
+|Pihole     |10.0.0.    |   |
+|DNS        |10.0.0.    |   | 
+|Bitwarden  |10.0.0.    |   | 
+|OpenVPN    |10.0.0.    |   |
 
