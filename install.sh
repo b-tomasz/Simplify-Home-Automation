@@ -40,7 +40,10 @@ exit_script () {
     
     
     # Enable needrestart again
-    rm /etc/needrestart/conf.d/disable.conf
+    unset NEEDRESTART_SUSPEND
+    
+    # Restart Sevices, where needed
+    needrestart -r a
     
     
     # Remove the install Script and Exit
@@ -142,10 +145,15 @@ update_locale () {
 
 # Set needrestart to automaticali to prevent Dialoges iterrupting Script
 disable_needrestart (){
-    echo "# Restart services (l)ist only, (i)nteractive or (a)utomatically.
-    $nrconf{restart} = 'a';
-    # Disable hints on pending kernel upgrades.
-    $nrconf{kernelhints} = 0;" > /etc/needrestart/conf.d/disable.conf
+    export NEEDRESTART_SUSPEND=1
+    
+    
+    
+    
+    #  echo "# Restart services (l)ist only, (i)nteractive or (a)utomatically.
+    # $nrconf{restart} = 'a';
+    # # Disable hints on pending kernel upgrades.
+    #$nrconf{kernelhints} = 0;" > /etc/needrestart/conf.d/disable.conf
     
 }
 
