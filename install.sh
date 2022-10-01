@@ -192,14 +192,14 @@ check_ip (){
         # Ask the User to enter an Fixed IP.
         FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3)
         if [ $? = 0 ]; then
-            
+            echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/install.log
         else
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
             exit_script 2
         fi
         FIXED_IP_GW=$(whiptail --title "IP Address" --inputbox "Enter the IP from the Router" 8 78 3>&1 1>&2 2>&3)
         if [ $? = 0 ]; then
-            
+            echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/install.log
         else
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
             exit_script 2
