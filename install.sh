@@ -164,7 +164,7 @@ check_arch () {
     ARCH=$(uname -m)
     echo "The Architecture is: $ARCH" >> $LOG_PWD/install.log
     
-    if [[ $ARCH == "aarch64" ]]
+    if [ $ARCH == "aarch64" ]
     then
         whiptail --title "System Architecture" --msgbox "Your Architecture is $ARCH" --ok-button "Continue" 8 78
     else
@@ -178,6 +178,20 @@ check_arch () {
     fi
 }
 
+
+# Chsck if Pi has fixed IP and offer to set an fixed IP
+check_ip (){
+
+    if [ $(cat /sys/class/net/eth0/operstate) == "up" ]
+    then
+        echo up
+    else
+        echo down
+
+    fi  
+
+}
+
 ### Script
 
 
@@ -189,6 +203,9 @@ export NEEDRESTART_SUSPEND=1
 
 # Check Architecture
 check_arch
+
+# Chsck if Pi has fixed IP and offer to set an fixed IP
+check_ip
 
 #Update the System
 echo "Start Update" >> $LOG_PWD/install.log
