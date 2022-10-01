@@ -143,20 +143,6 @@ update_locale () {
     . /etc/default/locale
 }
 
-# Set needrestart to automaticali to prevent Dialoges iterrupting Script
-disable_needrestart (){
-    
-    
-    
-    
-    
-    #  echo "# Restart services (l)ist only, (i)nteractive or (a)utomatically.
-    # $nrconf{restart} = 'a';
-    # # Disable hints on pending kernel upgrades.
-    #$nrconf{kernelhints} = 0;" > /etc/needrestart/conf.d/disable.conf
-    
-}
-
 
 # check arch
 check_arch () {
