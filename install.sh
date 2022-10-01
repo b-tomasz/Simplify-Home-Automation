@@ -181,27 +181,33 @@ check_arch () {
 
 # Chsck if Pi has fixed IP and offer to set an fixed IP
 check_ip (){
-
+    
     if [ $(cat /sys/class/net/eth0/operstate) == "up" ]
     then
-        echo up
-        if (cat dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
+        if (cat /etc/dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
         then
             whiptail --title "IP Address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 78
             return
         else
+            FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3)
+            if [ $? = 0 ]; then
+                echo "User selected Ok and entered " $FIXED_IP
+            else
+                echo "User selected Cancel."
+            fi
             
-
+            
         fi
     else
-        echo down
-
-    fi  
-
-
-interface eth0
-static ip_address=192.168.0.10/24
-
+        whiptail --title "IP Address" --msgbox "Your eth0 interface is not connected. Please connect an Ethernet Cable and rerun this Script" --ok-button "Exit" 8 78
+        echo "eth0 is not connected" >> $LOG_PWD/install.log
+        exit_script 2        
+    fi
+    
+    
+    interface eth0
+    static ip_address=192.168.0.10/24
+    
 }
 
 
