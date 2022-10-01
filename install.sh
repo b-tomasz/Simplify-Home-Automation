@@ -145,7 +145,7 @@ update_locale () {
 
 # Set needrestart to automaticali to prevent Dialoges iterrupting Script
 disable_needrestart (){
-    export NEEDRESTART_SUSPEND=1
+    
     
     
     
@@ -183,7 +183,9 @@ check_arch () {
 
 # Initialize Log File
 echo "Script Started at: " $(date) > $LOG_PWD/install.log
-disable_needrestart
+
+# Disable needrestart during Script
+export NEEDRESTART_SUSPEND=1
 
 # Check Architecture
 check_arch
