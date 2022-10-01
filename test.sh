@@ -6,7 +6,7 @@ echo "The Architecture is: $ARCH" >> $LOG_PWD/install.log
 
 if [[ $ARCH == "aarch64" ]]
 then
-    whiptail --title "System Architecture" --infobox "Your Architecture is $ARCH" --ok-button "Continue" 8 78
+    whiptail --title "System Architecture" --msgbox "Your Architecture is $ARCH" --ok-button "Continue" 8 78
     echo "if Then" >> $LOG_PWD/install.log
 else
     if (whiptail --title "System Architecture" --yesno "Your Architecture is $ARCH\n Your Platform is not Supported\n Ignor this at your own risk" --yes-button "Ignore" --no-button "Exit" 8 78); then
