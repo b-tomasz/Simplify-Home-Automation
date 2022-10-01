@@ -210,12 +210,7 @@ check_ip (){
         
     fi
     
-    
-    
-    
-    
-    interface eth0
-    static ip_address=192.168.0.10/24
+
     
 }
 
