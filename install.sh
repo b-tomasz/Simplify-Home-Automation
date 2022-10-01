@@ -182,27 +182,41 @@ check_arch () {
 # Chsck if Pi has fixed IP and offer to set an fixed IP
 check_ip (){
     
-    if [ $(cat /sys/class/net/eth0/operstate) == "up" ]
-    then
-        if (cat /etc/dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
-        then
-            whiptail --title "IP Address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 78
-            return
+    # Check is interface eth0 is up
+    until [ $(cat /sys/class/net/eth0/operstate) == "up" ]; do
+        if ( whiptail --title "IP Address" --yesno "Your eth0 interface is not connected.\nPlease connect an Ethernet Cable and reload, or Exit the Script" --yes-button "reload" --no-button "Exit" 8 78); then
+            sleep 2
         else
-            FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3)
-            if [ $? = 0 ]; then
-                echo "User selected Ok and entered " $FIXED_IP
-            else
-                echo "User selected Cancel."
-            fi
-            
-            
+            # Exit Script
+            echo "eth0 is not connected" >> $LOG_PWD/install.log
+            exit_script 2
         fi
+    done
+    
+    # Check if the Pi has an Fixed IP
+    if (cat /etc/dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
+    then
+        whiptail --title "IP Address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 78
+        return
     else
-        whiptail --title "IP Address" --msgbox "Your eth0 interface is not connected. Please connect an Ethernet Cable and rerun this Script" --ok-button "Exit" 8 78
-        echo "eth0 is not connected" >> $LOG_PWD/install.log
-        exit_script 2        
+        
+        # Ask the User to enter an Fixed IP.
+        FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3)
+        if [ $? = 0 ]; then
+            echo "User selected Ok and entered " $FIXED_IP
+            
+            
+            
+        else
+            echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
+            exit_script 2
+        fi
+        
+        
     fi
+    
+    
+    
     
     
     interface eth0
