@@ -189,9 +189,8 @@ check_ip (){
         # Ask the User to enter an Fixed IP.
         FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3)
         if [ $? = 0 ]; then
-            echo "User selected Ok and entered " $FIXED_IP
             
-            sed -z 's/interface eth0\nstatic ip_address=192.168.0.10/#interface eth0\#nstatic ip_address=$FIXED_IP/' /etc/dhcpcd.conf 
+            sed -z 's/#interface eth0\n#static ip_address=192.168.0.10/interface eth0\nstatic ip_address=$FIXED_IP/' /etc/dhcpcd.conf 
             
         else
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
