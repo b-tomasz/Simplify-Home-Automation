@@ -156,6 +156,7 @@ fi
 
 #Update the System
 echo "Start Update" >> $LOG_PWD/install.log
+update_locale
 update_system
 
 # Install Docker
