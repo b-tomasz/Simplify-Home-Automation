@@ -185,12 +185,26 @@ check_ip (){
     if [ $(cat /sys/class/net/eth0/operstate) == "up" ]
     then
         echo up
+        if (cat dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
+        then
+            whiptail --title "IP Address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 78
+            return
+        else
+            
+
+        fi
     else
         echo down
 
     fi  
 
+
+interface eth0
+static ip_address=192.168.0.10/24
+
 }
+
+
 
 ### Script
 
