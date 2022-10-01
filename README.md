@@ -17,10 +17,10 @@ For each Application a seprate network is created
 
 
 ## Application List with IPaddress
-|Container  |IP address |Ports|
+|Container  |IP address  |Ports|
 |---|---|---|
-|Pihole     |10.0.0.    |   |
-|DNS        |10.0.0.    |   | 
-|Bitwarden  |10.0.0.    |   | 
-|OpenVPN    |10.0.0.    |   |
+|Pihole     |10.0.10.10  |53,80 |
+|DNS        |10.0.10.11  |- | 
+|Bitwarden  |10.0.20.10  |8080, 8443| 
+|OpenVPN    |10.0.30.10  |   |
 
