@@ -44,6 +44,9 @@ exit_script () {
     
     # Restart Sevices, where needed
     needrestart -r a >> $LOG_PWD/install.log
+
+    # Restart DHCP Service
+    service dhcpcd restart
     
     
     # Remove the install Script and Exit
