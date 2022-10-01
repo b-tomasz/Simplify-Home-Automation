@@ -20,7 +20,6 @@
 # Create Script/Log Folder
 mkdir -p /var/homeautomation/script/log
 cd /var/homeautomation/script
-echo "Script Started at: " $(date) > $LOG_PWD/install.log
 
 ### Variables
 
@@ -40,11 +39,12 @@ exit_script () {
     
     
     
+    # Enable needrestart again
+    rm /etc/needrestart/conf.d/disable.conf
     
     
     # Remove the install Script and Exit
     rm $SCRIPT_PWD/$SCRIPT_NAME
-    echo Exit Code: $1
     exit $1
 }
 
@@ -56,7 +56,7 @@ update_system () {
         
         {
             printf "\n\n----------Update Packages----------\n" >> $LOG_PWD/update.log
-            apt-get update  -y -q >> $LOG_PWD/update.log
+            apt-get update -y -q >> $LOG_PWD/update.log
             
             echo -e "XXX\n20\nUpgrade System...\nXXX"
             printf "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
@@ -65,7 +65,6 @@ update_system () {
             echo -e "XXX\n60\nCleanup System...\nXXX"
             printf "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
             apt-get autoremove -y -q >> $LOG_PWD/update.log
-            apt-get clean -y -q >> $LOG_PWD/update.log
             
             echo -e "XXX\n100\nFinished...\nXXX"
             sleep 0.5
@@ -94,6 +93,8 @@ check_docker_installation () {
         
         if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
             # Install Docker
+
+            # Todo: needrestart can interrupt the install process. Possible solution: https://github.com/liske/needrestart/issues/71
             
             {
                 printf "\n\n----------Update Packages----------\n" >> $LOG_PWD/install.log
@@ -110,7 +111,6 @@ check_docker_installation () {
                 echo -e "XXX\n80\nCleanup System...\nXXX"
                 printf "\n\n----------Cleanup System----------\n" >> $LOG_PWD/install.log
                 apt-get autoremove -y -q >> $LOG_PWD/install.log
-                apt-get clean -y -q >> $LOG_PWD/install.log
                 
                 echo -e "XXX\n100\nFinished...\nXXX"
                 sleep 0.5
@@ -130,9 +130,23 @@ check_docker_installation () {
 }
 
 
+# Set needrestart to automaticali to prevent Dialoges iterrupting Script
+disable_needrestart (){
+echo "# Restart services (l)ist only, (i)nteractive or (a)utomatically. 
+$nrconf{restart} = 'a'; 
+# Disable hints on pending kernel upgrades. 
+$nrconf{kernelhints} = 0;" > /etc/needrestart/conf.d/disable.conf
+
+}
+
+
 
 
 ### Script
+
+# Initialize Log File
+echo "Script Started at: " $(date) > $LOG_PWD/install.log
+disable_needrestart
 
 
 ARCH=$(uname -m)
