@@ -205,7 +205,7 @@ check_ip (){
         if [ $? = 0 ]; then
             echo "User selected Ok and entered " $FIXED_IP
             
-            
+            sed -z 's/interface eth0\nstatic ip_address=192.168.0.10/#interface eth0\#nstatic ip_address=$FIXED_IP/' /etc/dhcpcd.conf 
             
         else
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
