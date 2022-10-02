@@ -19,6 +19,7 @@
 
 # Create Script/Log Folder
 mkdir -p /var/homeautomation/script/log
+mkdir -p /var/homeautomation/script/config
 cd /var/homeautomation/script
 
 ### Variables
@@ -26,6 +27,7 @@ cd /var/homeautomation/script
 SCRIPT_PWD=/tmp
 SCRIPT_NAME=install.sh
 LOG_PWD=/var/homeautomation/script/log
+CFG_PWD=/var/homeautomation/script/config
 
 
 ### Functions:
@@ -44,7 +46,7 @@ exit_script () {
     
     # Restart Sevices, where needed
     needrestart -r a -q >> $LOG_PWD/install.log
-
+    
     # Restart DHCP Service
     service dhcpcd restart
     
@@ -204,13 +206,40 @@ check_ip (){
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
             exit_script 2
         fi
-        cp /etc/dhcpcd.conf /etc/dhcpcd.conf.orig
-        sed -z "s/#interface eth0\n#static ip_address=192.168.0.10\/24/interface eth0\nstatic ip_address=$FIXED_IP\/24\nstatic routers=$FIXED_IP_GW/" /etc/dhcpcd.conf > /etc/dhcpcd.conf.edited
-        mv /etc/dhcpcd.conf.edited /etc/dhcpcd.conf
+        #cp /etc/dhcpcd.conf /etc/dhcpcd.conf.orig
+        #sed -z "s/#interface eth0\n#static ip_address=192.168.0.10\/24/interface eth0\nstatic ip_address=$FIXED_IP\/24\nstatic routers=$FIXED_IP_GW/" /etc/dhcpcd.conf > /etc/dhcpcd.conf.edited
+        #mv /etc/dhcpcd.conf.edited /etc/dhcpcd.conf
+        
+        
+        
+        # Different Solution with Patch instead of sed:
+        
+        
+        echo "--- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
++++ dhcpcd.conf.2       2022-10-02 12:07:36.564904885 +0200
+@@ -41,10 +41,10 @@
+ slaac private
+
+ # Example static IP configuration:
+-#interface eth0
+-#static ip_address=192.168.0.10/24
++interface eth0
++static ip_address=$FIXED_IP/24
+ #static ip6_address=fd51:42f8:caae:d92e::ff/64
+-#static routers=192.168.0.1
++static routers=$FIXED_IP_GW
+ #static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+
+ # It is possible to fall back to a static IP if DHCP fails:" > $CFG_PWD/dhcpcd.conf.patch
+
+        
+        patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
+        
+        
         
     fi
     
-
+    
     
 }
 
