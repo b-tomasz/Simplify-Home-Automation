@@ -17,7 +17,7 @@
 #
 #
 
-# Create Script/Log Folder
+# Create Script/Config/Log Folder
 mkdir -p /var/homeautomation/script/log
 mkdir -p /var/homeautomation/script/config
 cd /var/homeautomation/script
@@ -213,9 +213,13 @@ check_ip (){
         
         
         # Different Solution with Patch instead of sed:
+        # https://man7.org/linux/man-pages/man1/patch.1.html
+        # https://www.thegeekstuff.com/2014/12/patch-command-examples/
         
         
-        echo "--- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
+        # Write Patch File to Script Folder
+		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
+--- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
 +++ dhcpcd.conf.2       2022-10-02 12:07:36.564904885 +0200
 @@ -41,10 +41,10 @@
  slaac private
@@ -230,8 +234,10 @@ check_ip (){
 +static routers=$FIXED_IP_GW
  #static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
 
- # It is possible to fall back to a static IP if DHCP fails:" > $CFG_PWD/dhcpcd.conf.patch
-
+ # It is possible to fall back to a static IP if DHCP fails:
+EOT
+        
+        
         
         patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
         
@@ -240,6 +246,51 @@ check_ip (){
     fi
     
     
+}
+
+# Select Tools to install
+select_for_installation () {
+    whiptail --title "Install Tools" --checklist \
+    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 4 \
+    "Portainer" "Manage Docker Container with GUI" ON \
+    "Pihole" "DNS filter for Ads and Tracking" ON \
+    "VPN" "Secure Acces to your network from Everywhere" ON \
+    "Unifi Controller" "Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_install
+    
+    if [ $? -eq 0 ] ; then
+        echo "User selected:" >> $LOG_PWD/install.log
+        cat $CFG_PWD/tools_to_install >> $LOG_PWD/install.log
+        
+    else
+        echo "User Canceled at Tool selection" >> $LOG_PWD/install.log
+        exit_script 2
+    fi
+}
+
+
+# Install Portainer
+install_portainer () {
+	printf "\n\n----------Install Portainer----------\n" >> $LOG_PWD/install.log
+    cd /tmp
+	rm install-portainer.sh &> /dev/null
+	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
+	bash install-portainer.sh
+}
+
+
+# Install Pihole
+install_pihole () {
+	printf "\n\n----------Install Pihole----------\n" >> $LOG_PWD/install.log
+    cd /tmp
+	rm install-pihole.sh &> /dev/null
+	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/pihole/install-pihole.sh &> /dev/null
+	bash install-pihole.sh
+}
+
+
+# Install Portainer
+install_vpn () {
+	printf "\n\n----------Install VPN----------\n" >> $LOG_PWD/install.log
     
 }
 
@@ -268,8 +319,24 @@ update_system
 # Install Docker
 check_docker_installation
 
+# Select Tools to install
+select_for_installation
 
 
+# Install Portainer if selected
+if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
+    install_portainer
+fi
+
+# Install Pihole if selected
+if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
+    install_pihole
+fi
+
+# Install VPN if selected
+if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
+    install_vpn
+fi
 
 
 
