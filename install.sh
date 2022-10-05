@@ -17,6 +17,13 @@
 #
 #
 
+### Exit Codes:
+
+# 0 Finished without error
+# 3 Finished without error, Reboot skipped
+# 2 User Exited the Script
+
+
 # Create Script/Config/Log Folder
 mkdir -p /var/homeautomation/script/log
 mkdir -p /var/homeautomation/script/config
@@ -46,14 +53,19 @@ exit_script () {
     
     # Restart Sevices, where needed
     needrestart -r a -q >> $LOG_PWD/install.log
-    
-    # Restart DHCP Service
-    service dhcpcd restart
-    
+      
     
     # Remove the install Script and Exit
     rm $SCRIPT_PWD/$SCRIPT_NAME
-    exit $1
+
+    if [ $1 -eq 0 ] ; then
+        shutdown -r now
+        exit $1
+        
+    else
+        exit $1
+    fi
+    
 }
 
 # Update the Systen
@@ -240,8 +252,8 @@ EOT
         
         
         patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
-        
-        
+
+
         
     fi
     
@@ -270,31 +282,31 @@ select_for_installation () {
 
 # Install Portainer
 install_portainer () {
-	printf "\n\n----------Install Portainer----------\n" >> $LOG_PWD/install.log
+    printf "\n\n----------Install Portainer----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
-	rm install-portainer.sh &> /dev/null
-	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
-	bash install-portainer.sh
+    rm install-portainer.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
+    bash install-portainer.sh
 }
 
 
 # Install Pihole
 install_pihole () {
-	printf "\n\n----------Install Pihole----------\n" >> $LOG_PWD/install.log
+    printf "\n\n----------Install Pihole----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
-	rm install-pihole.sh &> /dev/null
-	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/pihole/install-pihole.sh &> /dev/null
-	bash install-pihole.sh
+    rm install-pihole.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/pihole/install-pihole.sh &> /dev/null
+    bash install-pihole.sh
 }
 
 
 # Install Portainer
 install_vpn () {
-	printf "\n\n----------Install VPN----------\n" >> $LOG_PWD/install.log
+    printf "\n\n----------Install VPN----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
-	rm install-vpn.sh &> /dev/null
-	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/install-vpn.sh &> /dev/null
-	bash install-vpn.sh
+    rm install-vpn.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/install-vpn.sh &> /dev/null
+    bash install-vpn.sh
 }
 
 
@@ -348,5 +360,10 @@ fi
 
 
 # Finished all without Error
-printf "\n\n\nScript finished Succesfuly\n\n"
-exit_script 0
+if ( whiptail --title "Reboot" --yesno "The Script finished succesfuly. Do you want to restart your Raspberry Pi?\nWarning: If you set a new Fixed IP, then a reboot is required." --yes-button "Reboot" --no-button "Exit" 8 78); then
+            exit_script 0
+        else
+            # Exit Script
+            echo "Exited, without reboot" >> $LOG_PWD/install.log
+            exit_script 3
+        fi
