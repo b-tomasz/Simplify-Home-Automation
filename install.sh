@@ -271,7 +271,7 @@ select_for_installation () {
 # Install Portainer
 install_portainer () {
 	printf "\n\n----------Install Portainer----------\n" >> $LOG_PWD/install.log
-    cd /tmp
+    cd $SCRIPT_PWD
 	rm install-portainer.sh &> /dev/null
 	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
 	bash install-portainer.sh
@@ -281,7 +281,7 @@ install_portainer () {
 # Install Pihole
 install_pihole () {
 	printf "\n\n----------Install Pihole----------\n" >> $LOG_PWD/install.log
-    cd /tmp
+    cd $SCRIPT_PWD
 	rm install-pihole.sh &> /dev/null
 	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/pihole/install-pihole.sh &> /dev/null
 	bash install-pihole.sh
@@ -291,7 +291,10 @@ install_pihole () {
 # Install Portainer
 install_vpn () {
 	printf "\n\n----------Install VPN----------\n" >> $LOG_PWD/install.log
-    
+    cd $SCRIPT_PWD
+	rm install-vpn.sh &> /dev/null
+	wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/install-vpn.sh &> /dev/null
+	bash install-vpn.sh
 }
 
 
