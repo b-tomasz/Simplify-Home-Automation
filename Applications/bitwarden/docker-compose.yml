@@ -18,4 +18,11 @@ services:
       DOMAIN: https://bitwarden.${DOMAINNAME}
     networks:
       bitwarden:
-        ipv4_address: 10.0.30.10
+        ipv4_address: 10.0.40.10
+
+networks:
+  bitwarden:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.40.0/24"
