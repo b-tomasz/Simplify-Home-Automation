@@ -1,0 +1,31 @@
+# docker-compose.yaml for $application
+# inspired by: https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.15-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/homeautomation//nginx/volumes/conf.d:/etc/nginx/conf.d
+    networks:
+      - nginx:
+        ipv4_address: 10.0.50.10
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    networks:
+      nginx:
+        ipv4_address: 10.0.50.20
+
+networks:
+  nginx:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.50.0/24"
