@@ -15,7 +15,6 @@ services:
     environment:
       WEBSOCKET_ENABLED: 'true' # Required to use websockets
       SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
-      DOMAIN: https://bitwarden.${DOMAINNAME}
     networks:
       bitwarden:
         ipv4_address: 10.0.40.10
