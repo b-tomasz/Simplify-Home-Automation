@@ -21,6 +21,7 @@ For each Application a seprate network is created
 |---|---|---|
 |Pihole     |10.0.10.10  |53,80 |
 |DNS        |10.0.10.11  |- | 
-|Bitwarden  |10.0.20.10  |8080, 8443| 
+|Bitwarden  |10.0.40.10  |8080, 8443| 
 |Wireguard  |10.0.30.10  |   |
+
 
