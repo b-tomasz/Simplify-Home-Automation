@@ -10,9 +10,7 @@
 
 
 install (){
-    echo install
-    return
-    
+   
     # create Applikations folder
     mkdir -p /var/homeautomation/vpn
     
