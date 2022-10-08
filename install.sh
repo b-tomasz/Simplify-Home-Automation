@@ -52,7 +52,7 @@ exit_script () {
     unset NEEDRESTART_SUSPEND
     
     # Restart Sevices, where needed
-    needrestart -r a -q >> $LOG_PWD/install.log
+    needrestart -r a -q &>> $LOG_PWD/install.log
     
     
     # Remove the install Script and Exit
@@ -275,7 +275,28 @@ select_for_installation () {
     fi
 }
 
-# Install Portainer
+
+# Select Tools to uninstall
+select_for_uninstallation () {
+    whiptail --title "Remove Tools" --checklist \
+    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 4 \
+    "Portainer" "Manage Docker Container with GUI" ON \
+    "Pihole" "DNS filter for Ads and Tracking" ON \
+    "VPN" "Secure Acces to your network from Everywhere" ON \
+    "Unifi Controller" "Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_uninstall
+    
+    if [ $? -eq 0 ] ; then
+        echo "User selected:" >> $LOG_PWD/install.log
+        cat $CFG_PWD/tools_to_uninstall >> $LOG_PWD/install.log
+        
+    else
+        echo "User Canceled at Tool for uninstall selection" >> $LOG_PWD/install.log
+        exit_script 2
+    fi
+}
+
+
+# Install Container
 install_container () {
     CONTAINER_NAME=$1
     printf "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
@@ -285,7 +306,7 @@ install_container () {
     bash install-$CONTAINER_NAME.sh >> $LOG_PWD/install.log
 }
 
-# Uninstall Portainer
+# Uninstall Container
 uninstall_container () {
     CONTAINER_NAME=$1
     printf "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
@@ -299,44 +320,6 @@ uninstall_container () {
     fi
 }
 
-
-# Install Portainer
-install_portainer () {
-    printf "\n\n----------Install Portainer----------\n" >> $LOG_PWD/install.log
-    cd $SCRIPT_PWD
-    rm install-portainer.sh &> /dev/null
-    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
-    bash install-portainer.sh
-}
-
-# Uninstall Portainer
-install_portainer () {
-    printf "\n\n----------Uninstall Portainer----------\n" >> $LOG_PWD/install.log
-    cd $SCRIPT_PWD
-    rm install-portainer.sh &> /dev/null
-    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
-    bash install-portainer.sh
-}
-
-
-# Install Pihole
-install_pihole () {
-    printf "\n\n----------Install Pihole----------\n" >> $LOG_PWD/install.log
-    cd $SCRIPT_PWD
-    rm install-pihole.sh &> /dev/null
-    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/pihole/install-pihole.sh &> /dev/null
-    bash install-pihole.sh
-}
-
-
-# Install Portainer
-install_vpn () {
-    printf "\n\n----------Install VPN----------\n" >> $LOG_PWD/install.log
-    cd $SCRIPT_PWD
-    rm install-vpn.sh &> /dev/null
-    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/install-vpn.sh &> /dev/null
-    bash install-vpn.sh
-}
 
 # Update the System
 update () {
@@ -386,7 +369,22 @@ install () {
 
 # Remove Tools
 remove () {
-    echo test
+    select_for_uninstallation
+    
+    # Uninstall Portainer if selected
+    if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
+        uninstall_container portainer
+    fi
+    
+    # Uninstall Pihole if selected
+    if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
+        uninstall_container pihole
+    fi
+    
+    # Uninstall VPN if selected
+    if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
+        uninstall_container vpn
+    fi
 }
 
 
@@ -403,13 +401,17 @@ MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --noca
     "Remove" "Remove Tools" \
 "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
 
-echo $Menu
+echo $MENU
 
-if [[$Menu -eq "Update"]] ;then
-    echo update
-    elif [[$MENU -eq "Install"]] ;then
-
-    echo isntall
+if [ $MENU = "Update" ] ;then
+    update
+    elif [ $MENU = "Install" ] ;then
+    install
+    elif [ $MENU = "Remove" ] ;then
+    remove
+    elif [ $MENU = "Exit" ] ;then
+    exit 2
+    
 fi
 
 
