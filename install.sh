@@ -53,11 +53,11 @@ exit_script () {
     
     # Restart Sevices, where needed
     needrestart -r a -q >> $LOG_PWD/install.log
-      
+    
     
     # Remove the install Script and Exit
     rm $SCRIPT_PWD/$SCRIPT_NAME
-
+    
     if [ $1 -eq 0 ] ; then
         shutdown -r now
         exit $1
@@ -248,8 +248,8 @@ EOT
         
         
         patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
-
-
+        
+        
         
     fi
     
@@ -305,6 +305,56 @@ install_vpn () {
     bash install-vpn.sh
 }
 
+# Update the System
+update () {
+    # Disable needrestart during Script
+    export NEEDRESTART_SUSPEND=1
+    
+    #Update the System
+    echo "Start Update" >> $LOG_PWD/install.log
+    update_locale
+    update_system
+    
+}
+
+# Install Tools
+install () {
+    # Disable needrestart during Script
+    export NEEDRESTART_SUSPEND=1
+    
+    # Check Architecture
+    check_arch
+    
+    # Chsck if Pi has fixed IP and offer to set an fixed IP
+    check_ip
+    
+    # Install Docker
+    check_docker_installation
+    
+    # Select Tools to install
+    select_for_installation
+    
+    # Install Portainer if selected
+    if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
+        install_portainer
+    fi
+    
+    # Install Pihole if selected
+    if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
+        install_pihole
+    fi
+    
+    # Install VPN if selected
+    if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
+        install_vpn
+    fi
+    
+}
+
+# Remove Tools
+remove () {
+    
+}
 
 
 ### Script
@@ -313,41 +363,29 @@ install_vpn () {
 # Initialize Log File
 echo "Script Started at: " $(date) > $LOG_PWD/install.log
 
-# Disable needrestart during Script
-export NEEDRESTART_SUSPEND=1
+# Chose, what to do:
+MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --nocancel 20 78 4 \
+    "Update" "Update the System and the installed tools" \
+    "Install" "Install Tools" \
+    "Remove" "Remove Tools" \
+"Exit" "Leave this Script")
 
-# Check Architecture
-check_arch
+echo $Menu
 
-# Chsck if Pi has fixed IP and offer to set an fixed IP
-check_ip
+if [[$Menu -eq "Update"]] ;then
+    echo update
+    elif [[$MENU -eq "Install"]] ;then
 
-#Update the System
-echo "Start Update" >> $LOG_PWD/install.log
-update_locale
-update_system
-
-# Install Docker
-check_docker_installation
-
-# Select Tools to install
-select_for_installation
-
-
-# Install Portainer if selected
-if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
-    install_portainer
+    echo isntall
 fi
 
-# Install Pihole if selected
-if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
-    install_pihole
-fi
 
-# Install VPN if selected
-if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
-    install_vpn
-fi
+
+
+
+
+
+
 
 
 
@@ -357,9 +395,9 @@ fi
 
 # Finished all without Error
 if ( whiptail --title "Reboot" --yesno "The Script finished succesfuly. Do you want to restart your Raspberry Pi?\nWarning: If you set a new Fixed IP, then a reboot is required." --yes-button "Reboot" --no-button "Exit" 8 78); then
-            exit_script 0
-        else
-            # Exit Script
-            echo "Exited, without reboot" >> $LOG_PWD/install.log
-            exit_script 3
-        fi
+    exit_script 0
+else
+    # Exit Script
+    echo "Exited, without reboot" >> $LOG_PWD/install.log
+    exit_script 3
+fi
