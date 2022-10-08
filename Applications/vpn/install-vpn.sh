@@ -9,10 +9,6 @@
 # https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md
 
 
-UNINSTALL=false
-REMOVE_DATA=false
-
-
 install (){
     echo install
     return
@@ -47,23 +43,26 @@ install (){
 }
 
 uninstall (){
-    
-    echo uninstall
-    
+    # Stop container
+    docker compose down
 }
 
 remove_data (){
-    
-    echo remove_data
+    # Remove Application Folder
+    if (whiptail --title "Remove Data of " --yesno "Do you want to Update Your System?" --yes-button "Update" --no-button "Skip" 8 78); then
+        mkdir -p /var/homeautomation/vpn
+    else
+        return
+    fi
 }
 
 # Get the options
-while getopts ":ur:" option; do
+while getopts "ur" option; do
     case $option in
         u) # uninstall
-        $UNINSTALL=true;;
+        UNINSTALL=true;;
         r) # remove Data
-        $REMOVE_DATA=true;;
+        REMOVE_DATA=true;;
         \?) # Invalid option
             echo "Error: Invalid option"
         exit;;
@@ -71,18 +70,20 @@ while getopts ":ur:" option; do
 done
 
 
-if [[ $UNINSTALL -eq true ]] ;then
-
+if [ $Uninstall ] ;then
     # Uninstall Tools
     uninstall
-    
-    elif [[ $REMOVE_DATA -eq true ]] ;then
-    
-    # Uninstall Tools and remove data
-    uninstall
-    remove_data
-
+    elif [ $REMOVE_DATA ] ;then
+    # Invalid Option
+    echo "Error: Invalid option"
+    exit 1
 else
     # Install Tools
     install
+fi
+
+if [ $REMOVE_DATA ] ;then
+    # Uninstall Tools and remove data
+    remove_data
+    
 fi

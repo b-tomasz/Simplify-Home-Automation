@@ -287,11 +287,15 @@ install_container () {
 
 # Uninstall Portainer
 uninstall_container () {
-    printf "\n\n----------Uninstall Portainer----------\n" >> $LOG_PWD/install.log
+    printf "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh -u
+    if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of $CONTAINER_NAME?" --yes-button "Keep Settings" --no-button "Delete" 8 78); then
+        bash install-$CONTAINER_NAME.sh -u
+    else
+        bash install-$CONTAINER_NAME.sh -ur
+    fi
 }
 
 
