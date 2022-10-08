@@ -9,8 +9,8 @@
 # https://linux.die.net/man/1/whiptail
 #
 #
-#
-#
+# Functions with Parameters:
+# https://www.redhat.com/sysadmin/arguments-options-bash-scripts
 #
 #
 #
@@ -275,10 +275,38 @@ select_for_installation () {
     fi
 }
 
+# Install Portainer
+install_container () {
+    CONTAINER_NAME=$1
+    printf "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    cd $SCRIPT_PWD
+    rm install-$CONTAINER_NAME.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
+    bash install-$CONTAINER_NAME.sh
+}
+
+# Uninstall Portainer
+uninstall_container () {
+    printf "\n\n----------Uninstall Portainer----------\n" >> $LOG_PWD/install.log
+    cd $SCRIPT_PWD
+    rm install-$CONTAINER_NAME.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
+    bash install-$CONTAINER_NAME.sh -u
+}
+
 
 # Install Portainer
 install_portainer () {
     printf "\n\n----------Install Portainer----------\n" >> $LOG_PWD/install.log
+    cd $SCRIPT_PWD
+    rm install-portainer.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
+    bash install-portainer.sh
+}
+
+# Uninstall Portainer
+install_portainer () {
+    printf "\n\n----------Uninstall Portainer----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-portainer.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null
