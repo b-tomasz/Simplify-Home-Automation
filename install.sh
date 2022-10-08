@@ -353,7 +353,7 @@ install () {
 
 # Remove Tools
 remove () {
-    
+    echo test
 }
 
 
@@ -368,7 +368,7 @@ MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --noca
     "Update" "Update the System and the installed tools" \
     "Install" "Install Tools" \
     "Remove" "Remove Tools" \
-"Exit" "Leave this Script")
+"Exit" "Leave this Script" 3>&1 1>&2 2>&3)
 
 echo $Menu
 
