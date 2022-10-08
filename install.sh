@@ -218,10 +218,6 @@ check_ip (){
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
             exit_script 2
         fi
-        #cp /etc/dhcpcd.conf /etc/dhcpcd.conf.orig
-        #sed -z "s/#interface eth0\n#static ip_address=192.168.0.10\/24/interface eth0\nstatic ip_address=$FIXED_IP\/24\nstatic routers=$FIXED_IP_GW/" /etc/dhcpcd.conf > /etc/dhcpcd.conf.edited
-        #mv /etc/dhcpcd.conf.edited /etc/dhcpcd.conf
-        
         
         
         # Different Solution with Patch instead of sed:
