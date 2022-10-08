@@ -369,17 +369,17 @@ install () {
     
     # Install Portainer if selected
     if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
-        install_portainer
+        install_container portainer
     fi
     
     # Install Pihole if selected
     if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
-        install_pihole
+        install_container pihole
     fi
     
     # Install VPN if selected
     if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
-        install_vpn
+        install_container vpn
     fi
     
 }
