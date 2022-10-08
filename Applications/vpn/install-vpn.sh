@@ -49,11 +49,7 @@ uninstall (){
 
 remove_data (){
     # Remove Application Folder
-    if (whiptail --title "Remove Data of " --yesno "Do you want to Update Your System?" --yes-button "Update" --no-button "Skip" 8 78); then
-        mkdir -p /var/homeautomation/vpn
-    else
-        return
-    fi
+    rm -rv /var/homeautomation/vpn
 }
 
 # Get the options
