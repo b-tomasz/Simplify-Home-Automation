@@ -10,7 +10,7 @@
 
 
 install (){
-   
+    
     # create Applikations folder
     mkdir -p /var/homeautomation/vpn
     
@@ -22,7 +22,7 @@ install (){
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/docker-compose.yml &> /dev/null
     
     # Configure openvpn
-    docker-compose run --rm openvpn ovpn_genconfig -u tcp://vpn.tomasz.app
+    docker-compose run --rm openvpn ovpn_genconfig -u tcp://vpn.tomasz.app:443
     docker-compose run --rm openvpn ovpn_initpki
     
     # Start openvpn
@@ -42,7 +42,7 @@ install (){
 
 uninstall (){
     # Stop container
-    docker compose down
+    docker-compose down
 }
 
 remove_data (){
@@ -67,13 +67,15 @@ done
 if [ $Uninstall ] ;then
     # Uninstall Tools
     uninstall
-    elif [ $REMOVE_DATA ] ;then
-    # Invalid Option
-    echo "Error: Invalid option"
-    exit 1
 else
-    # Install Tools
-    install
+    if [ $REMOVE_DATA ] ;then
+        # Invalid Option
+        echo "Error: Invalid option"
+        exit 1
+    else
+        # Install Tools
+        install
+    fi
 fi
 
 if [ $REMOVE_DATA ] ;then
