@@ -2,10 +2,6 @@
 #Script ausführen mit:
 #cd /tmp; rm install-bitwarden.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/bitwarden/install-bitwarden.sh &> /dev/null; bash install-bitwarden.sh
 
-# Vergleich Openvpn und Wireguard:
-# https://www.ipvanish.com/blog/wireguard-vs-openvpn/
-
-
 # create Applikations folder
 mkdir -p /var/homeautomation/bitwarden
 
