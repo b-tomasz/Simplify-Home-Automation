@@ -64,7 +64,7 @@ while getopts "ur" option; do
 done
 
 
-if [ $Uninstall ] ;then
+if [ $UNINSTALL ] ;then
     # Uninstall Tools
     uninstall
 else
