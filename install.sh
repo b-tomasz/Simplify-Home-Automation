@@ -265,10 +265,10 @@ select_for_installation () {
     "VPN" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "Bitwarden" "Password Safe" OFF \
-    "Unifi" "Unifi Controller, for Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_install
+    "Unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
-    sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
+    sed -i 's/"//g' $CFG_PWD/tools_to_install
     
     if [ $? -eq 0 ] ; then
         echo "User selected:" >> $LOG_PWD/install.log
@@ -290,7 +290,7 @@ select_for_uninstallation () {
     "VPN" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "Bitwarden" "Password Safe" OFF \
-    "Unifi" "Unifi Controller, for Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_uninstall
+    "Unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
@@ -364,7 +364,7 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install
     
     # Loop trough TOOLS and Install all selected Tools
-    for TOOL in "$TOOLS[@]"
+    for TOOL in "${TOOLS[@]}"
     do
         install_container $TOOL
     done
@@ -378,7 +378,7 @@ remove () {
     read -a TOOLS < $CFG_PWD/tools_to_uninstall
     
     # Loop trough TOOLS and Uninstall all selected Tools
-    for TOOL in "$TOOLS[@]"
+    for TOOL in "${TOOLS[@]}"
     do
         uninstall_container $TOOL
     done
