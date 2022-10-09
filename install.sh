@@ -266,8 +266,8 @@ select_for_installation () {
     "nginx" "Reverse Proxy" ON \
     "Bitwarden" "Password Safe" OFF \
     "Unifi" "Unifi Controller, for Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_install
-
-# Remove the " to use it as Array
+    
+    # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
     
     if [ $? -eq 0 ] ; then
@@ -292,7 +292,7 @@ select_for_uninstallation () {
     "Bitwarden" "Password Safe" OFF \
     "Unifi" "Unifi Controller, for Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_uninstall
     
-# Remove the " to use it as Array
+    # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
     
     if [ $? -eq 0 ] ; then
@@ -314,6 +314,8 @@ install_container () {
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
     bash install-$CONTAINER_NAME.sh
+    
+}
 
 # Uninstall Container
 uninstall_container () {
@@ -359,8 +361,8 @@ install () {
     # Select Tools to install
     select_for_installation
     
-        read -a TOOLS < $CFG_PWD/tools_to_install
-
+    read -a TOOLS < $CFG_PWD/tools_to_install
+    
     # Loop trough TOOLS and Install all selected Tools
     for TOOL in "$TOOLS[@]"
     do
@@ -372,9 +374,9 @@ install () {
 # Remove Tools
 remove () {
     select_for_uninstallation
-
+    
     read -a TOOLS < $CFG_PWD/tools_to_uninstall
-
+    
     # Loop trough TOOLS and Uninstall all selected Tools
     for TOOL in "$TOOLS[@]"
     do
