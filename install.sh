@@ -259,7 +259,7 @@ EOT
 # Select Tools to install
 select_for_installation () {
     whiptail --title "Install Tools" --checklist \
-    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 4 \
+    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 6 \
     "Portainer" "Manage Docker Container with GUI" ON \
     "Pihole" "DNS filter for Ads and Tracking" ON \
     "VPN" "Secure Acces to your network from Everywhere" ON \
@@ -284,7 +284,7 @@ select_for_installation () {
 # Select Tools to uninstall
 select_for_uninstallation () {
     whiptail --title "Remove Tools" --checklist \
-    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 4 \
+    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 6 \
     "Portainer" "Manage Docker Container with GUI" ON \
     "Pihole" "DNS filter for Ads and Tracking" ON \
     "VPN" "Secure Acces to your network from Everywhere" ON \
