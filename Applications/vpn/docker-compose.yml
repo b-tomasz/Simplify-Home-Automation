@@ -3,10 +3,11 @@ services:
   openvpn:
     cap_add:
      - NET_ADMIN
-    image: project31/aarch64-docker-openvpn
+    #image: project31/aarch64-docker-openvpn
+    image: nubacuk/docker-openvpn:aarch64
     container_name: openvpn
     ports:
-     - "443:1194/udp"
+     - "443:1194/tcp"
     restart: unless-stopped
     volumes:
      - /var/homeautomation/vpn/volumes/openvpn/conf:/etc/openvpn

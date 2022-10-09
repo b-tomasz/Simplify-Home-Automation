@@ -22,7 +22,7 @@ install (){
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/docker-compose.yml &> /dev/null
     
     # Configure openvpn
-    docker-compose run --rm openvpn ovpn_genconfig -u tcp://vpn.tomasz.app:443
+    docker-compose run --rm openvpn ovpn_genconfig -u tcp://vpn.tomasz.app:443 -n 10.0.20.10
     docker-compose run --rm openvpn ovpn_initpki
     
     # Start openvpn
@@ -42,6 +42,7 @@ install (){
 
 uninstall (){
     # Stop container
+    cd /var/homeautomation/vpn
     docker-compose down
 }
 
