@@ -19,10 +19,10 @@ services:
       - 10001:10001/udp
       - 8080:8080
       - 1900:1900/udp #optional
-      - 8843:8843 #optional
-      - 8880:8880 #optional
+      #- 8843:8843 #optional for Guest Portal https
+      #- 8880:8880 #optional for Guest Portal http
       - 6789:6789 #optional
-      - 5514:5514/udp #optional
+      #- 5514:5514/udp #optional
     restart: unless-stopped
     networks:
       unifi:
