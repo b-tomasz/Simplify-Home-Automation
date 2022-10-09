@@ -22,8 +22,8 @@ install (){
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/vpn/docker-compose.yml &> /dev/null
     
     # Configure openvpn
-    docker-compose run --rm openvpn ovpn_genconfig -u tcp://vpn.tomasz.app:443 -n 10.0.20.10
-    docker-compose run --rm openvpn ovpn_initpki
+    docker-compose run --rm vpn ovpn_genconfig -u tcp://vpn.tomasz.app:443 -n 10.0.20.10
+    docker-compose run --rm vpn ovpn_initpki
     
     # Start openvpn
     docker-compose up -d
@@ -32,11 +32,11 @@ install (){
     # Generate Client Certificate
     export CLIENTNAME="Test"
     # with a passphrase (recommended)
-    docker-compose run --rm openvpn easyrsa build-client-full $CLIENTNAME
+    docker-compose run --rm vpn easyrsa build-client-full $CLIENTNAME
     # without a passphrase (not recommended)
-    docker-compose run --rm openvpn easyrsa build-client-full $CLIENTNAME nopass
+    docker-compose run --rm vpn easyrsa build-client-full $CLIENTNAME nopass
     
-    docker-compose run --rm openvpn ovpn_getclient $CLIENTNAME > $CLIENTNAME.ovpn
+    docker-compose run --rm vpn ovpn_getclient $CLIENTNAME > $CLIENTNAME.ovpn
     
 }
 
