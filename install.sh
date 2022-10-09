@@ -303,8 +303,7 @@ install_container () {
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh >> $LOG_PWD/install.log
-}
+    bash install-$CONTAINER_NAME.sh
 
 # Uninstall Container
 uninstall_container () {
@@ -314,9 +313,9 @@ uninstall_container () {
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
     if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of $CONTAINER_NAME?" --yes-button "Keep Settings" --no-button "Delete" 8 78); then
-        bash install-$CONTAINER_NAME.sh -u >> $LOG_PWD/install.log
+        bash install-$CONTAINER_NAME.sh -u
     else
-        bash install-$CONTAINER_NAME.sh -ur >> $LOG_PWD/install.log
+        bash install-$CONTAINER_NAME.sh -ur
     fi
 }
 
