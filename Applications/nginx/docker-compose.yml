@@ -11,9 +11,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/homeautomation//nginx/volumes/conf.d:/etc/nginx/conf.d
+      - /var/homeautomation/nginx/volumes/conf.d:/etc/nginx/conf.d
     networks:
-      - nginx:
+      nginx:
         ipv4_address: 10.0.50.10
   certbot:
     container_name: certbot

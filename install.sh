@@ -263,7 +263,12 @@ select_for_installation () {
     "Portainer" "Manage Docker Container with GUI" ON \
     "Pihole" "DNS filter for Ads and Tracking" ON \
     "VPN" "Secure Acces to your network from Everywhere" ON \
-    "Unifi Controller" "Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_install
+    "nginx" "Reverse Proxy" ON \
+    "Bitwarden" "Password Safe" OFF \
+    "Unifi" "Unifi Controller, for Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_install
+
+# Remove the " to use it as Array
+    sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
     
     if [ $? -eq 0 ] ; then
         echo "User selected:" >> $LOG_PWD/install.log
@@ -283,7 +288,12 @@ select_for_uninstallation () {
     "Portainer" "Manage Docker Container with GUI" ON \
     "Pihole" "DNS filter for Ads and Tracking" ON \
     "VPN" "Secure Acces to your network from Everywhere" ON \
-    "Unifi Controller" "Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_uninstall
+    "nginx" "Reverse Proxy" ON \
+    "Bitwarden" "Password Safe" OFF \
+    "Unifi" "Unifi Controller, for Managing Unifi Devices in your Network" OFF 2> $CFG_PWD/tools_to_uninstall
+    
+# Remove the " to use it as Array
+    sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
     
     if [ $? -eq 0 ] ; then
         echo "User selected:" >> $LOG_PWD/install.log
@@ -349,41 +359,27 @@ install () {
     # Select Tools to install
     select_for_installation
     
-    # Install Portainer if selected
-    if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
-        install_container portainer
-    fi
-    
-    # Install Pihole if selected
-    if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
-        install_container pihole
-    fi
-    
-    # Install VPN if selected
-    if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
-        install_container vpn
-    fi
+        read -a TOOLS < $CFG_PWD/tools_to_install
+
+    # Loop trough TOOLS and Install all selected Tools
+    for TOOL in "$TOOLS[@]"
+    do
+        install_container $TOOL
+    done
     
 }
 
 # Remove Tools
 remove () {
     select_for_uninstallation
-    
-    # Uninstall Portainer if selected
-    if (grep "Portainer" $CFG_PWD/tools_to_uninstall 1> /dev/null);then
-        uninstall_container portainer
-    fi
-    
-    # Uninstall Pihole if selected
-    if (grep "Pihole" $CFG_PWD/tools_to_uninstall 1> /dev/null);then
-        uninstall_container pihole
-    fi
-    
-    # Uninstall VPN if selected
-    if (grep "VPN" $CFG_PWD/tools_to_uninstall 1> /dev/null);then
-        uninstall_container vpn
-    fi
+
+    read -a TOOLS < $CFG_PWD/tools_to_uninstall
+
+    # Loop trough TOOLS and Uninstall all selected Tools
+    for TOOL in "$TOOLS[@]"
+    do
+        uninstall_container $TOOL
+    done
 }
 
 
