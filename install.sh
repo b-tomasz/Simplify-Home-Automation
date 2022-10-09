@@ -265,7 +265,7 @@ select_for_installation () {
     "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "bitwarden" "Password Safe" OFF \
-    "unifi" "Unifi Controller, for Managing Unifi Devices" 2> $CFG_PWD/tools_to_install
+    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_install
