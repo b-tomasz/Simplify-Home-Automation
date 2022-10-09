@@ -260,12 +260,12 @@ EOT
 select_for_installation () {
     whiptail --title "Install Tools" --checklist \
     "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 6 \
-    "Portainer" "Manage Docker Container with GUI" ON \
-    "Pihole" "DNS filter for Ads and Tracking" ON \
-    "VPN" "Secure Acces to your network from Everywhere" ON \
+    "portainer" "Manage Docker Container with GUI" ON \
+    "pihole" "DNS filter for Ads and Tracking" ON \
+    "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
-    "Bitwarden" "Password Safe" OFF \
-    "Unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
+    "bitwarden" "Password Safe" OFF \
+    "unifi" "Unifi Controller, for Managing Unifi Devices" 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_install
@@ -285,12 +285,12 @@ select_for_installation () {
 select_for_uninstallation () {
     whiptail --title "Remove Tools" --checklist \
     "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 6 \
-    "Portainer" "Manage Docker Container with GUI" ON \
-    "Pihole" "DNS filter for Ads and Tracking" ON \
-    "VPN" "Secure Acces to your network from Everywhere" ON \
+    "portainer" "Manage Docker Container with GUI" ON \
+    "pihole" "DNS filter for Ads and Tracking" ON \
+    "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
-    "Bitwarden" "Password Safe" OFF \
-    "Unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
+    "bitwarden" "Password Safe" OFF \
+    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
