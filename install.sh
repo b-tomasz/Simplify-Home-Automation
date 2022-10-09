@@ -372,17 +372,17 @@ remove () {
     select_for_uninstallation
     
     # Uninstall Portainer if selected
-    if (grep "Portainer" $CFG_PWD/tools_to_install  1> /dev/null);then
+    if (grep "Portainer" $CFG_PWD/tools_to_uninstall 1> /dev/null);then
         uninstall_container portainer
     fi
     
     # Uninstall Pihole if selected
-    if (grep "Pihole" $CFG_PWD/tools_to_install  1> /dev/null);then
+    if (grep "Pihole" $CFG_PWD/tools_to_uninstall 1> /dev/null);then
         uninstall_container pihole
     fi
     
     # Uninstall VPN if selected
-    if (grep "VPN" $CFG_PWD/tools_to_install  1> /dev/null);then
+    if (grep "VPN" $CFG_PWD/tools_to_uninstall 1> /dev/null);then
         uninstall_container vpn
     fi
 }
