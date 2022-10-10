@@ -21,6 +21,7 @@ services:
     container_name: certbot
     image: certbot/certbot
     restart: unless-stopped
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     volumes:
       - /var/homeautomation/certbot/volumes/letsencrypt:/etc/letsencrypt
       - /var/homeautomation/certbot/volumes/certbot:/var/www/certbot
