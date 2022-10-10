@@ -22,7 +22,5 @@ services:
 
 networks:
   vpn:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.30.0/24"
+    name: homeautomation
+    external: true

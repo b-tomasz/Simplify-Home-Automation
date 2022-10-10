@@ -60,7 +60,5 @@ services:
    
 networks:
   pihole:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.20.0/24"
+    name: homeautomation
+    external: true

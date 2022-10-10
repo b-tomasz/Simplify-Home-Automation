@@ -22,7 +22,5 @@ services:
 
 networks:
   portainer:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.10.0/24"
+    name: homeautomation
+    external: true

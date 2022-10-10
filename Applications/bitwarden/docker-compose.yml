@@ -21,7 +21,5 @@ services:
 
 networks:
   bitwarden:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.40.0/24"
+    name: homeautomation
+    external: true

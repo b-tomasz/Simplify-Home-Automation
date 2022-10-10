@@ -31,8 +31,6 @@ services:
 
 networks:
   unifi:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.60.0/24"
+    name: homeautomation
+    external: true
 
