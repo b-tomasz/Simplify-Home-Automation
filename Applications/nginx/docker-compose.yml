@@ -12,6 +12,8 @@ services:
       - "443:443"
     volumes:
       - /var/homeautomation/nginx/volumes/conf.d:/etc/nginx/conf.d
+      - /var/homeautomation/certbot/volumes/letsencrypt:/etc/letsencrypt
+      - /var/homeautomation/certbot/volumes/certbot:/var/www/certbot
     networks:
       nginx:
         ipv4_address: 10.0.50.10
