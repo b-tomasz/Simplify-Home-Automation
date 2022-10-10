@@ -1,0 +1,45 @@
+# docker-compose.yaml for database (mysql)
+
+
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  database:
+    name: database
+    # user: "0:0"
+    image: mysql
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - /var/homeautomation/database/volumes/database-data:/var/lib/mysql
+
+    networks:
+      database:
+        ipv4_address: 10.0.90.10
+
+  adminer:
+    name: adminer
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+
+    networks:
+      database:
+        ipv4_address: 10.0.90.20
+
+
+
+networks:
+  database:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.90.0/24"
+
