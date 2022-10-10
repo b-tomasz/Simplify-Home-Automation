@@ -265,8 +265,8 @@ select_for_installation () {
     "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "bitwarden" "Password Safe" OFF \
-    "database" "Password Safe" OFF \
-    "grafana" "Password Safe" OFF \
+    "database" "Database to store Data" OFF \
+    "grafana" "Visualize Data in a nice Gaph" OFF \
     "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
@@ -292,8 +292,8 @@ select_for_uninstallation () {
     "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "bitwarden" "Password Safe" OFF \
-    "database" "Password Safe" OFF \
-    "grafana" "Password Safe" OFF \
+    "database" "Database to store Data" OFF \
+    "grafana" "Visualize Data in a nice Gaph" OFF \
     "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
     
     # Remove the " to use it as Array
