@@ -352,8 +352,11 @@ install () {
     # Check Architecture
     check_arch
     
-    # Chsck if Pi has fixed IP and offer to set an fixed IP
+    # Check if Pi has fixed IP and offer to set an fixed IP
     check_ip
+
+    # Set Locale
+    update_locale
     
     # Install Docker
     check_docker_installation
