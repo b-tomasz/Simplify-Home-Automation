@@ -53,6 +53,10 @@ To flash the Operating System to the SD Card we are using the [Raspberry Pi Imag
 
 10. Confirm, that you have selected the Correct SD Card and that all Data on this SD Card will be erased.
 
-    <img src="Images/Setup007.png" alt="Confirm Write to SD Card" width="500"/>
+    <details>
+      <summary>Image</summary>
+      <img src="Images/Setup007.png" alt="Confirm Write to SD Card" width="500"/>
+    </details>
+    
 
 
