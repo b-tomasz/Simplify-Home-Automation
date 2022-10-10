@@ -1,7 +1,7 @@
 # docker-compose.yaml for $application
 # inspired by:
 
-version: '3'
+version: '3.7'
 services:
   bitwarden:
     image: bitwardenrs/server

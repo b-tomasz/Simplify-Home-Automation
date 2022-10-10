@@ -1,7 +1,7 @@
 # docker-compose.yaml for bitwarden
 # inspired by: https://github.com/CVJoint/docker-compose/blob/master/ymlfiles/bitwarden.yml
 
-version: '3'
+version: '3.7'
 services:
   bitwarden:
     container_name: bitwarden
