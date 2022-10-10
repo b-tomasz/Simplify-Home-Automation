@@ -5,6 +5,8 @@
 - [How to setup your Raspberry Pi](#how-to-setup-your-raspberry-pi)
   - [What you need to Start](#what-you-need-to-start)
   - [Installation of the Operating System](#installation-of-the-operating-system)
+  - [Start up Raspberry Pi](#start-up-raspberry-pi)
+  - [Connect to the Raspberry Pi](#connect-to-the-raspberry-pi)
 
 ## What you need to Start
 
@@ -62,6 +64,35 @@ To flash the Operating System to the SD Card we are using the [Raspberry Pi Imag
 
     <img src="Images/Setup007.png" alt="Confirm Write to SD Card" width="500"/>
     
+12. When the flashing is finished, rmove the SD Card from your Computer
     
+---
+
+## Start up Raspberry Pi
+
+1. Insert the SD Card in to your Raspberry Pi
+2. Connect the Raspberry Pi with the Ethernet Cable to your Router or Switch
+3. Plug in the Power Supply
+4. Wait until the first Boot has completed. This can take up to 5 minutes
 
 
+## Connect to the Raspberry Pi
+
+After the Pi has booted up, we can connect to our Raspberry Pi
+
+1. Open a Command Promt, by typing CMD in to your Windows Search
+2. Enter the following Command:
+   - change the "pi" to your Username, if you changed it during Installtion
+   - replace "home-server" with the hostname you set during installation
+  
+```
+ssh pi@home-server.local
+```
+
+3. On the first connection you will get an warning, that you connecting to an unknown Device. To confirm that, enter "yes" and confirm by pressing Enter
+4. Enter your Password and confirm by pressing Enter. **Note: you will not see any input, when you enter your Password**
+5. If the Connection was succsessfuly you should see the following line in your Command Promt:
+
+```
+pi@home-server:~ $
+```
