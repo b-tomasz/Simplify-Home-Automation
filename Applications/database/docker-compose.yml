@@ -7,7 +7,7 @@ version: '3.1'
 services:
 
   database:
-    name: database
+    container_name: database
     # user: "0:0"
     image: mysql
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: test
     volumes:
       - /var/homeautomation/database/volumes/database-data:/var/lib/mysql
 
@@ -24,11 +25,11 @@ services:
         ipv4_address: 10.0.90.10
 
   adminer:
-    name: adminer
+    container_name: adminer
     image: adminer
     restart: unless-stopped
     ports:
-      - 8080:8080
+      - 2080:8080
 
     networks:
       database:
@@ -38,8 +39,6 @@ services:
 
 networks:
   database:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.90.0/24"
+    name: homeautomation
+    external: true
 
