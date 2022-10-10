@@ -1,0 +1,32 @@
+# docker-compose.yaml for grafana
+# Insired By: https://grafana.com/docs/grafana/v9.0/setup-grafana/installation/docker/
+# https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-docker/
+
+version: '2'
+
+services:
+  grafana:
+    image: grafana/grafana-oss:8.2.0
+    ports:
+      - 3000:3000
+    environment:
+      - PUID=1000
+      - PGID=1000
+      #- GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource    # Automativaly install Plugins
+    
+    volumes:
+      - /var/homeautomation/grafana/volumes/grafana-data:/var/lib/grafana
+    
+    restart: unless-stopped
+    networks:
+      grafana:
+        ipv4_address: 10.0.80.10
+  
+
+networks:
+  grafana:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.80.0/24"
+

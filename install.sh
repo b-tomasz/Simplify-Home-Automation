@@ -259,12 +259,14 @@ EOT
 # Select Tools to install
 select_for_installation () {
     whiptail --title "Install Tools" --checklist \
-    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 6 \
+    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 8 \
     "portainer" "Manage Docker Container with GUI" ON \
     "pihole" "DNS filter for Ads and Tracking" ON \
     "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "bitwarden" "Password Safe" OFF \
+    "database" "Password Safe" OFF \
+    "grafana" "Password Safe" OFF \
     "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
@@ -284,12 +286,14 @@ select_for_installation () {
 # Select Tools to uninstall
 select_for_uninstallation () {
     whiptail --title "Remove Tools" --checklist \
-    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 6 \
+    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 8 \
     "portainer" "Manage Docker Container with GUI" ON \
     "pihole" "DNS filter for Ads and Tracking" ON \
     "vpn" "Secure Acces to your network from Everywhere" ON \
     "nginx" "Reverse Proxy" ON \
     "bitwarden" "Password Safe" OFF \
+    "database" "Password Safe" OFF \
+    "grafana" "Password Safe" OFF \
     "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
     
     # Remove the " to use it as Array
