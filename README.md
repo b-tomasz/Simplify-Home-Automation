@@ -1,5 +1,12 @@
 # Simplify-Home-Automation
 
+- [Simplify-Home-Automation](#simplify-home-automation)
+  - [Prerequisits:](#prerequisits)
+  - [Folder Configuration](#folder-configuration)
+  - [Networks](#networks)
+  - [Application List with IPaddress](#application-list-with-ipaddress)
+  - [Setup your Raspberry Pi](#setup-your-raspberry-pi)
+
 ## Prerequisits:
 > - Raspberry Pi
 >    - Power Supply
