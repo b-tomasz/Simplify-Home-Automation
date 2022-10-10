@@ -9,7 +9,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(rmsy.ch *.rmsy.ch)
+domains=(sramseyer.ch www.sramseyer.ch)
 rsa_key_size=4096
 data_path="/var/homeautomation/certbot/volumes/certbot"
 email="samuel.ramseyer@edu.teko.ch" # Adding a valid address is strongly recommended
