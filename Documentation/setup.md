@@ -42,10 +42,10 @@ To flash the Operating System to the SD Card we are using the [Raspberry Pi Imag
 2. start the imager
 3. click on choos os
     
-    ![Untitled](sam%2051d4c279e05e4d00b2b9be98e2639f89/Untitled.png)
+    <img src="Images/Setup004.png" alt="Chose OS" width="500"/>
     
 4. select raspberrypi other
     
-    ![Untitled](sam%2051d4c279e05e4d00b2b9be98e2639f89/Untitled%201.png)
+    <img src="Images/Setup005.png" alt="Chose OS" width="500"/>
     
 5. test
