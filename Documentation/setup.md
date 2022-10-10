@@ -22,16 +22,16 @@ To flash the Operating System to the SD Card we are using the [Raspberry Pi Imag
 1) Download and install the Rapberry Pi Imager on your Computer
 2) Start the Imager
 3) Click on "Chose OS"
-![Chose OS](Images/Setup001.png)
 <img src="Images/Setup001.png" alt="Chose OS" width="500"/>
 1) Select "Raspberry Pi (Other)"
-![Select "Raspberry Pi (Other)"](Images/Setup002.png) 
+<img src="Images/Setup002.png" alt="Select Raspberry Pi (Other)" width="500"/>
 5) Select "Raspberry Pi OS Lite (64-bit)" **Be sure, that you chose the 64-bit Version** 
-![Select "Raspberry Pi OS Lite (64-bit)"](Images/Setup003.png) 
-
-![](Images/Setup004.png)
-![](Images/Setup005.png) 
-
-![](Images/Setup006.png) 
-
-![](Images/Setup007.png) 
+<img src="Images/Setup003.png" alt="Select Raspberry Pi OS Lite (64-bit)" width="500"/>
+6) Test
+<img src="Images/Setup004.png" alt="Chose OS" width="500"/>
+7) Test
+<img src="Images/Setup005.png" alt="Chose OS" width="500"/>
+8) Test
+<img src="Images/Setup006.png" alt="Chose OS" width="500"/>
+9) Test
+<img src="Images/Setup007.png" alt="Chose OS" width="500"/>
