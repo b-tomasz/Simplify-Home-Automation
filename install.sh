@@ -259,11 +259,10 @@ EOT
 # Select Tools to install
 select_for_installation () {
     whiptail --title "Install Tools" --checklist \
-    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool." 20 78 8 \
+    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 8 \
     "portainer" "Manage Docker Container with GUI" ON \
     "pihole" "DNS filter for Ads and Tracking" ON \
     "vpn" "Secure Acces to your network from Everywhere" ON \
-    "nginx" "Reverse Proxy" ON \
     "bitwarden" "Password Safe" OFF \
     "database" "Database to store Data" OFF \
     "grafana" "Visualize Data in a nice Gaph" OFF \
@@ -369,6 +368,9 @@ install () {
     select_for_installation
     
     read -a TOOLS < $CFG_PWD/tools_to_install
+
+    # Install nginx as base for the other Containers
+    install_container nginx
     
     # Loop trough TOOLS and Install all selected Tools
     for TOOL in "${TOOLS[@]}"
