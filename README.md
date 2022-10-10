@@ -2,6 +2,9 @@
 
 ## Prerequisits:
 > - Raspberry Pi
+>    - Power Supply
+>    - SD Card
+>    - Ethernet Cable   
 > - Home Network
 
 ## Folder Configuration
@@ -27,3 +30,4 @@ For each Application a seprate network is created
 |Unifi      |10.0.60.10  ||
 
 
+## [Setup your Raspberry Pi](Documentation/setup.md)
