@@ -1,20 +1,20 @@
 # docker-compose.yaml for $application
 # inspired by: https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
-
 version: '3'
+
 services:
   nginx:
     container_name: nginx
     image: nginx:1.15-alpine
     restart: unless-stopped
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - /var/homeautomation/nginx/volumes/conf.d:/etc/nginx/conf.d
-      - /var/homeautomation/certbot/volumes/letsencrypt:/etc/letsencrypt
-      - /var/homeautomation/certbot/volumes/certbot:/var/www/certbot
+      - /var/homeautomation/certbot/volumes/certbot/conf:/etc/letsencrypt
+      - /var/homeautomation/certbot/volumes/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     networks:
       nginx:
         ipv4_address: 10.0.50.10
@@ -24,8 +24,8 @@ services:
     restart: unless-stopped
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     volumes:
-      - /var/homeautomation/certbot/volumes/letsencrypt:/etc/letsencrypt
-      - /var/homeautomation/certbot/volumes/certbot:/var/www/certbot
+      - /var/homeautomation/certbot/volumes/certbot/conf:/etc/letsencrypt
+      - /var/homeautomation/certbot/volumes/certbot/www:/var/www/certbot
     networks:
       nginx:
         ipv4_address: 10.0.50.20
