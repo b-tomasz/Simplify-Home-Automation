@@ -33,12 +33,19 @@ To flash the Operating System to the SD Card we are using the [Raspberry Pi Imag
 
     <img src="Images/Setup003.png" alt="Select Raspberry Pi OS Lite (64-bit)" width="500"/>
 
-6. Click on "Chose Storage" and select your SD Card. **Be sure, that you select the correct card, then all Data of ths Card will get erased during this Process**
-7. Click on the Gearbox on the bottom right, to change some additional Settings
+6. Click on "Chose Storage"
+   
+   <img src="Images/Setup008.png" alt="Click on Chose Storage" width="500"/>
+   
+7.  Select your SD Card. **Be sure, that you select the correct card, then all Data of ths Card will get erased during this Process**
+
+    <img src="Images/Setup009.png" alt="Select your SD Card" width="500"/>
+
+8.  Click on the Gearbox on the bottom right, to change some additional Settings
 
     <img src="Images/Setup004.png" alt="Open Settings" width="500"/>
 
-8. Change the following Settings:
+9.  Change the following Settings:
    - Hostname: Set your Prefered Hostname
    - Username: Select an username for your Raspberry Pi (we reccomend using "pi")
    - Password: Select an password for your Raspberry Pi
@@ -47,16 +54,14 @@ To flash the Operating System to the SD Card we are using the [Raspberry Pi Imag
    
     <img src="Images/Setup005.png" alt="Change Settings" width="500"/>
 
-9.  Click on "Write"
+11. Click on "Write"
     
     <img src="Images/Setup006.png" alt="Click on Write" width="500"/>
 
-10. Confirm, that you have selected the Correct SD Card and that all Data on this SD Card will be erased.
+12. Confirm, that you have selected the Correct SD Card and that all Data on this SD Card will be erased.
 
-    <details>
-      <summary>Image</summary>
-      <img src="Images/Setup007.png" alt="Confirm Write to SD Card" width="500"/>
-    </details>
+    <img src="Images/Setup007.png" alt="Confirm Write to SD Card" width="500"/>
+    
     
 
 
