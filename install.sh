@@ -36,6 +36,18 @@ SCRIPT_NAME=install.sh
 LOG_PWD=/var/homeautomation/script/log
 CFG_PWD=/var/homeautomation/script/config
 
+# ContainerIDs
+declare -A CONTAINER_IDS
+CONTAINER_IDS[ngnix]=01
+CONTAINER_IDS[portainer]=02
+CONTAINER_IDS[pihole]=03
+CONTAINER_IDS[vpn]=04
+CONTAINER_IDS[bitwarden]=05
+CONTAINER_IDS[nodered]=06
+CONTAINER_IDS[database]=07
+CONTAINER_IDS[grafana]=08
+CONTAINER_IDS[unif]=09
+
 
 ### Functions:
 
@@ -260,14 +272,14 @@ EOT
 select_for_installation () {
     whiptail --title "Install Tools" --checklist \
     "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 8 \
-    "02-portainer" "Manage Docker Container with GUI" ON \
-    "03-pihole" "DNS filter for Ads and Tracking" ON \
-    "04-vpn" "Secure Acces to your network from Everywhere" ON \
-    "05-bitwarden" "Password Safe" OFF \
-    "06-nodered" "Connect homautomation" OFF \
-    "07-database" "Database to store Data" OFF \
-    "08-grafana" "Visualize Data in a nice Gaph" OFF \
-    "09-unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
+    "portainer" "Manage Docker Container with GUI" ON \
+    "pihole" "DNS filter for Ads and Tracking" ON \
+    "vpn" "Secure Acces to your network from Everywhere" ON \
+    "bitwarden" "Password Safe" OFF \
+    "nodered" "Connect homautomation" OFF \
+    "database" "Database to store Data" OFF \
+    "grafana" "Visualize Data in a nice Gaph" OFF \
+    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_install
@@ -287,14 +299,14 @@ select_for_installation () {
 select_for_uninstallation () {
     whiptail --title "Remove Tools" --checklist \
     "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 8 \
-    "02-portainer" "Manage Docker Container with GUI" ON \
-    "03-pihole" "DNS filter for Ads and Tracking" ON \
-    "04-vpn" "Secure Acces to your network from Everywhere" ON \
-    "05-bitwarden" "Password Safe" OFF \
-    "06-nodered" "Connect homautomation" OFF \
-    "07-database" "Database to store Data" OFF \
-    "08-grafana" "Visualize Data in a nice Gaph" OFF \
-    "09-unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
+    "portainer" "Manage Docker Container with GUI" ON \
+    "pihole" "DNS filter for Ads and Tracking" ON \
+    "vpn" "Secure Acces to your network from Everywhere" ON \
+    "bitwarden" "Password Safe" OFF \
+    "nodered" "Connect homautomation" OFF \
+    "database" "Database to store Data" OFF \
+    "grafana" "Visualize Data in a nice Gaph" OFF \
+    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
@@ -316,7 +328,7 @@ install_container () {
     printf "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
-    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
     bash install-$CONTAINER_NAME.sh
     
 }
@@ -327,7 +339,7 @@ uninstall_container () {
     printf "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
-    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
     if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of $CONTAINER_NAME?" --yes-button "Keep Settings" --no-button "Delete" 8 78); then
         bash install-$CONTAINER_NAME.sh -u
     else
