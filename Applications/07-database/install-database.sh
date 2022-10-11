@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-database.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/database/install-database.sh &> /dev/null; bash install-database.sh
+#cd /tmp; rm install-database.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/01-database/install-database.sh &> /dev/null; bash install-database.sh
 
 CONTAINER_ID=07
 CONTAINER_NAME=database
