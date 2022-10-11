@@ -1,5 +1,5 @@
 # docker-compose.yaml for bitwarden
-# inspired by: https://github.com/CVJoint/docker-compose/blob/master/ymlfiles/bitwarden.yml
+
 
 version: '3.7'
 services:
@@ -12,7 +12,7 @@ services:
     volumes:
       - /var/homeautomation/nodered/volumes/node-red-data:/data
     environment:
-      - TZ: 'Europe/Berlin'
+      - TZ=Europe/Berlin
 
     networks:
       bitwarden:
