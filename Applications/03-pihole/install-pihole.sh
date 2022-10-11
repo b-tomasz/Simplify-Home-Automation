@@ -47,11 +47,11 @@ install (){
     # ask User for Pihole Password
     while true
     do
-        PASSWORD=$(whiptail --title "Database Password" --nocancel --passwordbox "Please Enter a password for your Database:" 8 78  3>&1 1>&2 2>&3)
-        if [ $(whiptail --title "Database Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+        PASSWORD=$(whiptail --title "Pihole Password" --nocancel --passwordbox "Please Enter a password for your Pihole:" 8 78  3>&1 1>&2 2>&3)
+        if [ $(whiptail --title "Piihole Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
             break
         else
-            whiptail --title "Database Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
+            whiptail --title "Pihole Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
         fi
     done
     
