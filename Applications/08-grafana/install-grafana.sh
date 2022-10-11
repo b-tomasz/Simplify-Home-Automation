@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-grafana.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/grafana/install-grafana.sh &> /dev/null; bash install-grafana.sh
+#cd /tmp; rm install-grafana.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/08-grafana/install-grafana.sh &> /dev/null; bash install-grafana.sh
 
 CONTAINER_ID=08
 CONTAINER_NAME=grafana

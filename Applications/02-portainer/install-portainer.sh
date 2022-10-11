@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-portainer.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/portainer/install-portainer.sh &> /dev/null; bash install-portainer.sh
+#cd /tmp; rm install-portainer.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/02-portainer/install-portainer.sh &> /dev/null; bash install-portainer.sh
 
 CONTAINER_ID=02
 CONTAINER_NAME=portainer

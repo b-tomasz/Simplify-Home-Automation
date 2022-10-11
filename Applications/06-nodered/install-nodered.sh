@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-bitwarden.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/bitwarden/install-bitwarden.sh &> /dev/null; bash install-bitwarden.sh
+#cd /tmp; rm install-nodered.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/06-nodered/install-nodered.sh &> /dev/null; bash install-nodered.sh
 
 CONTAINER_ID=06
 CONTAINER_NAME=nodered
