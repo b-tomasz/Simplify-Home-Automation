@@ -26,6 +26,7 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       PIHOLE_DNS_: '10.0.30.2'
+      WEBPASSWORD: ${WEBPASSWORD}
     # Volumes store your data between container upgrades
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)  
