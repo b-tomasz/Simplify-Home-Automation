@@ -2,18 +2,18 @@ version: '3.7'
 
 services:
   portainer:
-    image: portainer/portainer-ce:latest
     container_name: portainer
+    image: portainer/portainer-ce:latest
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+    ports:
+      - 9000:9443
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/homeautomation/portainer/volumes/portainer-data:/data
-    ports:
-      - 9000:9443
-
+    security_opt:
+      - no-new-privileges:true
+      
     networks:
       portainer:
         ipv4_address: 10.0.20.1
