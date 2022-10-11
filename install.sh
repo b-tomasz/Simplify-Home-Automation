@@ -38,7 +38,7 @@ CFG_PWD=/var/homeautomation/script/config
 
 # ContainerIDs
 declare -A CONTAINER_IDS
-CONTAINER_IDS[ngnix]=01
+CONTAINER_IDS[nginx]=01
 CONTAINER_IDS[portainer]=02
 CONTAINER_IDS[pihole]=03
 CONTAINER_IDS[vpn]=04
@@ -383,7 +383,7 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install
 
     # Install nginx as base for the other Containers
-    install_container 01-nginx
+    install_container nginx
     
     # Loop trough TOOLS and Install all selected Tools
     for TOOL in "${TOOLS[@]}"
