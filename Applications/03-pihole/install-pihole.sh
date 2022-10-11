@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-pihole.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/pihole/install-pihole.sh &> /dev/null; bash install-pihole.sh
+#cd /tmp; rm install-pihole.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/03-pihole/install-pihole.sh &> /dev/null; bash install-pihole.sh
 
 CONTAINER_ID=03
 CONTAINER_NAME=pihole
