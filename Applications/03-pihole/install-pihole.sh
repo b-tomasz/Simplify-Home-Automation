@@ -4,6 +4,7 @@
 
 CONTAINER_ID=03
 CONTAINER_NAME=pihole
+HOST_IP=192.168.1.51
 
 install (){
     
@@ -38,7 +39,11 @@ install (){
 
 	listen-on-v6 { any; };
 
-    };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf
+    };
+
+    include \"/etc/bind/named.conf.local\";" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf
+
+
     
     echo "
     //
@@ -47,38 +52,33 @@ install (){
 
     // Consider adding the 1918 zones here, if they are not used in your
     // organization
-    //include "/etc/bind/zones.rfc1918";
+    //include \"/etc/bind/zones.rfc1918\";
     
     
-    zone "home" {
+    zone \"home\" {
 
         type master;
 
-        file "/var/lib/bind/master/home";
-
-    };
+        file \"/var/lib/bind/master/home\";
 
     };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf.local
     
+    # Insert Zone File. Attention: Make sure that there are no spaces in Font of each line
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master
-    echo "
+    echo "\$TTL    60
+\$ORIGIN home.
+@    IN    SOA    ns1.home. home (
+     2022101102        ; Versionsnummer, für die Slaves
+             60        ; Refresh
+             60        ; Retry
+            600        ; Expire
+             60 )      ; Negative Cache TTL
 
-    \$TTL    60
-    \$ORIGIN home.
-    @    IN    SOA    ns1.home. home (
-         2022101102        ; Versionsnummer, für die Slaves
-                 60        ; Refresh
-                 60        ; Retry
-                600        ; Expire
-                 60 )      ; Negative Cache TTL
+@                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
+@                  IN A $HOST_IP
+*                  IN A $HOST_IP
 
-    @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
-    @                  IN A 192.168.1.51
-    *                  IN A 192.168.1.51
-
-
-    ns1                IN A 10.0.30.2  ;
-    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
+ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
     
     
     # change to folder
