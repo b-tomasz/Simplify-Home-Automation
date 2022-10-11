@@ -27,14 +27,16 @@ For each Application a seprate network is created
 
 
 ## Application List with IPaddress
-|Container  |IP address  |Ports|
-|---|---|---|
-|Pihole     |10.0.10.10  |53,80 |
-|DNS        |10.0.10.11  |- | 
-|Bitwarden  |10.0.40.10  |8080, 8443| 
-|Wireguard  |10.0.30.10  |   |
-|nginx      |10.0.50.10  |80, 443|
-|Unifi      |10.0.60.10  ||
+| Container | IP address | Ports            |
+| --------- | ---------- | ---------------- |
+| Nginx     | 10.0.10.1  | 80:80,443:443    |
+| Certbot   | 10.0.10.2  | -                |
+| Pihole    | 10.0.20.1  | 53:53,8000:80    |
+| DNS       | 10.0.20.2  | -                |
+| VPN       | 10.0.30.1  | 10000:51820      |
+| Bitwarden | 10.0.40.1  | 8001:80,9001:443 |
+| Unifi     | 10.0.50.1  |                  |
+
 
 
 ## [Setup your Raspberry Pi](Documentation/setup.md)
