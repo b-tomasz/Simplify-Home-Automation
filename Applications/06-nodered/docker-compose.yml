@@ -1,0 +1,25 @@
+# docker-compose.yaml for bitwarden
+# inspired by: https://github.com/CVJoint/docker-compose/blob/master/ymlfiles/bitwarden.yml
+
+version: '3.7'
+services:
+  bitwarden:
+    container_name: bitwarden
+    image: bitwardenrs/server
+    restart: always
+    ports:
+      - 8001:80
+      - 9001:443
+    volumes:
+      - /var/homeautomation/bitwarden/bwdata:/data
+    environment:
+      WEBSOCKET_ENABLED: 'true' # Required to use websockets
+      SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
+    networks:
+      bitwarden:
+        ipv4_address: 10.0.50.1
+
+networks:
+  bitwarden:
+    name: homeautomation
+    external: true
