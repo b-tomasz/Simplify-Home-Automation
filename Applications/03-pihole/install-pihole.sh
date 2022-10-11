@@ -38,6 +38,18 @@ install (){
 
 	listen-on-v6 { any; };
 
+    };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf
+    
+    echo "
+    //
+    // Do any local configuration here
+    //
+
+    // Consider adding the 1918 zones here, if they are not used in your
+    // organization
+    //include "/etc/bind/zones.rfc1918";
+    
+    
     zone "home" {
 
         type master;
@@ -46,7 +58,7 @@ install (){
 
     };
 
-    };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf
+    };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf.local
     
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master
     echo "
