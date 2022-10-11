@@ -65,8 +65,8 @@ install (){
 
     \$TTL    60
     \$ORIGIN home.
-    @    IN    SOA    ns1.test.team01.t-nos.ch. test.team01.t-nos.ch (
-         2022101101        ; Versionsnummer, für die Slaves
+    @    IN    SOA    ns1.home. home (
+         2022101102        ; Versionsnummer, für die Slaves
                  60        ; Refresh
                  60        ; Retry
                 600        ; Expire
