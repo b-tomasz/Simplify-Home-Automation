@@ -2,7 +2,7 @@
 #Script ausführen mit:
 #cd /tmp; rm install-nginx.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/nginx/install-nginx.sh &> /dev/null; bash install-nginx.sh
 
-
+CONTAINER_ID=01
 CONTAINER_NAME=nginx
 
 install (){
@@ -55,10 +55,10 @@ server {
     cd /var/homeautomation/$CONTAINER_NAME
     
     # downlod docker-compose.yml and run it
-    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/docker-compose.yml &> /dev/null
+    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
     
     # copy default.conf to folder
-    rm ./volumes/conf.d/default.conf &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/default.conf &> /dev/null
+    rm ./volumes/conf.d/default.conf &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/default.conf &> /dev/null
     mv default.conf ./volumes/conf.d/default.conf
 
     # Start Container

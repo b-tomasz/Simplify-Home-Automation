@@ -8,6 +8,7 @@
 # Open VPN mit Docker Compose:
 # https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md
 
+CONTAINER_ID=04
 CONTAINER_NAME=vpn
 URL=tcp://vpn.tomasz.app:443
 DNS_SERVER=10.0.20.10
@@ -22,7 +23,7 @@ install (){
     cd /var/homeautomation/$CONTAINER_NAME
     
     # downlod docker-compose.yml and run it
-    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/docker-compose.yml &> /dev/null
+    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
     
     # Configure openvpn
     docker-compose run --rm $CONTAINER_NAME ovpn_genconfig -u $URL -n $DNS_SERVER

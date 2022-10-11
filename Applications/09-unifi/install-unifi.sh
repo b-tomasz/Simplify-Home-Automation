@@ -2,7 +2,7 @@
 #Script ausführen mit:
 #cd /tmp; rm install-unifi.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/unifi/install-unifi.sh &> /dev/null; bash install-unifi.sh
 
-
+CONTAINER_ID=09
 CONTAINER_NAME=unifi
 
 install (){
@@ -15,7 +15,7 @@ install (){
     cd /var/homeautomation/$CONTAINER_NAME
     
     # downlod docker-compose.yml and run it
-    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/docker-compose.yml &> /dev/null
+    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
     
     
     # Start Container

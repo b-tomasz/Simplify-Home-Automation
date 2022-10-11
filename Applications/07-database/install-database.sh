@@ -2,7 +2,7 @@
 #Script ausführen mit:
 #cd /tmp; rm install-database.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/database/install-database.sh &> /dev/null; bash install-database.sh
 
-
+CONTAINER_ID=07
 CONTAINER_NAME=database
 
 install (){
@@ -15,7 +15,7 @@ install (){
     cd /var/homeautomation/$CONTAINER_NAME
     
     # downlod docker-compose.yml and run it
-    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_NAME/docker-compose.yml &> /dev/null
+    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
     
     
     # Start Container
