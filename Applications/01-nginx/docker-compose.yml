@@ -21,7 +21,7 @@ services:
   certbot:
     container_name: certbot
     image: certbot/certbot:arm64v8-latest
-    restart: unless-stopped
+    restart: no
     ports:
       - "80:80"
     volumes:
