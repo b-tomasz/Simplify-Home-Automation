@@ -67,6 +67,20 @@ server {
     # downlod docker-compose.yml and run it
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
 
+
+    # Create Cert
+    docker run -it --rm --name certbot-test \
+    -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
+    -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
+    certbot/certbot:arm64v8-latest certonly --standalone --cert-name tomasz.app --force-renewal
+
+
+    # renew Cert
+    docker run -it --rm --name certbot-test \
+    -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
+    -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
+    certbot/certbot:arm64v8-latest renew
+
     # Start Container
     docker-compose up -d
     
