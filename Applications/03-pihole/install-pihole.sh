@@ -4,6 +4,7 @@
 
 CONTAINER_ID=03
 CONTAINER_NAME=pihole
+EXTERNAL_DOMAIN=tomasz.app
 HOST_IP=192.168.1.51
 
 install (){
@@ -67,8 +68,8 @@ install (){
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master
     echo "\$TTL    60
 \$ORIGIN home.
-@    IN    SOA    ns1.home. home (
-     2022101102        ; Versionsnummer, für die Slaves
+@    IN    SOA    ns1.home. home. (
+     2022101101        ; Versionsnummer, für die Slaves
              60        ; Refresh
              60        ; Retry
             600        ; Expire
@@ -79,6 +80,35 @@ install (){
 *                  IN A $HOST_IP
 
 ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
+
+    echo "\$TTL    60
+\$ORIGIN home.
+@    IN    SOA    ns1.unifi. unifi. (
+     2022101101        ; Versionsnummer, für die Slaves
+             60        ; Refresh
+             60        ; Retry
+            600        ; Expire
+             60 )      ; Negative Cache TTL
+
+@                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
+@                  IN A $HOST_IP
+
+ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
+
+    echo "\$TTL    60
+\$ORIGIN home.
+@    IN    SOA    ns1.$EXTERNAL_DOMAIN. $EXTERNAL_DOMAIN. (
+     2022101101        ; Versionsnummer, für die Slaves
+             60        ; Refresh
+             60        ; Retry
+            600        ; Expire
+             60 )      ; Negative Cache TTL
+
+@                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
+@                  IN A $HOST_IP
+*                  IN A $HOST_IP
+
+ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
     
     
     # change to folder
