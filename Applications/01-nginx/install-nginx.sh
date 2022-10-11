@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-nginx.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/nginx/install-nginx.sh &> /dev/null; bash install-nginx.sh
+#cd /tmp; rm install-nginx.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/01-nginx/install-nginx.sh &> /dev/null; bash install-nginx.sh
 
 CONTAINER_ID=01
 CONTAINER_NAME=nginx

@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-bitwarden.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/bitwarden/install-bitwarden.sh &> /dev/null; bash install-bitwarden.sh
+#cd /tmp; rm install-bitwarden.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/05-bitwarden/install-bitwarden.sh &> /dev/null; bash install-bitwarden.sh
 
 CONTAINER_ID=05
 CONTAINER_NAME=bitwarden

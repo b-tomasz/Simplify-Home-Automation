@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-unifi.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/unifi/install-unifi.sh &> /dev/null; bash install-unifi.sh
+#cd /tmp; rm install-unifi.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/09-unifi/install-unifi.sh &> /dev/null; bash install-unifi.sh
 
 CONTAINER_ID=09
 CONTAINER_NAME=unifi
