@@ -11,8 +11,8 @@ install (){
     mkdir -p /var/homeautomation/$CONTAINER_NAME
 
     # create nginx config File
-    mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/conf.d
-    cd /var/homeautomation/$CONTAINER_NAME/volumes/conf.d
+    mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
+    cd /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
     echo "#Complete Nginx Docker reverse proxy config file
 server {
   listen 80;
@@ -33,21 +33,21 @@ server {
   listen 80;
   server_name portainer.home;
   location / {
-    proxy_pass https://10.0.10.1:9443;
+    proxy_pass https://10.0.10.1:9000;
   }
 }
 server {
   listen 80;
   server_name pihole.home;
   location / {
-    proxy_pass http://10.0.10.:8080;
+    proxy_pass http://10.0.10.:8000;
   }
 }
 server {
   listen 80;
-  server_name grafana.example.com;
+  server_name grafana.home;
   location / {
-    proxy_pass http://192.168.178.134:8080;
+    proxy_pass http://10.0.80.1:8004;
   }
 }" > homeautomation.conf
     
