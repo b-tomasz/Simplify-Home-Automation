@@ -7,7 +7,7 @@ services:
     image: nubacuk/docker-openvpn:aarch64
     container_name: vpn
     ports:
-     - "443:1194/tcp"
+     - "10000:1194/tcp"
     restart: unless-stopped
     volumes:
      - /var/homeautomation/vpn/volumes/openvpn/conf:/etc/openvpn
@@ -15,7 +15,7 @@ services:
 
     networks:
       vpn:
-        ipv4_address: 10.0.30.10
+        ipv4_address: 10.0.40.1
 
 
 

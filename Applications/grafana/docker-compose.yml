@@ -9,7 +9,7 @@ services:
     container_name: grafana
     image: grafana/grafana-oss:8.2.0
     ports:
-      - 3000:3000
+      - 8004:3000
     user: "0:0"
     # environment:
       #- GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource    # Automativaly install Plugins
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
     networks:
       grafana:
-        ipv4_address: 10.0.80.10
+        ipv4_address: 10.0.80.1
   
 
 networks:

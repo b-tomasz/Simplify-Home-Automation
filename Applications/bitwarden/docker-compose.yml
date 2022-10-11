@@ -8,8 +8,8 @@ services:
     image: bitwardenrs/server
     restart: always
     ports:
-      - 8080:80
-      - 8443:443
+      - 8001:80
+      - 9001:443
     volumes:
       - /var/homeautomation/bitwarden/bwdata:/data
     environment:
@@ -17,7 +17,7 @@ services:
       SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
     networks:
       bitwarden:
-        ipv4_address: 10.0.40.10
+        ipv4_address: 10.0.50.1
 
 networks:
   bitwarden:
