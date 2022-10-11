@@ -12,8 +12,8 @@
 # Functions with Parameters:
 # https://www.redhat.com/sysadmin/arguments-options-bash-scripts
 #
-#
-#
+# Script kontrolle:
+# https://www.shellcheck.net/
 #
 #
 
@@ -87,15 +87,15 @@ update_system () {
         echo "Update Started at: " $(date) > $LOG_PWD/update.log
         
         {
-            printf "\n\n----------Update Packages----------\n" >> $LOG_PWD/update.log
+            echo -e "\n\n----------Update Packages----------\n" >> $LOG_PWD/update.log
             apt-get update -y -q >> $LOG_PWD/update.log
             
             echo -e "XXX\n20\nUpgrade System...\nXXX"
-            printf "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
+            echo -e "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
             apt-get upgrade -y -q >> $LOG_PWD/update.log
             
             echo -e "XXX\n60\nCleanup System...\nXXX"
-            printf "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
+            echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
             apt-get autoremove -y -q >> $LOG_PWD/update.log
             
             echo -e "XXX\n100\nFinished...\nXXX"
@@ -129,19 +129,19 @@ check_docker_installation () {
             # Todo: needrestart can interrupt the install process. Possible solution: https://github.com/liske/needrestart/issues/71
             
             {
-                printf "\n\n----------Update Packages----------\n" >> $LOG_PWD/install.log
+                echo -e "\n\n----------Update Packages----------\n" >> $LOG_PWD/install.log
                 apt-get update  -y -q >> $LOG_PWD/install.log
                 
                 echo -e "XXX\n20\nInstall docker.io...\nXXX"
-                printf "\n\n----------Install docker.io----------\n" >> $LOG_PWD/install.log
+                echo -e "\n\n----------Install docker.io----------\n" >> $LOG_PWD/install.log
                 apt-get install docker.io -y -q >> $LOG_PWD/install.log
                 
                 echo -e "XXX\n50\nInstall docker-compose...\nXXX"
-                printf "\n\n----------Install docker-compose----------\n" >> $LOG_PWD/install.log
+                echo -e "\n\n----------Install docker-compose----------\n" >> $LOG_PWD/install.log
                 apt-get install docker-compose -y -q >> $LOG_PWD/install.log
                 
                 echo -e "XXX\n80\nCleanup System...\nXXX"
-                printf "\n\n----------Cleanup System----------\n" >> $LOG_PWD/install.log
+                echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/install.log
                 apt-get autoremove -y -q >> $LOG_PWD/install.log
                 
                 echo -e "XXX\n100\nFinished...\nXXX"
@@ -230,6 +230,13 @@ check_ip (){
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
             exit_script 2
         fi
+        EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3)
+        if [ $? = 0 ]; then
+            echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
+        else
+            echo "No Domain was set" >> $LOG_PWD/install.log
+            exit_script 2
+        fi
         
         
         # Different Solution with Patch instead of sed:
@@ -238,6 +245,8 @@ check_ip (){
         
         
         # Write Patch File to Script Folder
+        echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN" > $CFG_PWD/ip.conf
+
 		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
 --- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
 +++ dhcpcd.conf.2       2022-10-02 12:07:36.564904885 +0200
@@ -325,7 +334,7 @@ select_for_uninstallation () {
 # Install Container
 install_container () {
     CONTAINER_NAME=$1
-    printf "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
@@ -336,7 +345,7 @@ install_container () {
 # Uninstall Container
 uninstall_container () {
     CONTAINER_NAME=$1
-    printf "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
