@@ -260,13 +260,14 @@ EOT
 select_for_installation () {
     whiptail --title "Install Tools" --checklist \
     "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 8 \
-    "portainer" "Manage Docker Container with GUI" ON \
-    "pihole" "DNS filter for Ads and Tracking" ON \
-    "vpn" "Secure Acces to your network from Everywhere" ON \
-    "bitwarden" "Password Safe" OFF \
-    "database" "Database to store Data" OFF \
-    "grafana" "Visualize Data in a nice Gaph" OFF \
-    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
+    "02-portainer" "Manage Docker Container with GUI" ON \
+    "03-pihole" "DNS filter for Ads and Tracking" ON \
+    "04-vpn" "Secure Acces to your network from Everywhere" ON \
+    "05-bitwarden" "Password Safe" OFF \
+    "06-nodered" "Connect homautomation" OFF \
+    "07-database" "Database to store Data" OFF \
+    "08-grafana" "Visualize Data in a nice Gaph" OFF \
+    "09-unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_install
@@ -286,14 +287,14 @@ select_for_installation () {
 select_for_uninstallation () {
     whiptail --title "Remove Tools" --checklist \
     "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 8 \
-    "portainer" "Manage Docker Container with GUI" ON \
-    "pihole" "DNS filter for Ads and Tracking" ON \
-    "vpn" "Secure Acces to your network from Everywhere" ON \
-    "nginx" "Reverse Proxy" ON \
-    "bitwarden" "Password Safe" OFF \
-    "database" "Database to store Data" OFF \
-    "grafana" "Visualize Data in a nice Gaph" OFF \
-    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
+    "02-portainer" "Manage Docker Container with GUI" ON \
+    "03-pihole" "DNS filter for Ads and Tracking" ON \
+    "04-vpn" "Secure Acces to your network from Everywhere" ON \
+    "05-bitwarden" "Password Safe" OFF \
+    "06-nodered" "Connect homautomation" OFF \
+    "07-database" "Database to store Data" OFF \
+    "08-grafana" "Visualize Data in a nice Gaph" OFF \
+    "09-unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
@@ -370,7 +371,7 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install
 
     # Install nginx as base for the other Containers
-    install_container nginx
+    install_container 01-nginx
     
     # Loop trough TOOLS and Install all selected Tools
     for TOOL in "${TOOLS[@]}"
