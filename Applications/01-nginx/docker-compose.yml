@@ -10,7 +10,6 @@ services:
     image: nginx:latest     
     restart: unless-stopped
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - /var/homeautomation/nginx/volumes/nginx/conf.d:/etc/nginx/conf.d
@@ -23,6 +22,8 @@ services:
     container_name: certbot
     image: certbot/certbot:arm64v8-latest
     restart: unless-stopped
+    ports:
+      - "80:80"
     volumes:
       - /var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot
       - /var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt
