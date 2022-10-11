@@ -7,31 +7,29 @@ version: '3.7'
 services:
   nginx:
     container_name: nginx
-    image: nginx:latest
+    image: nginx:latest     
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/homeautomation/nginx/volumes/conf.d:/etc/nginx/conf.d
-      - /var/homeautomation/certbot/volumes/certbot/conf:/etc/letsencrypt
-      - /var/homeautomation/certbot/volumes/certbot/www:/var/www/certbot
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+      - /var/homeautomation/nginx/volumes/nginx/conf.d:/etc/nginx/conf.d
+      - /var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot
+      - /var/homeautomation/nginx/volumes/certbot/conf:/etc/nginx/ssl
     networks:
       nginx:
         ipv4_address: 10.0.10.1
   certbot:
     container_name: certbot
-    image: certbot/certbot
+    image: certbot/certbot:arm64v8-latest
     restart: unless-stopped
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     volumes:
-      - /var/homeautomation/certbot/volumes/certbot/conf:/etc/letsencrypt
-      - /var/homeautomation/certbot/volumes/certbot/www:/var/www/certbot
+      - /var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot
+      - /var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt
     networks:
       nginx:
         ipv4_address: 10.0.10.20
-        
+
 networks:
   nginx:
     name: homeautomation
