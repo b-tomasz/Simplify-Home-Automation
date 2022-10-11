@@ -19,7 +19,6 @@ install (){
     do
         PASSWORD=$(whiptail --title "Database Password" --nocancel --passwordbox "Please Enter a password for your Database:" 8 78  3>&1 1>&2 2>&3)
         if [ $(whiptail --title "Database Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
-            echo MYSQL_ROOT_PASSWORD=$PASSWORD > password.env
             break
         else
             whiptail --title "Database Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
@@ -32,7 +31,8 @@ install (){
     
     
     # Start Container
-    docker-compose up -d
+    MYSQL_ROOT_PASSWORD=$PASSWORD docker-compose up -d
+
     
 }
 
