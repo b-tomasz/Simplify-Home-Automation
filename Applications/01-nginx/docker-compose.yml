@@ -21,12 +21,13 @@ services:
   certbot:
     container_name: certbot
     image: certbot/certbot:arm64v8-latest
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
       - /var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot
       - /var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt
-    command: "certonly --standalone -d tomasz.app -d bitwarden.tomasz.app -m test@test.ch --agree-tos --force-renewal"
+    command: "certonly --standalone -d tomasz.app -d bitwarden.tomasz.app -m test@test.ch --agree-tos --force-renewal; while :; do certbot renew; sleep 12h & wait $${!}; done;"
     # command: "renew" To Renew the Certs
     networks:
       nginx:
