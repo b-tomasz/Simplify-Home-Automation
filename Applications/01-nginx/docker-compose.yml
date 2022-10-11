@@ -26,6 +26,7 @@ services:
     volumes:
       - /var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot
       - /var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt
+    command: "certonly --standalone -d tomasz.app --force-renewal"
     networks:
       nginx:
         ipv4_address: 10.0.10.20
