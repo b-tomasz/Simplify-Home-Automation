@@ -12,7 +12,7 @@ services:
     volumes:
       - /var/homeautomation/nodered/volumes/node-red-data:/data
     environment:
-      - TZ=Europe/Amsterdam
+      - TZ: 'Europe/Berlin'
 
     networks:
       bitwarden:
