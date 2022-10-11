@@ -5,6 +5,8 @@
 CONTAINER_ID=01
 CONTAINER_NAME=nginx
 
+source /var/homeautomation/script/config/ip.conf
+
 install (){
     
     # create Applikations folder
@@ -49,7 +51,15 @@ server {
   location / {
     proxy_pass http://10.0.80.1:8004;
   }
-}" > homeautomation.conf
+}
+server {
+  listen 80;
+  server_name bitwarden.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.0.50.1:8001;
+  }
+}
+" > homeautomation.conf
     
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
