@@ -14,6 +14,8 @@ services:
     # (this is just an example, not intended to be a production configuration)
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
+    ports:
+      - 10002:3306
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: test
@@ -22,18 +24,18 @@ services:
 
     networks:
       database:
-        ipv4_address: 10.0.90.10
+        ipv4_address: 10.0.70.1
 
   adminer:
     container_name: adminer
     image: adminer
     restart: unless-stopped
     ports:
-      - 2080:8080
+      - 8003:8080
 
     networks:
       database:
-        ipv4_address: 10.0.90.20
+        ipv4_address: 10.0.70.2
 
 
 

@@ -14,19 +14,19 @@ services:
     volumes:
       - /var/homeautomation/unifi/volumes/unifi-config:/config
     ports:
-      - 8443:8443
+      - 9002:8443
       - 3478:3478/udp
       - 10001:10001/udp
       - 8080:8080
-      - 1900:1900/udp #optional
+      #- 1900:1900/udp #optional
       #- 8843:8843 #optional for Guest Portal https
       #- 8880:8880 #optional for Guest Portal http
-      - 6789:6789 #optional
+      #- 6789:6789 #optional for Speedtest
       #- 5514:5514/udp #optional
     restart: unless-stopped
     networks:
       unifi:
-        ipv4_address: 10.0.60.10
+        ipv4_address: 10.0.90.1
   
 
 networks:

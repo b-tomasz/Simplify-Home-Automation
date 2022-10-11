@@ -17,7 +17,7 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     networks:
       nginx:
-        ipv4_address: 10.0.50.10
+        ipv4_address: 10.0.10.1
   certbot:
     container_name: certbot
     image: certbot/certbot
@@ -28,8 +28,8 @@ services:
       - /var/homeautomation/certbot/volumes/certbot/www:/var/www/certbot
     networks:
       nginx:
-        ipv4_address: 10.0.50.20
-
+        ipv4_address: 10.0.10.20
+        
 networks:
   nginx:
     name: homeautomation

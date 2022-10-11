@@ -12,11 +12,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/homeautomation/portainer/volumes/portainer-data:/data
     ports:
-      - 9443:9443
+      - 9000:9443
 
     networks:
       portainer:
-        ipv4_address: 10.0.10.10
+        ipv4_address: 10.0.20.1
 
 
 
