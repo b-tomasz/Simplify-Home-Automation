@@ -13,7 +13,7 @@ install (){
     # create nginx config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/conf.d
     cd /var/homeautomation/$CONTAINER_NAME/volumes/conf.d
-    echo #Complete Nginx Docker reverse proxy config file
+    echo "#Complete Nginx Docker reverse proxy config file
 server {
   listen 80;
   listen [::]:80;
@@ -49,7 +49,7 @@ server {
   location / {
     proxy_pass http://192.168.178.134:8080;
   }
-} > homeautomation.conf
+}" > homeautomation.conf
     
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
