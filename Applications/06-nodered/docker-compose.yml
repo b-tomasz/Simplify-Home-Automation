@@ -3,14 +3,17 @@
 
 version: '3.7'
 services:
-  bitwarden:
+  nodered:
     container_name: nodered
-    image: bitwardenrs/server
+    image: nodered/node-red:latest
     restart: always
     ports:
       - 8002:1880
     volumes:
-      - /var/homeautomation/bitwarden/bwdata:/data
+      - /var/homeautomation/nodered/volumes/node-red-data:/data
+    environment:
+      - TZ=Europe/Amsterdam
+
     networks:
       bitwarden:
         ipv4_address: 10.0.60.1
