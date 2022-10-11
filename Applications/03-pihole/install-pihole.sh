@@ -4,20 +4,14 @@
 
 CONTAINER_ID=03
 CONTAINER_NAME=pihole
-EXTERNAL_DOMAIN=tomasz.app
-HOST_IP=192.168.1.51
+
+source /var/homeautomation/script/config/ip.conf
 
 install (){
     
     # create Applikations folder
     mkdir -p /var/homeautomation/$CONTAINER_NAME
-
-    if [[ ! -f /var/homeautomation/$CONTAINER_NAME/config/dns.conf ]]; then
-        
-
-        echo "EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN;HOST_IP=$HOST_IP" > /var/homeautomation/$CONTAINER_NAME/config/dns.conf
-    fi
-    
+   
     # create bind9 config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind
     echo "options {
