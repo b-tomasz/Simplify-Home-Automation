@@ -76,8 +76,8 @@ install (){
              60 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
-@                  IN A $HOST_IP
-*                  IN A $HOST_IP
+@                  IN A $FIXED_IP
+*                  IN A $FIXED_IP
 
 ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
 
@@ -91,7 +91,7 @@ ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volu
              60 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
-@                  IN A $HOST_IP
+@                  IN A $FIXED_IP
 
 ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
 
@@ -105,8 +105,8 @@ ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volu
              60 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
-@                  IN A $HOST_IP
-*                  IN A $HOST_IP
+@                  IN A $FIXED_IP
+*                  IN A $FIXED_IP
 
 ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
     

@@ -4,7 +4,7 @@
 version: '3.7'
 services:
   bitwarden:
-    container_name: bitwarden
+    container_name: nodered
     image: bitwardenrs/server
     restart: always
     ports:
