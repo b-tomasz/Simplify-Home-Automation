@@ -1,5 +1,7 @@
 # docker-compose.yaml for $application
 # inspired by: https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+# set variable from outside of this file https://medium.com/@cybourgeoisie/docker-env-methods-for-passing-variables-through-docker-compose-801e6fdb4a75
+
 version: '3.7'
 
 services:
