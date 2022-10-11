@@ -12,7 +12,6 @@ install (){
     
     # create bind9 config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind
-    cd /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind
     echo "options {
 	directory \"/var/cache/bind\";
 
@@ -38,7 +37,36 @@ install (){
 	dnssec-validation auto;
 
 	listen-on-v6 { any; };
-    };" > named.conf
+
+    zone "home" {
+
+        type master;
+
+        file "/var/lib/bind/master/home";
+
+    };
+
+    };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf
+    
+    mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master
+    echo "
+
+    \$TTL    60
+    \$ORIGIN home.
+    @    IN    SOA    ns1.test.team01.t-nos.ch. test.team01.t-nos.ch (
+         2022101101        ; Versionsnummer, für die Slaves
+                 60        ; Refresh
+                 60        ; Retry
+                600        ; Expire
+                 60 )      ; Negative Cache TTL
+
+    @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
+    @                  IN A 192.168.1.51
+    *                  IN A 192.168.1.51
+
+
+    ns1                IN A 10.0.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
     
     
     # change to folder
