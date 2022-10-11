@@ -66,10 +66,6 @@ server {
     
     # downlod docker-compose.yml and run it
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
-    
-    # copy default.conf to folder
-    rm ./volumes/conf.d/default.conf &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/default.conf &> /dev/null
-    mv default.conf ./volumes/conf.d/default.conf
 
     # Start Container
     docker-compose up -d
