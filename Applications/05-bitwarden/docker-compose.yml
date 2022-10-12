@@ -13,7 +13,7 @@ services:
     volumes:
       - /var/homeautomation/bitwarden/bwdata:/data
     environment:
-      DOMAIN: https://bitwarden.tomasz.app
+      DOMAIN: https://bitwarden.${EXTERNAL_DOMAIN}
       WEBSOCKET_ENABLED: 'true' # Required to use websockets
       SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
     networks:
