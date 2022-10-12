@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
     networks:
       grafana:
-        ipv4_address: 10.0.80.1
+        ipv4_address: 10.10.80.1
   
 
 networks:

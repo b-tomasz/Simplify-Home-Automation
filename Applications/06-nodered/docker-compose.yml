@@ -16,7 +16,7 @@ services:
 
     networks:
       bitwarden:
-        ipv4_address: 10.0.60.1
+        ipv4_address: 10.10.60.1
 
 networks:
   bitwarden:

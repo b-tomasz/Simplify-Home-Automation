@@ -16,7 +16,7 @@ services:
       
     networks:
       portainer:
-        ipv4_address: 10.0.20.1
+        ipv4_address: 10.10.20.1
 
 
 

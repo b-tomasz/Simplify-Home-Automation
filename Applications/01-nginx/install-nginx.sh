@@ -35,28 +35,28 @@ server {
   listen 80;
   server_name portainer.home;
   location / {
-    proxy_pass https://10.0.10.1:9000;
+    proxy_pass https://10.10.20.1:9000;
   }
 }
 server {
   listen 80;
   server_name pihole.home;
   location / {
-    proxy_pass http://10.0.10.:8000;
+    proxy_pass http://10.10.30.1:8000;
   }
 }
 server {
   listen 80;
   server_name grafana.home;
   location / {
-    proxy_pass http://10.0.80.1:8004;
+    proxy_pass http://10.10.80.1:8004;
   }
 }
 server {
   listen 80;
   server_name bitwarden.$EXTERNAL_DOMAIN;
   location / {
-    proxy_pass http://10.0.50.1:8001;
+    proxy_pass http://10.10.50.1:8001;
   }
 }
 " > homeautomation.conf

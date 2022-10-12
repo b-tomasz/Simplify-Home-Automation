@@ -79,7 +79,7 @@ install (){
 @                  IN A $FIXED_IP
 *                  IN A $FIXED_IP
 
-ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
+ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
 
     echo "\$TTL    60
 \$ORIGIN home.
@@ -93,7 +93,7 @@ ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volu
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 @                  IN A $FIXED_IP
 
-ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
+ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
 
     echo "\$TTL    60
 \$ORIGIN home.
@@ -108,7 +108,7 @@ ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volu
 @                  IN A $FIXED_IP
 *                  IN A $FIXED_IP
 
-ns1                IN A 10.0.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
+ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
     
     
     # change to folder

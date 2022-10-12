@@ -17,7 +17,7 @@ services:
       - /var/homeautomation/nginx/volumes/certbot/conf:/etc/nginx/ssl
     networks:
       nginx:
-        ipv4_address: 10.0.10.1
+        ipv4_address: 10.10.10.1
   certbot:
     container_name: certbot
     image: certbot/certbot:arm64v8-latest
@@ -31,7 +31,7 @@ services:
     # command: "renew" To Renew the Certs
     networks:
       nginx:
-        ipv4_address: 10.0.10.20
+        ipv4_address: 10.10.10.20
 
 networks:
   nginx:
@@ -39,4 +39,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: "10.0.0.0/16"
+        - subnet: "10.10.0.0/16"

@@ -22,7 +22,7 @@ services:
 
     networks:
       database:
-        ipv4_address: 10.0.70.1
+        ipv4_address: 10.10.70.1
 
   adminer:
     container_name: adminer
@@ -33,7 +33,7 @@ services:
 
     networks:
       database:
-        ipv4_address: 10.0.70.2
+        ipv4_address: 10.10.70.2
 
 
 

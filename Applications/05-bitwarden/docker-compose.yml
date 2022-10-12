@@ -17,7 +17,7 @@ services:
       SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
     networks:
       bitwarden:
-        ipv4_address: 10.0.50.1
+        ipv4_address: 10.10.50.1
 
 networks:
   bitwarden:
