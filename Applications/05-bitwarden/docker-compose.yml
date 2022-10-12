@@ -5,7 +5,7 @@ version: '3.7'
 services:
   bitwarden:
     container_name: bitwarden
-    image: bitwardenrs/server
+    image: vaultwarden/server:latest
     restart: always
     ports:
       - 8001:80
@@ -13,6 +13,7 @@ services:
     volumes:
       - /var/homeautomation/bitwarden/bwdata:/data
     environment:
+      DOMAIN: https://bitwarden.tomasz.app
       WEBSOCKET_ENABLED: 'true' # Required to use websockets
       SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
     networks:
