@@ -25,7 +25,7 @@ services:
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     environment:
       TZ: 'Europe/Berlin'
-      PIHOLE_DNS_: '10.0.30.2'
+      PIHOLE_DNS_: '10.10.30.2'
       WEBPASSWORD: ${WEBPASSWORD}
     # Volumes store your data between container upgrades
     cap_add:
