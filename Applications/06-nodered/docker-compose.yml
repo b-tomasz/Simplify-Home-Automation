@@ -1,4 +1,4 @@
-# docker-compose.yaml for bitwarden
+# docker-compose.yaml for nodered
 
 
 version: '3.7'
@@ -13,6 +13,7 @@ services:
       - /var/homeautomation/nodered/volumes/node-red-data:/data
     environment:
       - TZ=Europe/Berlin
+    user: 0:0
 
     networks:
       bitwarden:
