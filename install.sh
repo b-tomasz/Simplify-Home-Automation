@@ -237,7 +237,13 @@ check_ip (){
             echo "No Domain was set" >> $LOG_PWD/install.log
             exit_script 2
         fi
-        
+        EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3)
+        if [ $? = 0 ]; then
+            echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
+        else
+            echo "No E-Mail was set" >> $LOG_PWD/install.log
+            exit_script 2
+        fi
         
         # Different Solution with Patch instead of sed:
         # https://man7.org/linux/man-pages/man1/patch.1.html
@@ -245,7 +251,7 @@ check_ip (){
         
         
         # Write Patch File to Script Folder
-        echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN" > $CFG_PWD/ip.conf
+        echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
 
 		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
 --- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
