@@ -14,7 +14,80 @@ install (){
     
     # create nginx config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
-    cd /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
+
+    
+    #Create dummy Config
+    echo "#Complete Nginx Docker reverse proxy config file
+server {
+  listen 80;
+  listen [::]:80;
+  server_name localhost;
+
+  location / {
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+  }
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /usr/share/nginx/html;
+  }
+}
+server {
+  listen 80;
+  server_name *.$EXTERNAL_DOMAIN $EXTERNAL_DOMAIN;
+  location /.well-known/acme-challenge/ {
+    proxy_pass http://10.10.10.2/.well-known/acme-challenge/;
+  }
+}
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
+    
+        
+    # change to folder
+    cd /var/homeautomation/$CONTAINER_NAME
+    
+    # downlod docker-compose.yml and run it
+    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
+    
+    # Start Container
+    docker-compose up -d
+    sleep 5
+
+    # Create Cert
+    docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
+    -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
+    -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
+    certbot/certbot:arm64v8-latest certonly -n --standalone \
+    -d $EXTERNAL_DOMAIN \
+    -d portainer.$EXTERNAL_DOMAIN \
+    -d pihole.$EXTERNAL_DOMAIN \
+    -d bitwarden.$EXTERNAL_DOMAIN \
+    -d nodered.$EXTERNAL_DOMAIN \
+    -d grafana.$EXTERNAL_DOMAIN \
+    -d unifi.$EXTERNAL_DOMAIN \
+    -m $EMAIL --agree-tos --force-renewal
+    
+    
+    # renew Cert
+    echo "#!/bin/bash
+
+docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
+-v \"/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot\" \
+-v \"/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt\" \
+certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
+
+    chmod +x /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
+    
+
+    # Add Script renewal to Chronjob
+    # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
+    # https://crontab.guru
+    croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
+    cronjob="0 */1 * * * $croncmd"
+
+    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+    
+    # Create real Config
     echo "#Complete Nginx Docker reverse proxy config file
 server {
   listen 80;
@@ -102,52 +175,10 @@ server {
   }
 }
 
-    " > homeautomation.conf
-    
-    # change to folder
-    cd /var/homeautomation/$CONTAINER_NAME
-    
-    # downlod docker-compose.yml and run it
-    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
-    
-    # Start Container
-    docker-compose up -d
-    sleep 5
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
 
-    # Create Cert
-    docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
-    -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
-    -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
-    certbot/certbot:arm64v8-latest certonly -n --standalone \
-    -d $EXTERNAL_DOMAIN \
-    -d portainer.$EXTERNAL_DOMAIN \
-    -d pihole.$EXTERNAL_DOMAIN \
-    -d bitwarden.$EXTERNAL_DOMAIN \
-    -d nodered.$EXTERNAL_DOMAIN \
-    -d grafana.$EXTERNAL_DOMAIN \
-    -d unifi.$EXTERNAL_DOMAIN \
-    -m $EMAIL --agree-tos --force-renewal
-    
-    
-    # renew Cert
-    echo "#!/bin/bash
-
-docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
--v \"/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot\" \
--v \"/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt\" \
-certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
-
-    chmod +x /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
-    
-
-    # Add Script renewal to Chronjob
-    # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
-    # https://crontab.guru
-    croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
-    cronjob="0 */1 * * * $croncmd"
-
-    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
-    
+    # Restart nginx
+    docker restart $CONTAINER_NAME
     
 }
 
