@@ -72,7 +72,7 @@ server {
     docker run -it --rm --name certbot \
     -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
     -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
-    certbot/certbot:arm64v8-latest certonly --standalone -d $EXTERNAL_DOMAIN -d *.$EXTERNAL_DOMAIN -m $EMAIL --agree-tos --force-renewal
+    certbot/certbot:arm64v8-latest certonly -n --standalone -d $EXTERNAL_DOMAIN -m $EMAIL --agree-tos --force-renewal
     
     
     # renew Cert
