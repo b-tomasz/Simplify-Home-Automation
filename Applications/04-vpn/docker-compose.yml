@@ -1,17 +1,30 @@
-version: '2.1'
+version: "3.7"
 services:
-  vpn:
-    cap_add:
-     - NET_ADMIN
-    #image: project31/aarch64-docker-openvpn
-    image: nubacuk/docker-openvpn:aarch64
-    container_name: vpn
-    ports:
-     - "10000:1194/tcp"
+  wireguard:
+    container_name: wireguard
+    image: lscr.io/linuxserver/wireguard:latest
     restart: unless-stopped
+    ports:
+      - 10000:51820/udp
     volumes:
-     - /var/homeautomation/vpn/volumes/openvpn/conf:/etc/openvpn
-
+      - /var/homeautomation/vpn/volumes/wireguard/config:/config
+      - /lib/modules:/lib/modules
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - SERVERURL=vpn.tomasz.app #optional
+      - SERVERPORT=51820 #optional
+      - PEERS=Handy,Laptop #optional
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+      - LOG_CONFS=true #optional
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
 
     networks:
       vpn:
