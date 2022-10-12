@@ -11,7 +11,7 @@ install (){
     
     # create Applikations folder
     mkdir -p /var/homeautomation/$CONTAINER_NAME
-   
+    
     # create bind9 config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind
     echo "options {
@@ -43,8 +43,8 @@ install (){
     };
 
     include \"/etc/bind/named.conf.local\";" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf
-
-
+    
+    
     
     echo "
     //
@@ -54,13 +54,27 @@ install (){
     // Consider adding the 1918 zones here, if they are not used in your
     // organization
     //include \"/etc/bind/zones.rfc1918\";
-    
-    
+
+
     zone \"home\" {
 
         type master;
 
         file \"/var/lib/bind/master/home\";
+
+    };
+        zone \"unifi\" {
+
+        type master;
+
+        file \"/var/lib/bind/master/unifi\";
+
+    };
+    zone \"$EXTERNAL_DOMAIN\" {
+
+        type master;
+
+        file \"/var/lib/bind/master/$EXTERNAL_DOMAIN\";
 
     };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf.local
     
@@ -79,10 +93,11 @@ install (){
 @                  IN A $FIXED_IP
 *                  IN A $FIXED_IP
 
-ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
-
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
+    
     echo "\$TTL    60
-\$ORIGIN home.
+\$ORIGIN unifi.
 @    IN    SOA    ns1.unifi. unifi. (
      2022101101        ; Versionsnummer, für die Slaves
              60        ; Refresh
@@ -93,10 +108,11 @@ ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/vol
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 @                  IN A $FIXED_IP
 
-ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
-
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
+    
     echo "\$TTL    60
-\$ORIGIN home.
+\$ORIGIN $EXTERNAL_DOMAIN.
 @    IN    SOA    ns1.$EXTERNAL_DOMAIN. $EXTERNAL_DOMAIN. (
      2022101101        ; Versionsnummer, für die Slaves
              60        ; Refresh
@@ -108,7 +124,8 @@ ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/vol
 @                  IN A $FIXED_IP
 *                  IN A $FIXED_IP
 
-ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
     
     
     # change to folder
