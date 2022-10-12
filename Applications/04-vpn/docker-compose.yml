@@ -12,7 +12,7 @@ services:
     environment:
       # ⚠️ Required:
       # Change this to your host's public address
-      - WG_HOST=raspberrypi.local
+      - WG_HOST=vpn.${EXTERNAL_DOMAIN}
 
       # Optional:
       - PASSWORD=${PASSWORD}
