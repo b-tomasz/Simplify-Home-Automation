@@ -22,6 +22,7 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 
 ## Networks
 - Default homeautomation
+- Network is defined in Nginx Container
 
 ## Application List with IPaddress
 | Container | IP address | Ports                                       |
