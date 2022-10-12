@@ -61,6 +61,7 @@ server {
     -d $EXTERNAL_DOMAIN \
     -d portainer.$EXTERNAL_DOMAIN \
     -d pihole.$EXTERNAL_DOMAIN \
+    -d vpn.$EXTERNAL_DOMAIN \
     -d bitwarden.$EXTERNAL_DOMAIN \
     -d nodered.$EXTERNAL_DOMAIN \
     -d grafana.$EXTERNAL_DOMAIN \
@@ -151,6 +152,28 @@ server {
   server_name pihole.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.30.1;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   VPN GUI    ###
+
+server {
+  listen 80;
+  server_name vpn.home vpn.$EXTERNAL_DOMAIN;
+  return 301 https://vpn.$EXTERNAL_DOMAIN$request_uri;
+}
+server {
+  listen 443 ssl;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name vpn.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.40.1:51821;
   }
 
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
