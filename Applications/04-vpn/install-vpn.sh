@@ -27,7 +27,7 @@ install (){
     
     
     # Start openvpn
-    docker-compose up -d
+    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN docker-compose up -d
     
 }
 

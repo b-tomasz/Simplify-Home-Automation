@@ -13,11 +13,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - SERVERURL=vpn.tomasz.app #optional
-      - SERVERPORT=51820 #optional
+      - SERVERURL=vpn.${EXTERNAL_DOMAIN} #optional
+      - SERVERPORT=10000 #optional
       - PEERS=Handy,Laptop #optional
-      - PEERDNS=auto #optional
-      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - PEERDNS=10.10.30.1 #optional
+      - INTERNAL_SUBNET=10.14.41.0 #optional
       - ALLOWEDIPS=0.0.0.0/0 #optional
       - LOG_CONFS=true #optional
     cap_add:
