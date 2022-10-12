@@ -33,6 +33,13 @@ server {
 }
 server {
   listen 80;
+  server_name *.$EXTERNAL_DOMAIN;
+  location /.well-known/acme-challenge/ {
+    proxy_pass http://10.10.10.2/.well-known/acme-challenge/;
+  }
+}
+server {
+  listen 80;
   server_name portainer.home;
   location / {
     proxy_pass https://10.10.20.1:9443;
@@ -69,7 +76,7 @@ server {
     
     
     # Create Cert
-    docker run -it --rm --name certbot \
+    docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
     -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
     -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
     certbot/certbot:arm64v8-latest certonly -n --standalone -d $EXTERNAL_DOMAIN -m $EMAIL --agree-tos --force-renewal
@@ -78,7 +85,7 @@ server {
     # renew Cert
     echo "#!/bin/bash
 
-docker run -it --rm --name certbot \
+docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
 -v \"/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot\" \
 -v \"/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt\" \
 certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
