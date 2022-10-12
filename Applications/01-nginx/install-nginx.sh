@@ -11,7 +11,7 @@ install (){
     
     # create Applikations folder
     mkdir -p /var/homeautomation/$CONTAINER_NAME
-
+    
     # create nginx config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
     cd /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
@@ -59,28 +59,39 @@ server {
     proxy_pass http://10.10.50.1:8001;
   }
 }
-" > homeautomation.conf
+    " > homeautomation.conf
     
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
     
     # downlod docker-compose.yml and run it
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
-
-
+    
+    
     # Create Cert
     docker run -it --rm --name certbot-test \
     -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
     -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
-    certbot/certbot:arm64v8-latest certonly --standalone -d tomasz.app -m EMAIL --agree-tos --force-renewal
-
-
+    certbot/certbot:arm64v8-latest certonly --standalone -d $EXTERNAL_DOMAIN -d *.$EXTERNAL_DOMAIN -m $EMAIL --agree-tos --force-renewal
+    
+    
     # renew Cert
-    docker run -it --rm --name certbot-test \
-    -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
-    -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
-    certbot/certbot:arm64v8-latest renew
+    echo "#!/bin/bash
 
+docker run -it --rm --name certbot-test \
+-v \"/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot\" \
+-v \"/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt\" \
+certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
+    
+
+    # Add Script renewal to Chronjob
+    # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
+    # https://crontab.guru
+    croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
+    cronjob="0 */15 * * * $croncmd"
+
+    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+    
     # Start Container
     docker-compose up -d
     
@@ -88,7 +99,7 @@ server {
 
 # Upgrade Tools
 upgrade (){
-
+    
     #### ToDo
     echo upgrade
 }
