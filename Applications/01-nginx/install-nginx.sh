@@ -144,7 +144,10 @@ server {
 }
 server {
   listen 443 ssl;
-  deny $FIXED_IP_GW;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
   server_name pihole.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.30.1;
@@ -159,15 +162,13 @@ server {
 server {
   listen 80;
   server_name bitwarden.home bitwarden.$EXTERNAL_DOMAIN;
-  location / {
-    proxy_pass http://10.10.50.1;
-  }
+  return 301 https://bitwarden.$EXTERNAL_DOMAIN$request_uri;
 }
 server {
   listen 443 ssl;
   server_name bitwarden.$EXTERNAL_DOMAIN;
   location / {
-    proxy_pass https://10.10.50.1;
+    proxy_pass http://10.10.50.1;
   }
 
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
@@ -183,6 +184,10 @@ server {
 }
 server {
   listen 443 ssl;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
   server_name nodered.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.60.1:1880;
@@ -201,7 +206,10 @@ server {
 }
 server {
   listen 443 ssl;
-  deny $FIXED_IP_GW;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
   server_name database.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.70.2;
@@ -220,7 +228,10 @@ server {
 }
 server {
   listen 443 ssl;
-  deny $FIXED_IP_GW;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
   server_name grafana.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.80.1:3000;
@@ -239,7 +250,10 @@ server {
 }
 server {
   listen 443 ssl;
-  deny $FIXED_IP_GW;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
   server_name unifi.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass https://10.10.90.1:8443;
