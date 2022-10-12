@@ -38,7 +38,7 @@ install (){
     
     
     # Start openvpn
-    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN WEBPASSWORD=$PASSWORD docker-compose up -d
+    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN PASSWORD=$PASSWORD docker-compose up -d
     
 }
 
