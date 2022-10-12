@@ -78,10 +78,12 @@ server {
     # renew Cert
     echo "#!/bin/bash
 
-docker run -it --rm --name certbot-test \
+docker run -it --rm --name certbot \
 -v \"/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot\" \
 -v \"/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt\" \
 certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
+
+    chmod +x /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
     
 
     # Add Script renewal to Chronjob
