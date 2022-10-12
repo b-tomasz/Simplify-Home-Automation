@@ -33,7 +33,7 @@ server {
 }
 server {
   listen 80;
-  server_name *.$EXTERNAL_DOMAIN;
+  server_name *.$EXTERNAL_DOMAIN $EXTERNAL_DOMAIN;
   location /.well-known/acme-challenge/ {
     proxy_pass http://10.10.10.2/.well-known/acme-challenge/;
   }
@@ -104,7 +104,15 @@ server {
     docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
     -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
     -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
-    certbot/certbot:arm64v8-latest certonly -n --standalone -d $EXTERNAL_DOMAIN -m $EMAIL --agree-tos --force-renewal
+    certbot/certbot:arm64v8-latest certonly -n --standalone \
+    -d $EXTERNAL_DOMAIN \
+    -d portainer.$EXTERNAL_DOMAIN \
+    -d pihole.$EXTERNAL_DOMAIN \
+    -d bitwarden.$EXTERNAL_DOMAIN \
+    -d nodered.$EXTERNAL_DOMAIN \
+    -d grafana.$EXTERNAL_DOMAIN \
+    -d unifi.$EXTERNAL_DOMAIN \
+    -m $EMAIL --agree-tos --force-renewal
     
     
     # renew Cert
@@ -122,7 +130,7 @@ certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/rene
     # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
     # https://crontab.guru
     croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
-    cronjob="0 */15 * * * $croncmd"
+    cronjob="0 */1 * * * $croncmd"
 
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
     
