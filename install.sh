@@ -383,14 +383,14 @@ install () {
     # Check Architecture
     check_arch
     
-    # Check if Pi has fixed IP and offer to set an fixed IP
-    check_ip
-
     # Set Locale
     update_locale
     
     # Install Docker
     check_docker_installation
+
+    # Check if Pi has fixed IP and offer to set an fixed IP
+    check_ip
     
     # Select Tools to install
     select_for_installation
