@@ -145,18 +145,18 @@ ns1                IN A 10.10.30.2  ;
              60 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
-1.10               IN PTR   nginx.$EXTERNAL_DOMAIN
-2.10               IN PTR   certbot.$EXTERNAL_DOMAIN
-1.20               IN PTR   portainer.$EXTERNAL_DOMAIN
-1.30               IN PTR   pihole.$EXTERNAL_DOMAIN
-2.30               IN PTR   bind9.$EXTERNAL_DOMAIN
-1.40               IN PTR   wireguard.$EXTERNAL_DOMAIN
-1.50               IN PTR   bitwarden.$EXTERNAL_DOMAIN
-1.60               IN PTR   nodered.$EXTERNAL_DOMAIN
-1.70               IN PTR   database.$EXTERNAL_DOMAIN
-2.70               IN PTR   adminer.$EXTERNAL_DOMAIN
-1.80               IN PTR   grafana.$EXTERNAL_DOMAIN
-1.90               IN PTR   unifi.$EXTERNAL_DOMAIN
+1.10               IN PTR   nginx.$EXTERNAL_DOMAIN.
+2.10               IN PTR   certbot.$EXTERNAL_DOMAIN.
+1.20               IN PTR   portainer.$EXTERNAL_DOMAIN.
+1.30               IN PTR   pihole.$EXTERNAL_DOMAIN.
+2.30               IN PTR   bind9.$EXTERNAL_DOMAIN.
+1.40               IN PTR   wireguard.$EXTERNAL_DOMAIN.
+1.50               IN PTR   bitwarden.$EXTERNAL_DOMAIN.
+1.60               IN PTR   nodered.$EXTERNAL_DOMAIN.
+1.70               IN PTR   database.$EXTERNAL_DOMAIN.
+2.70               IN PTR   adminer.$EXTERNAL_DOMAIN.
+1.80               IN PTR   grafana.$EXTERNAL_DOMAIN.
+1.90               IN PTR   unifi.$EXTERNAL_DOMAIN.
 
 ns1                IN A 10.10.30.2  ;
     " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/reverse
