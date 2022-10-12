@@ -10,8 +10,8 @@
 
 CONTAINER_ID=04
 CONTAINER_NAME=vpn
-URL=tcp://vpn.tomasz.app:443
-DNS_SERVER=10.10.20.10
+
+source /var/homeautomation/script/config/ip.conf
 
 install (){
     
