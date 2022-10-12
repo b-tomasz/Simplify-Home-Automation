@@ -181,7 +181,7 @@ ns1                IN A 10.10.30.2  ;
     
     
     # Start Container
-    WEBPASSWORD=$PASSWORD docker-compose up -d
+    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN WEBPASSWORD=$PASSWORD docker-compose up -d
     
 }
 
