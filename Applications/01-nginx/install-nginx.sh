@@ -96,7 +96,10 @@ server {
     # downlod docker-compose.yml and run it
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
     
-    
+    # Start Container
+    docker-compose up -d
+    sleep 5
+
     # Create Cert
     docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
     -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
@@ -123,8 +126,6 @@ certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/rene
 
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
     
-    # Start Container
-    docker-compose up -d
     
 }
 
