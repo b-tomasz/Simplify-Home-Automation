@@ -76,7 +76,15 @@ install (){
 
         file \"/var/lib/bind/master/$EXTERNAL_DOMAIN\";
 
-    };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf.local
+    };
+    zone \"10.10.in-addr.arpa\" {
+
+        type master;
+
+        file \"/var/lib/bind/master/reverse\";
+
+    };
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf.local
     
     # Insert Zone File. Attention: Make sure that there are no spaces in Font of each line
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master
@@ -126,6 +134,32 @@ ns1                IN A 10.10.30.2  ;
 
 ns1                IN A 10.10.30.2  ;
     " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
+
+    echo "\$TTL    60
+\$ORIGIN 10.10.in-addr.arpa.
+@    IN    SOA    10.10.in-addr.arpa. $EXTERNAL_DOMAIN. (
+     2022101101        ; Versionsnummer, für die Slaves
+             60        ; Refresh
+             60        ; Retry
+            600        ; Expire
+             60 )      ; Negative Cache TTL
+
+@                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
+1.10               IN PTR   nginx.$EXTERNAL_DOMAIN
+2.10               IN PTR   certbot.$EXTERNAL_DOMAIN
+1.20               IN PTR   portainer.$EXTERNAL_DOMAIN
+1.30               IN PTR   pihole.$EXTERNAL_DOMAIN
+2.30               IN PTR   bind9.$EXTERNAL_DOMAIN
+1.40               IN PTR   wireguard.$EXTERNAL_DOMAIN
+1.50               IN PTR   bitwarden.$EXTERNAL_DOMAIN
+1.60               IN PTR   nodered.$EXTERNAL_DOMAIN
+1.70               IN PTR   database.$EXTERNAL_DOMAIN
+2.70               IN PTR   adminer.$EXTERNAL_DOMAIN
+1.80               IN PTR   grafana.$EXTERNAL_DOMAIN
+1.90               IN PTR   unifi.$EXTERNAL_DOMAIN
+
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/reverse
     
     
     # change to folder
