@@ -71,11 +71,11 @@ install (){
 
     };
     zone \"$EXTERNAL_DOMAIN\" {
-        
+
         type master;
-        
+
         file \"/var/lib/bind/master/$EXTERNAL_DOMAIN\";
-        
+
     };" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/etc-bind/named.conf.local
     
     # Insert Zone File. Attention: Make sure that there are no spaces in Font of each line
@@ -93,7 +93,8 @@ install (){
 @                  IN A $FIXED_IP
 *                  IN A $FIXED_IP
 
-    ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
     
     echo "\$TTL    60
 \$ORIGIN unifi.
@@ -107,7 +108,8 @@ install (){
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 @                  IN A $FIXED_IP
 
-    ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
     
     echo "\$TTL    60
 \$ORIGIN $EXTERNAL_DOMAIN.
@@ -122,7 +124,8 @@ install (){
 @                  IN A $FIXED_IP
 *                  IN A $FIXED_IP
 
-    ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
+ns1                IN A 10.10.30.2  ;
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
     
     
     # change to folder
