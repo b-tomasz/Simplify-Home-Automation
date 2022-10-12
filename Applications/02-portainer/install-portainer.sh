@@ -8,7 +8,7 @@ CONTAINER_NAME=portainer
 install (){
     
     # create Applikations folder
-    mkdir -p /var/homeautomation/$CONTAINER_NAME
+    mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/portainer-data
     
     # ask User for Portainer Password
     while true
@@ -21,7 +21,7 @@ install (){
         fi
     done
     
-    echo -e "$PASSWORD" > /var/homeautomation/portainer/volumes/portainer-data/portainer_password
+    echo -e "$PASSWORD" > /var/homeautomation/$CONTAINER_NAME/volumes/portainer-data/portainer_password
 
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
