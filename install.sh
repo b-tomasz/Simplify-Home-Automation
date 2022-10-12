@@ -46,7 +46,7 @@ CONTAINER_IDS[bitwarden]=05
 CONTAINER_IDS[nodered]=06
 CONTAINER_IDS[database]=07
 CONTAINER_IDS[grafana]=08
-CONTAINER_IDS[unif]=09
+CONTAINER_IDS[unifi]=09
 
 
 ### Functions:
