@@ -96,7 +96,7 @@ install (){
     ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
     
     echo "\$TTL    60
-\$ORIGIN home.
+\$ORIGIN unifi.
 @    IN    SOA    ns1.unifi. unifi. (
      2022101101        ; Versionsnummer, für die Slaves
              60        ; Refresh
@@ -110,7 +110,7 @@ install (){
     ns1                IN A 10.10.30.2  ;" > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
     
     echo "\$TTL    60
-\$ORIGIN home.
+\$ORIGIN $EXTERNAL_DOMAIN.
 @    IN    SOA    ns1.$EXTERNAL_DOMAIN. $EXTERNAL_DOMAIN. (
      2022101101        ; Versionsnummer, für die Slaves
              60        ; Refresh
