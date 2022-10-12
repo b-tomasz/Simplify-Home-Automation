@@ -14,7 +14,9 @@ install (){
     
     # create nginx config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
-    cd /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
+
+    
+    #Create dummy Config
     echo "#Complete Nginx Docker reverse proxy config file
 server {
   listen 80;
@@ -38,72 +40,9 @@ server {
     proxy_pass http://10.10.10.2/.well-known/acme-challenge/;
   }
 }
-server {
-  listen 80;
-  server_name portainer.home portainer.$EXTERNAL_DOMAIN;
-  return 301 https://portainer.$EXTERNAL_DOMAIN$request_uri;
-}
-server {
-  listen 443;
-  server_name portainer.$EXTERNAL_DOMAIN;
-  location / {
-    proxy_pass http://10.10.20.1:9000;
-  }
-}
-
-server {
-  listen 80;
-  server_name pihole.home pihole.$EXTERNAL_DOMAIN;
-  return 301 https://pihole.$EXTERNAL_DOMAIN$request_uri;
-}
-server {
-  listen 443 ssl;
-  server_name pihole.home;
-  location / {
-    proxy_pass http://10.10.30.1;
-  }
-
-  ssl_certificate /etc/nginx/ssl/live/pihole.$EXTERNAL_DOMAIN/cert.pem;
-  ssl_certificate_key /etc/nginx/ssl/live/pihole.$EXTERNAL_DOMAIN/privkey.pem;
-}
-server {
-  listen 80 443;
-  server_name bitwarden.home bitwarden.$EXTERNAL_DOMAIN;
-  location / {
-    proxy_pass http://10.10.50.1;
-  }
-}
-server {
-  listen 80 443;
-  server_name nodered.home;
-  location / {
-    proxy_pass http://10.10.60.1:1880;
-  }
-}
-server {
-  listen 80 443;
-  server_name database.home;
-  location / {
-    proxy_pass http://10.10.70.2;
-  }
-}
-server {
-  listen 80 443;
-  server_name grafana.home;
-  location / {
-    proxy_pass http://10.10.80.1:3000;
-  }
-}
-server {
-  listen 80 443;
-  server_name unifi.home;
-  location / {
-    proxy_pass https://10.10.90.1:8443;
-  }
-}
-
-    " > homeautomation.conf
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
     
+        
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
     
@@ -148,6 +87,168 @@ certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/rene
 
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
     
+    # Create real Config
+    echo "#Complete Nginx Docker reverse proxy config file
+server {
+  listen 80;
+  listen [::]:80;
+  server_name localhost;
+
+  location / {
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+  }
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /usr/share/nginx/html;
+  }
+}
+
+###   Certbot    ###
+
+server {
+  listen 80;
+  server_name *.$EXTERNAL_DOMAIN $EXTERNAL_DOMAIN;
+  location /.well-known/acme-challenge/ {
+    proxy_pass http://10.10.10.2/.well-known/acme-challenge/;
+  }
+}
+
+###   Portainer    ###
+
+server {
+  listen 80;
+  server_name portainer.home portainer.$EXTERNAL_DOMAIN;
+  return 301 https://portainer.$EXTERNAL_DOMAIN$request_uri;
+}
+
+server {
+  listen 80;
+  server_name portainer.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.20.1:9000;
+  }
+}
+
+###   Pihole    ###
+
+server {
+  listen 80;
+  server_name pihole.home pihole.$EXTERNAL_DOMAIN;
+  return 301 https://pihole.$EXTERNAL_DOMAIN$request_uri;
+}
+server {
+  listen 443 ssl;
+  deny $FIXED_IP_GW;
+  server_name pihole.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.30.1;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   Bitwarden    ###
+
+server {
+  listen 80;
+  server_name bitwarden.home bitwarden.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.50.1;
+  }
+}
+server {
+  listen 443 ssl;
+  server_name bitwarden.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass https://10.10.50.1;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   Nodered    ###
+
+server {
+  listen 80;
+  server_name nodered.home nodered.$EXTERNAL_DOMAIN;
+  return 301 https://nodered.$EXTERNAL_DOMAIN$request_uri;
+}
+server {
+  listen 443 ssl;
+  server_name nodered.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.60.1:1880;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   Database    ###
+
+server {
+  listen 80;
+  server_name database.home database.$EXTERNAL_DOMAIN;
+  return 301 https://database.$EXTERNAL_DOMAIN$request_uri;
+}
+server {
+  listen 443 ssl;
+  deny $FIXED_IP_GW;
+  server_name database.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.70.2;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   Grafana    ###
+
+server {
+  listen 80;
+  server_name grafana.home grafana.$EXTERNAL_DOMAIN;
+  return 301 https://grafana.$EXTERNAL_DOMAIN$request_uri;
+}
+server {
+  listen 443 ssl;
+  deny $FIXED_IP_GW;
+  server_name grafana.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.80.1:3000;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   Unifi    ###
+
+server {
+  listen 80;
+  server_name unifi.home unifi.$EXTERNAL_DOMAIN;
+  return 301 https://unifi.$EXTERNAL_DOMAIN$request_uri;
+}
+server {
+  listen 443 ssl;
+  deny $FIXED_IP_GW;
+  server_name unifi.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass https://10.10.90.1:8443;
+  }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+    " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
+
+    # Restart nginx
+    docker restart $CONTAINER_NAME
     
 }
 
