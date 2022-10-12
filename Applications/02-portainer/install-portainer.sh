@@ -10,7 +10,19 @@ install (){
     # create Applikations folder
     mkdir -p /var/homeautomation/$CONTAINER_NAME
     
+    # ask User for Portainer Password
+    while true
+    do
+        PASSWORD=$(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Enter a password for your Portainer:" 8 78  3>&1 1>&2 2>&3)
+        if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+            break
+        else
+            whiptail --title "Portainer Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
+        fi
+    done
     
+    echo -e "$PASSWORD" > /var/homeautomation/portainer/volumes/portainer-data/portainer_password
+
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
     

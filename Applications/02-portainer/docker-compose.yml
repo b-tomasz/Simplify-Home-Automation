@@ -11,9 +11,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/homeautomation/portainer/volumes/portainer-data:/data
+      - /var/homeautomation/portainer/volumes/portainer-data/portainer_password:/tmp/portainer_password
     security_opt:
       - no-new-privileges:true
-      
+    command: --admin-password-file /tmp/portainer_password
+
     networks:
       portainer:
         ipv4_address: 10.10.20.1
