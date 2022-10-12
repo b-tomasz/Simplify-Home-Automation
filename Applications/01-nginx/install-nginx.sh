@@ -136,39 +136,39 @@ server {
     proxy_pass http://10.10.30.1;
   }
 
-  ssl_certificate /etc/nginx/ssl/live/pihole.$EXTERNAL_DOMAIN/cert.pem;
-  ssl_certificate_key /etc/nginx/ssl/live/pihole.$EXTERNAL_DOMAIN/privkey.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 server {
-  listen 80 443;
+  listen 80;
   server_name bitwarden.home bitwarden.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.50.1;
   }
 }
 server {
-  listen 80 443;
+  listen 80;
   server_name nodered.home;
   location / {
     proxy_pass http://10.10.60.1:1880;
   }
 }
 server {
-  listen 80 443;
+  listen 80;
   server_name database.home;
   location / {
     proxy_pass http://10.10.70.2;
   }
 }
 server {
-  listen 80 443;
+  listen 80;
   server_name grafana.home;
   location / {
     proxy_pass http://10.10.80.1:3000;
   }
 }
 server {
-  listen 80 443;
+  listen 80;
   server_name unifi.home;
   location / {
     proxy_pass https://10.10.90.1:8443;
