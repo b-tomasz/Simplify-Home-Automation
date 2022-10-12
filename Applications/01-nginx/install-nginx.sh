@@ -122,13 +122,16 @@ server {
   server_name portainer.home portainer.$EXTERNAL_DOMAIN;
   return 301 https://portainer.$EXTERNAL_DOMAIN$request_uri;
 }
-
 server {
-  listen 80;
+  listen 443 ssl;
+  deny $FIXED_IP_GW;
   server_name portainer.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.20.1:9000;
   }
+
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
 ###   Pihole    ###
