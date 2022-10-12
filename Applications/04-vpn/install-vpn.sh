@@ -25,22 +25,9 @@ install (){
     # downlod docker-compose.yml and run it
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
     
-    # Configure openvpn
-    docker-compose run --rm $CONTAINER_NAME ovpn_genconfig -u $URL -n $DNS_SERVER
-    docker-compose run --rm $CONTAINER_NAME ovpn_initpki
     
     # Start openvpn
     docker-compose up -d
-    
-    
-    # Generate Client Certificate
-    export CLIENTNAME="Test"
-    # with a passphrase (recommended)
-    docker-compose run --rm $CONTAINER_NAME easyrsa build-client-full $CLIENTNAME
-    # without a passphrase (not recommended)
-    # docker-compose run --rm $CONTAINER_NAME easyrsa build-client-full $CLIENTNAME nopass
-    
-    docker-compose run --rm $CONTAINER_NAME ovpn_getclient $CLIENTNAME > $CLIENTNAME.ovpn
     
 }
 
