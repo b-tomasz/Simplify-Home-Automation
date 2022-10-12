@@ -67,7 +67,7 @@ server {
     -d grafana.$EXTERNAL_DOMAIN \
     -d unifi.$EXTERNAL_DOMAIN \
     -d test.$EXTERNAL_DOMAIN \
-    -m $EMAIL --agree-tos --force-renewal
+    -m $EMAIL --agree-tos
     
     
     # renew Cert
