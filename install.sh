@@ -315,7 +315,7 @@ select_for_installation () {
         
         # All Tools already installed
         whiptail --title "Installation" --msgbox "You have already all Tools installed" --ok-button "Exit" 8 78
-
+        
         exit_script 2
         
     else
@@ -363,7 +363,7 @@ select_for_uninstallation () {
         whiptail --title "Uninstall" --msgbox "No Tools found to uninstall" --ok-button "Continue" 8 78
         
         exit_script 2
-
+        
     else
         
         whiptail --title "Remove Tools" --checklist \
@@ -414,11 +414,33 @@ uninstall_container () {
 
 # Check installed Containers
 check_installation (){
+    CONTAINER_NAME=$1
+    echo -e "\n\n----------Check install Status of $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    
+    # Check if the Container is Running
+    if [ "$( docker container inspect -f '{{.State.Status}}' $CONTAINER_NAME )" == "running" ]; then
+        echo "Container $CONTAINER_NAME is running" >> $LOG_PWD/install.log
+    else
+        echo "Container $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
+        echo "$CONTAINER_NAME" >> $CFG_PWD/faild_installation
+        return 1
+    fi
+    
+    # Check if the Webinterface is reachable
+    if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_NAME.home 2>&1 | grep "200 OK"); then
+        echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
+    else
+        echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
+        echo "$CONTAINER_NAME" >> $CFG_PWD/faild_installation
+        return 1
+    fi
+    
+    
     
     #Todo Check for each Container
     
     
-    echo -n "$1 " >> $CFG_PWD/installed_tools.txt
+    echo -n "$CONTAINER_NAME " >> $CFG_PWD/installed_tools.txt
     
 }
 
@@ -471,14 +493,19 @@ install () {
     done
     sleep 5
     
+    rm $CFG_PWD/faild_installation
     # Loop trough TOOLS and Check if the Container was installed Sucessfully
     for TOOL in "${TOOLS[@]}"
     do
         check_installation $TOOL
     done
     
-    
-    
+    if [ -f "$CFG_PWD/faild_installation" ]; then
+        whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/faild_installation)\n\nConsult the install Log under /var/homeautomation/script/log for further informations" --ok-button "Exit" 20 78
+    else
+        whiptail --title "Sucessful Installation" --msgbox "All Tools were installed sucessfully and have Passed all Tests" --ok-button "Exit" 8 78
+    fi
+
 }
 
 # Remove Tools

@@ -213,7 +213,7 @@ server {
   deny   all;
   server_name database.$EXTERNAL_DOMAIN;
   location / {
-    proxy_pass http://10.10.70.2;
+    proxy_pass http://10.10.70.2:8080;
   }
 
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
