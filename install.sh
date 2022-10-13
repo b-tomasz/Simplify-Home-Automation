@@ -311,57 +311,78 @@ select_for_installation () {
         
     done
     
-    whiptail --title "Install Tools" --checklist \ 
-    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 $((${#SELECTION_ARRAY[@]} / 3)) \
-    "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install
+    if [[ ${#SELECTION_ARRAY[@]} -eq 0 ]]; then
         
-    
-    # Remove the " to use it as Array
-    sed -i 's/"//g' $CFG_PWD/tools_to_install
-    
-    if [ $? -eq 0 ] ; then
-        echo "User selected:" >> $LOG_PWD/install.log
-        cat $CFG_PWD/tools_to_install >> $LOG_PWD/install.log
+        # All Tools already installed
+        whiptail --title "Installation" --msgbox "You have already all Tools installed" --ok-button "Exit" 8 78
+
+        exit_script 2
         
     else
-        echo "User Canceled at Tool selection" >> $LOG_PWD/install.log
-        exit_script 2
+        
+        whiptail --title "Install Tools" --checklist \
+        "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 $((${#SELECTION_ARRAY[@]} / 3)) \
+        "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install
+        
+        
+        # Remove the " to use it as Array
+        sed -i 's/"//g' $CFG_PWD/tools_to_install
+        
+        if [ $? -eq 0 ] ; then
+            echo "User selected:" >> $LOG_PWD/install.log
+            cat $CFG_PWD/tools_to_install >> $LOG_PWD/install.log
+            
+        else
+            echo "User Canceled at Tool selection" >> $LOG_PWD/install.log
+            exit_script 2
+        fi
     fi
 }
 
 
 # Select Tools to uninstall
 select_for_uninstallation () {
-
+    
     SELECTION_ARRAY=()
     for val in ${!TOOL_DESCRIPTION[*]};
     do
         
         if  grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null;
         then
-
+            
             SELECTION_ARRAY+=($val)
             SELECTION_ARRAY+=("${TOOL_DESCRIPTION[$val]}")
             SELECTION_ARRAY+=(OFF)
         fi
         
     done
-
-    whiptail --title "Remove Tools" --checklist \
-    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 $((${#SELECTION_ARRAY[@]} / 3)) \
-    "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall
-
     
-    # Remove the " to use it as Array
-    sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
-    
-    if [ $? -eq 0 ] ; then
-        echo "User selected:" >> $LOG_PWD/install.log
-        cat $CFG_PWD/tools_to_uninstall >> $LOG_PWD/install.log
+    if [[ ${#SELECTION_ARRAY[@]} -eq 0 ]]; then
         
-    else
-        echo "User Canceled at Tool for uninstall selection" >> $LOG_PWD/install.log
+        # All Tools already installed
+        whiptail --title "Uninstall" --msgbox "No Tools found to uninstall" --ok-button "Continue" 8 78
+        
         exit_script 2
+
+    else
+        
+        whiptail --title "Remove Tools" --checklist \
+        "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 $((${#SELECTION_ARRAY[@]} / 3)) \
+        "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall
+        
+        
+        # Remove the " to use it as Array
+        sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
+        
+        if [ $? -eq 0 ] ; then
+            echo "User selected:" >> $LOG_PWD/install.log
+            cat $CFG_PWD/tools_to_uninstall >> $LOG_PWD/install.log
+            
+        else
+            echo "User Canceled at Tool for uninstall selection" >> $LOG_PWD/install.log
+            exit_script 2
+        fi
+        
     fi
 }
 
@@ -439,7 +460,7 @@ install () {
     # Install nginx as base for the other Containers
     install_container nginx
     sleep 5
-
+    
     # Check installation of nginx
     check_installation nginx
     
