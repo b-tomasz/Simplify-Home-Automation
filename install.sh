@@ -462,7 +462,10 @@ remove () {
     # Loop trough TOOLS and Uninstall all selected Tools
     for TOOL in "${TOOLS[@]}"
     do
-        uninstall_container $TOOL
+        if uninstall_container $TOOL;
+        then
+            sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
+        fi
     done
 }
 
