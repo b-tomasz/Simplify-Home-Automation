@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   wireguard:
-    container_name: wireguard
+    container_name: vpn
     image: weejewel/wg-easy
     restart: unless-stopped
     ports:
