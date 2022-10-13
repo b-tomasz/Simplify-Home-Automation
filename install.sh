@@ -23,14 +23,12 @@
 # 3 Finished without error, Reboot skipped
 # 2 User Exited the Script
 
-
 # Create Script/Config/Log Folder
 mkdir -p /var/homeautomation/script/log
 mkdir -p /var/homeautomation/script/config
 cd /var/homeautomation/script
 
 ### Variables
-
 SCRIPT_PWD=/tmp
 SCRIPT_NAME=install.sh
 LOG_PWD=/var/homeautomation/script/log
@@ -47,7 +45,6 @@ CONTAINER_IDS[nodered]=06
 CONTAINER_IDS[database]=07
 CONTAINER_IDS[grafana]=08
 CONTAINER_IDS[unifi]=09
-
 
 # Decription for each Tool to use in the Selection
 declare -A TOOL_DESCRIPTION
@@ -67,17 +64,11 @@ TOOL_DESCRIPTION[unifi]="Unifi Controller, for Managing Unifi Devices"
 exit_script () {
     #Remove all Files used by the Script
     
-    
-    
-    
-    
-    
     # Enable needrestart again
     unset NEEDRESTART_SUSPEND
     
     # Restart Sevices, where needed
     needrestart -r a -q &>> $LOG_PWD/install.log
-    
     
     # Remove the install Script and Exit
     rm $SCRIPT_PWD/$SCRIPT_NAME
@@ -184,7 +175,6 @@ update_locale () {
     . /etc/default/locale
 }
 
-
 # check arch
 check_arch () {
     
@@ -204,7 +194,6 @@ check_arch () {
         fi
     fi
 }
-
 
 # Chsck if Pi has fixed IP and offer to set an fixed IP
 check_ip (){
@@ -339,7 +328,6 @@ select_for_installation () {
     fi
 }
 
-
 # Select Tools to uninstall
 select_for_uninstallation () {
     
@@ -385,7 +373,6 @@ select_for_uninstallation () {
         
     fi
 }
-
 
 # Install Container
 install_container () {
@@ -443,7 +430,6 @@ check_installation (){
     echo -n "$CONTAINER_NAME " >> $CFG_PWD/installed_tools.txt
     
 }
-
 
 # Update the System
 update () {
@@ -524,9 +510,7 @@ remove () {
     done
 }
 
-
 ### Script
-
 
 # Initialize Log File
 echo "Script Started at: " $(date) > $LOG_PWD/install.log
@@ -550,19 +534,6 @@ if [ $MENU = "Update" ] ;then
     exit 2
     
 fi
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Finished all without Error
