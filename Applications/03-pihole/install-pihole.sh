@@ -88,14 +88,14 @@ install (){
     
     # Insert Zone File. Attention: Make sure that there are no spaces in Font of each line
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master
-    echo "\$TTL    60
+    echo "\$TTL    3600
 \$ORIGIN home.
 @    IN    SOA    ns1.home. home. (
      2022101101        ; Versionsnummer, für die Slaves
-             60        ; Refresh
-             60        ; Retry
-            600        ; Expire
-             60 )      ; Negative Cache TTL
+           3600        ; Refresh
+            600        ; Retry
+         604800        ; Expire
+           1800 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 @                  IN A $FIXED_IP
@@ -104,14 +104,14 @@ install (){
 ns1                IN A 10.10.30.2  ;
     " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/home
     
-    echo "\$TTL    60
+    echo "\$TTL    3600
 \$ORIGIN unifi.
 @    IN    SOA    ns1.unifi. unifi. (
      2022101101        ; Versionsnummer, für die Slaves
-             60        ; Refresh
-             60        ; Retry
-            600        ; Expire
-             60 )      ; Negative Cache TTL
+           3600        ; Refresh
+            600        ; Retry
+         604800        ; Expire
+           1800 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 @                  IN A $FIXED_IP
@@ -119,14 +119,14 @@ ns1                IN A 10.10.30.2  ;
 ns1                IN A 10.10.30.2  ;
     " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/unifi
     
-    echo "\$TTL    60
+    echo "\$TTL    3600
 \$ORIGIN $EXTERNAL_DOMAIN.
 @    IN    SOA    ns1.$EXTERNAL_DOMAIN. $EXTERNAL_DOMAIN. (
      2022101101        ; Versionsnummer, für die Slaves
-             60        ; Refresh
-             60        ; Retry
-            600        ; Expire
-             60 )      ; Negative Cache TTL
+           3600        ; Refresh
+            600        ; Retry
+         604800        ; Expire
+           1800 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 @                  IN A $FIXED_IP
@@ -135,14 +135,14 @@ ns1                IN A 10.10.30.2  ;
 ns1                IN A 10.10.30.2  ;
     " > /var/homeautomation/$CONTAINER_NAME/volumes/bind9/var-lib-bind/master/$EXTERNAL_DOMAIN
 
-    echo "\$TTL    60
+    echo "\$TTL    3600
 \$ORIGIN 10.10.in-addr.arpa.
 @    IN    SOA    10.10.in-addr.arpa. $EXTERNAL_DOMAIN. (
      2022101101        ; Versionsnummer, für die Slaves
-             60        ; Refresh
-             60        ; Retry
-            600        ; Expire
-             60 )      ; Negative Cache TTL
+           3600        ; Refresh
+            600        ; Retry
+         604800        ; Expire
+           1800 )      ; Negative Cache TTL
 
 @                  IN NS ns1   ;primärer Nameserver, das ist derselbige, den wir gerade konfigurieren
 1.00               IN PTR   docker-gw.$EXTERNAL_DOMAIN.
