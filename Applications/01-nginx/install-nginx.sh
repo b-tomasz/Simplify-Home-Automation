@@ -66,7 +66,7 @@ server {
     -d nodered.$EXTERNAL_DOMAIN \
     -d grafana.$EXTERNAL_DOMAIN \
     -d unifi.$EXTERNAL_DOMAIN \
-    -d test.$EXTERNAL_DOMAIN \
+    -d database.$EXTERNAL_DOMAIN \
     -m $EMAIL --agree-tos
     
     
