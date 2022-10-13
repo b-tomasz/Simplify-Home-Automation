@@ -311,7 +311,8 @@ select_for_installation () {
         
     done
     
-    whiptail --title "Install Tools" --checklist "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 9 \
+    whiptail --title "Install Tools" --checklist \ 
+    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 $((${#SELECTION_ARRAY[@]} / 3)) \
     "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install
         
     
@@ -338,6 +339,7 @@ select_for_uninstallation () {
         
         if  grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null;
         then
+
             SELECTION_ARRAY+=($val)
             SELECTION_ARRAY+=("${TOOL_DESCRIPTION[$val]}")
             SELECTION_ARRAY+=(OFF)
@@ -345,7 +347,8 @@ select_for_uninstallation () {
         
     done
 
-    whiptail --title "Install Tools" --checklist "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 9 \
+    whiptail --title "Remove Tools" --checklist \
+    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 $((${#SELECTION_ARRAY[@]} / 3)) \
     "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall
 
     
@@ -435,6 +438,10 @@ install () {
     
     # Install nginx as base for the other Containers
     install_container nginx
+    sleep 5
+
+    # Check installation of nginx
+    check_installation nginx
     
     # Loop trough TOOLS and Install all selected Tools
     for TOOL in "${TOOLS[@]}"

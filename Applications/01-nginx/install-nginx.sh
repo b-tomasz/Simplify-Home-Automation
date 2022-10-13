@@ -121,8 +121,8 @@ server {
 
 server {
   listen 80;
-  server_name ~^(?<subdomain>.+)\.home$;
-  return 301 https://$subdomain.$EXTERNAL_DOMAIN$request_uri;
+  server_name ~^(?<name>.+)\.home$;
+  return 301 https://\$name.$EXTERNAL_DOMAIN$request_uri;
 }
 
 ###   Portainer    ###
