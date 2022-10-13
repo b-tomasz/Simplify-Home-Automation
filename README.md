@@ -46,4 +46,4 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 ## [Setup your Raspberry Pi](Documentation/setup.md)
 
 ## Start the Installationscript
-cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
+> cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
