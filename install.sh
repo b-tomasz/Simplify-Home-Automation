@@ -49,6 +49,18 @@ CONTAINER_IDS[grafana]=08
 CONTAINER_IDS[unifi]=09
 
 
+# Decription for each Tool to use in the Selection
+declare -A TOOL_DESCRIPTION
+TOOL_DESCRIPTION[nginx]="Reverse Proxy with Certbotfor SSL Certs"
+TOOL_DESCRIPTION[portainer]="Manage Docker Container with GUI"
+TOOL_DESCRIPTION[pihole]="DNS filter for Ads and Tracking"
+TOOL_DESCRIPTION[vpn]="Secure Acces to your network from Everywhere"
+TOOL_DESCRIPTION[bitwarden]="Password Safe"
+TOOL_DESCRIPTION[nodered]="Connect homautomation"
+TOOL_DESCRIPTION[database]="Database to store Data"
+TOOL_DESCRIPTION[grafana]="Visualize Data in a nice Gaph"
+TOOL_DESCRIPTION[unifi]="Unifi Controller, for Managing Unifi Devices"
+
 ### Functions:
 
 # Function for aborting Script.
@@ -252,7 +264,7 @@ check_ip (){
         
         # Write Patch File to Script Folder
         echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
-
+        
 		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
 --- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
 +++ dhcpcd.conf.2       2022-10-02 12:07:36.564904885 +0200
@@ -285,16 +297,23 @@ EOT
 
 # Select Tools to install
 select_for_installation () {
-    whiptail --title "Install Tools" --checklist \
-    "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 8 \
-    "portainer" "Manage Docker Container with GUI" ON \
-    "pihole" "DNS filter for Ads and Tracking" ON \
-    "vpn" "Secure Acces to your network from Everywhere" ON \
-    "bitwarden" "Password Safe" OFF \
-    "nodered" "Connect homautomation" OFF \
-    "database" "Database to store Data" OFF \
-    "grafana" "Visualize Data in a nice Gaph" OFF \
-    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_install
+    
+    SELECTION_ARRAY=()
+    for val in ${!TOOL_DESCRIPTION[*]};
+    do
+        
+        if ! grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null && [[ ! $val = nginx ]]
+        then
+            SELECTION_ARRAY+=($val)
+            SELECTION_ARRAY+=("${TOOL_DESCRIPTION[$val]}")
+            SELECTION_ARRAY+=(OFF)
+        fi
+        
+    done
+    
+    whiptail --title "Install Tools" --checklist "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 9 \
+    "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install
+        
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_install
@@ -312,16 +331,23 @@ select_for_installation () {
 
 # Select Tools to uninstall
 select_for_uninstallation () {
-    whiptail --title "Remove Tools" --checklist \
-    "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 78 8 \
-    "portainer" "Manage Docker Container with GUI" ON \
-    "pihole" "DNS filter for Ads and Tracking" ON \
-    "vpn" "Secure Acces to your network from Everywhere" ON \
-    "bitwarden" "Password Safe" OFF \
-    "nodered" "Connect homautomation" OFF \
-    "database" "Database to store Data" OFF \
-    "grafana" "Visualize Data in a nice Gaph" OFF \
-    "unifi" "Unifi Controller, for Managing Unifi Devices" OFF 2> $CFG_PWD/tools_to_uninstall
+
+    SELECTION_ARRAY=()
+    for val in ${!TOOL_DESCRIPTION[*]};
+    do
+        
+        if  grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null;
+        then
+            SELECTION_ARRAY+=($val)
+            SELECTION_ARRAY+=("${TOOL_DESCRIPTION[$val]}")
+            SELECTION_ARRAY+=(OFF)
+        fi
+        
+    done
+
+    whiptail --title "Install Tools" --checklist "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 78 9 \
+    "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall
+
     
     # Remove the " to use it as Array
     sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
@@ -362,6 +388,16 @@ uninstall_container () {
     fi
 }
 
+# Check installed Containers
+check_installation (){
+    
+    #Todo Check for each Container
+    
+    
+    echo -n "$1 " >> $CFG_PWD/installed_tools.txt
+    
+}
+
 
 # Update the System
 update () {
@@ -388,7 +424,7 @@ install () {
     
     # Install Docker
     check_docker_installation
-
+    
     # Check if Pi has fixed IP and offer to set an fixed IP
     check_ip
     
@@ -396,7 +432,7 @@ install () {
     select_for_installation
     
     read -a TOOLS < $CFG_PWD/tools_to_install
-
+    
     # Install nginx as base for the other Containers
     install_container nginx
     
@@ -405,6 +441,15 @@ install () {
     do
         install_container $TOOL
     done
+    sleep 5
+    
+    # Loop trough TOOLS and Check if the Container was installed Sucessfully
+    for TOOL in "${TOOLS[@]}"
+    do
+        check_installation $TOOL
+    done
+    
+    
     
 }
 
