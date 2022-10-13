@@ -117,13 +117,16 @@ server {
   }
 }
 
-###   Portainer    ###
+###   SSL redirection    ###
 
 server {
   listen 80;
-  server_name portainer.home portainer.$EXTERNAL_DOMAIN;
-  return 301 https://portainer.$EXTERNAL_DOMAIN$request_uri;
+  server_name ~^(?<subdomain>.+)\.home$;
+  return 301 https://$subdomain.$EXTERNAL_DOMAIN$request_uri;
 }
+
+###   Portainer    ###
+
 server {
   listen 443 ssl;
   deny $FIXED_IP_GW;
@@ -138,11 +141,6 @@ server {
 
 ###   Pihole    ###
 
-server {
-  listen 80;
-  server_name pihole.home pihole.$EXTERNAL_DOMAIN;
-  return 301 https://pihole.$EXTERNAL_DOMAIN$request_uri;
-}
 server {
   listen 443 ssl;
   allow  192.168.0.0/16;
@@ -161,11 +159,6 @@ server {
 ###   VPN GUI    ###
 
 server {
-  listen 80;
-  server_name vpn.home vpn.$EXTERNAL_DOMAIN;
-  return 301 https://vpn.$EXTERNAL_DOMAIN$request_uri;
-}
-server {
   listen 443 ssl;
   allow  192.168.0.0/16;
   allow  10.0.0.0/8;
@@ -183,11 +176,6 @@ server {
 ###   Bitwarden    ###
 
 server {
-  listen 80;
-  server_name bitwarden.home bitwarden.$EXTERNAL_DOMAIN;
-  return 301 https://bitwarden.$EXTERNAL_DOMAIN$request_uri;
-}
-server {
   listen 443 ssl;
   server_name bitwarden.$EXTERNAL_DOMAIN;
   location / {
@@ -200,11 +188,6 @@ server {
 
 ###   Nodered    ###
 
-server {
-  listen 80;
-  server_name nodered.home nodered.$EXTERNAL_DOMAIN;
-  return 301 https://nodered.$EXTERNAL_DOMAIN$request_uri;
-}
 server {
   listen 443 ssl;
   allow  192.168.0.0/16;
@@ -223,11 +206,6 @@ server {
 ###   Database    ###
 
 server {
-  listen 80;
-  server_name database.home database.$EXTERNAL_DOMAIN;
-  return 301 https://database.$EXTERNAL_DOMAIN$request_uri;
-}
-server {
   listen 443 ssl;
   allow  192.168.0.0/16;
   allow  10.0.0.0/8;
@@ -245,11 +223,6 @@ server {
 ###   Grafana    ###
 
 server {
-  listen 80;
-  server_name grafana.home grafana.$EXTERNAL_DOMAIN;
-  return 301 https://grafana.$EXTERNAL_DOMAIN$request_uri;
-}
-server {
   listen 443 ssl;
   allow  192.168.0.0/16;
   allow  10.0.0.0/8;
@@ -266,11 +239,6 @@ server {
 
 ###   Unifi    ###
 
-server {
-  listen 80;
-  server_name unifi.home unifi.$EXTERNAL_DOMAIN;
-  return 301 https://unifi.$EXTERNAL_DOMAIN$request_uri;
-}
 server {
   listen 443 ssl;
   allow  192.168.0.0/16;
