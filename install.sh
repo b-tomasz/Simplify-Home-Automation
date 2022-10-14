@@ -217,20 +217,47 @@ check_ip (){
     else
         
         # Ask the User to enter an Fixed IP.
-        FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3)
-        if [ $? = 0 ]; then
-            echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/install.log
-        else
-            echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
-            exit_script 2
-        fi
-        FIXED_IP_GW=$(whiptail --title "IP Address" --inputbox "Enter the IP from the Router" 8 78 3>&1 1>&2 2>&3)
-        if [ $? = 0 ]; then
-            echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/install.log
-        else
-            echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
-            exit_script 2
-        fi
+        while true
+        do
+            
+            if FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3); then
+                echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/install.log
+                
+                if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP" ); then
+                    break
+                else
+                    whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 78
+                fi
+            else
+                echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
+                exit_script 2
+            fi
+            
+            
+        done
+        
+        
+        while true
+        do
+            
+            if FIXED_IP_GW=$(whiptail --title "IP Address" --inputbox "Enter the IP from the Router" 8 78 3>&1 1>&2 2>&3); then
+                echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/install.log
+                
+                if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP_GW" ); then
+                    break
+                else
+                    whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 78
+                fi
+            else
+                echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
+                exit_script 2
+            fi
+            
+            
+        done
+        
+        
+        
         
         if (whiptail --title "Domain" --yesno "We reccomend to use an External Domain, so that the Script can generat an valid SSL Certificate and make the Tools accesable over HTTPS.
 
@@ -246,20 +273,41 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             " --yes-button "Yes" --no-button "No" 20 90); then
             # Continue with external Domain
             
-            EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3)
-            if [ $? = 0 ]; then
-                echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
-            else
-                echo "No Domain was set" >> $LOG_PWD/install.log
-                exit_script 2
-            fi
-            EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3)
-            if [ $? = 0 ]; then
-                echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
-            else
-                echo "No E-Mail was set" >> $LOG_PWD/install.log
-                exit_script 2
-            fi
+            while true
+            do
+                
+                if EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3); then
+                    echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
+                    
+                    if ( grep -E "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" <<< "$EXTERNAL_DOMAIN" ); then
+                        break
+                    else
+                        whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 78
+                    fi
+                else
+                    echo "No Domain was set" >> $LOG_PWD/install.log
+                    exit_script 2
+                fi
+            done
+            
+            
+            
+            while true
+            do
+                if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3); then
+                    echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
+                    
+                    if ( grep -E "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" <<< "$EMAIL" ); then
+                        break
+                    else
+                        whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 78
+                    fi
+                else
+                    echo "No E-Mail was set" >> $LOG_PWD/install.log
+                    exit_script 2
+                fi
+            done
+        
             echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
         else
             # Continue without external Domain
@@ -576,11 +624,3 @@ if [ $MENU = "Update" ] ;then
 fi
 
 
-# Finished all without Error
-if ( whiptail --title "Reboot" --yesno "The Script finished succesfuly. Do you want to restart your Raspberry Pi?\nWarning: If you set a new Fixed IP, then a reboot is required." --yes-button "Reboot" --no-button "Exit" 8 78); then
-    exit_script 0
-else
-    # Exit Script
-    echo "Exited, without reboot" >> $LOG_PWD/install.log
-    exit_script 3
-fi
