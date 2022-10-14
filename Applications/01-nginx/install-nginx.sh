@@ -14,10 +14,124 @@ install (){
     
     # create nginx config File
     mkdir -p /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d
-
     
-    #Create dummy Config
-    echo "#Complete Nginx Docker reverse proxy config file
+    # change to folder
+    cd /var/homeautomation/$CONTAINER_NAME
+    
+    # downlod docker-compose.yml and run it
+    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
+    
+    
+    
+    if [ $NO_EXTERNAL_DOMAIN = true ]; then
+        
+        # Continue without an external Domain
+        # Create real Config
+        echo "#Complete Nginx Docker reverse proxy config file
+server {
+  listen 80;
+  listen [::]:80;
+  server_name localhost;
+
+  location / {
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+  }
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /usr/share/nginx/html;
+  }
+}
+
+###   Portainer    ###
+
+server {
+  listen 80;
+  deny $FIXED_IP_GW;
+  server_name portainer.home portainer.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.20.1:9000;
+  }
+}
+
+###   Pihole    ###
+
+server {
+  listen 80;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name pihole.home pihole.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.30.1;
+  }
+}
+
+###   Nodered    ###
+
+server {
+  listen 80;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name nodered.home nodered.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.60.1:1880;
+  }
+}
+
+###   Database    ###
+
+server {
+  listen 80;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name database.home database.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.70.2:8080;
+  }
+}
+
+###   Grafana    ###
+
+server {
+  listen 80;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name grafana.home grafana.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.80.1:3000;
+  }
+}
+
+###   Unifi    ###
+
+server {
+  listen 80;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name unifi.home unifi.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass https://10.10.90.1:8443;
+  }
+}
+
+        " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
+        
+    else
+        # Continue with an external Domain
+        
+        # Create dummy Config
+        echo "#Complete Nginx Docker reverse proxy config file
 server {
   listen 80;
   listen [::]:80;
@@ -40,57 +154,50 @@ server {
     proxy_pass http://10.10.10.2/.well-known/acme-challenge/;
   }
 }
-    " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
-    
+        " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
         
-    # change to folder
-    cd /var/homeautomation/$CONTAINER_NAME
-    
-    # downlod docker-compose.yml and run it
-    rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null
-    
-    # Start Container
-    docker-compose up -d
-    sleep 5
-
-    # Create Cert
-    docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
-    -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
-    -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
-    certbot/certbot:arm64v8-latest certonly -n --standalone \
-    -d $EXTERNAL_DOMAIN \
-    -d portainer.$EXTERNAL_DOMAIN \
-    -d pihole.$EXTERNAL_DOMAIN \
-    -d vpn.$EXTERNAL_DOMAIN \
-    -d bitwarden.$EXTERNAL_DOMAIN \
-    -d nodered.$EXTERNAL_DOMAIN \
-    -d grafana.$EXTERNAL_DOMAIN \
-    -d unifi.$EXTERNAL_DOMAIN \
-    -d database.$EXTERNAL_DOMAIN \
-    -m $EMAIL --agree-tos
-    
-    
-    # renew Cert
-    echo "#!/bin/bash
+        # Start Container
+        docker-compose up -d
+        sleep 5
+        
+        # Create Cert
+        docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
+        -v "/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot" \
+        -v "/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt" \
+        certbot/certbot:arm64v8-latest certonly -n --standalone \
+        -d $EXTERNAL_DOMAIN \
+        -d portainer.$EXTERNAL_DOMAIN \
+        -d pihole.$EXTERNAL_DOMAIN \
+        -d vpn.$EXTERNAL_DOMAIN \
+        -d bitwarden.$EXTERNAL_DOMAIN \
+        -d nodered.$EXTERNAL_DOMAIN \
+        -d grafana.$EXTERNAL_DOMAIN \
+        -d unifi.$EXTERNAL_DOMAIN \
+        -d database.$EXTERNAL_DOMAIN \
+        -m $EMAIL --agree-tos
+        
+        
+        # renew Cert
+        echo "#!/bin/bash
 
 docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
 -v \"/var/homeautomation/nginx/volumes/certbot/www:/var/www/certbot\" \
 -v \"/var/homeautomation/nginx/volumes/certbot/conf:/etc/letsencrypt\" \
-certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
-
-    chmod +x /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
-    
-
-    # Add Script renewal to Chronjob
-    # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
-    # https://crontab.guru
-    croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
-    cronjob="0 */1 * * * $croncmd"
-
-    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
-    
-    # Create real Config
-    echo "#Complete Nginx Docker reverse proxy config file
+        certbot/certbot:arm64v8-latest renew" > /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
+        
+        chmod +x /var/homeautomation/$CONTAINER_NAME/renew_cert.sh
+        
+        
+        # Add Script renewal to Chronjob
+        # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
+        # https://crontab.guru
+        croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
+        cronjob="0 */1 * * * $croncmd"
+        
+        ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+        
+        # Create real Config
+        echo "#Complete Nginx Docker reverse proxy config file
 server {
   listen 80;
   listen [::]:80;
@@ -254,10 +361,12 @@ server {
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
-    " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
-
-    # Restart nginx
-    docker restart $CONTAINER_NAME
+        " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
+        
+        # Restart nginx
+        docker restart $CONTAINER_NAME
+        
+    fi
     
 }
 

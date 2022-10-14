@@ -231,19 +231,39 @@ check_ip (){
             echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
             exit_script 2
         fi
-        EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3)
-        if [ $? = 0 ]; then
-            echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
+        
+        if (whiptail --title "Domain" --yesno "We reccomend to use an External Domain, so that the Script can generat an valid SSL Certificate and make the Tools accesable over HTTPS.
+
+If you use an external Domain, it ist necessary, that that \"YOUR-DOMAIN.ch\" and \"*.YOUR-DOMAIN.ch\" resolves to your IP an that the Following Ports redirecting to your Raspberry Pi under $FIXED_IP:
+
+HTTP: 80 /tcp
+HTTPS: 443 /tcp
+VPN: 10000 /udp - Only necessary, if you use the VPN.
+
+These Services are only working with an external Domain: VPN, Bitwarden
+
+Do you haven an external Domain and configured the DNS and Portforwarding?
+            " --yes-button "Yes" --no-button "No" 20 90); then
+            # Continue with external Domain
+            
+            EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3)
+            if [ $? = 0 ]; then
+                echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
+            else
+                echo "No Domain was set" >> $LOG_PWD/install.log
+                exit_script 2
+            fi
+            EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3)
+            if [ $? = 0 ]; then
+                echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
+            else
+                echo "No E-Mail was set" >> $LOG_PWD/install.log
+                exit_script 2
+            fi
+            echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
         else
-            echo "No Domain was set" >> $LOG_PWD/install.log
-            exit_script 2
-        fi
-        EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3)
-        if [ $? = 0 ]; then
-            echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
-        else
-            echo "No E-Mail was set" >> $LOG_PWD/install.log
-            exit_script 2
+            # Continue without external Domain
+            echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=example.com\nNO_EXTERNAL_DOMAIN=true" > $CFG_PWD/ip.conf
         fi
         
         # Different Solution with Patch instead of sed:
@@ -275,9 +295,17 @@ EOT
         
         
         
-        patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
         
         
+        if ( whiptail --title "Reboot" --yesno "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --yes-button "Reboot" --no-button "Exit" 10 78); then
+            patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
+            shutdown -r now
+            exit_script 0
+        else
+            # Exit Script
+            echo "Exited, without setting IP and reboot" >> $LOG_PWD/install.log
+            exit_script 3
+        fi
         
     fi
     
@@ -287,10 +315,14 @@ EOT
 # Select Tools to install
 select_for_installation () {
     
+    source /var/homeautomation/script/config/ip.conf
+    
     SELECTION_ARRAY=()
     for val in ${!TOOL_DESCRIPTION[*]};
     do
-        
+        if [ $NO_EXTERNAL_DOMAIN = true ] && ( [[ $val = vpn ]] || [[ $val = bitwarden ]] ); then
+            break
+        fi
         if ! grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null && [[ ! $val = nginx ]]
         then
             SELECTION_ARRAY+=($val)
