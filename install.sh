@@ -368,7 +368,7 @@ select_for_installation () {
     for val in ${!TOOL_DESCRIPTION[*]};
     do
         if [ $NO_EXTERNAL_DOMAIN = true ] && ( [[ $val = vpn ]] || [[ $val = bitwarden ]] ); then
-            break
+            continue
         fi
         if ! grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null && [[ ! $val = nginx ]]
         then
