@@ -127,6 +127,11 @@ server {
 
         " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
         
+
+      # Start Container
+        docker-compose up -d
+        sleep 5
+          
     else
         # Continue with an external Domain
         
