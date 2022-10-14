@@ -472,6 +472,7 @@ install () {
     sleep 5
     
     # Check installation of nginx
+    rm $CFG_PWD/faild_installation
     check_installation nginx
     
     # Loop trough TOOLS and Install all selected Tools
@@ -481,7 +482,7 @@ install () {
     done
     sleep 5
     
-    rm $CFG_PWD/faild_installation
+    
     # Loop trough TOOLS and Check if the Container was installed Sucessfully
     for TOOL in "${TOOLS[@]}"
     do
