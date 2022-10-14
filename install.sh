@@ -279,7 +279,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                 if EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3); then
                     echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
                     
-                    if ( grep -E "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" <<< "$EXTERNAL_DOMAIN" ); then
+                    if ( grep -E "^([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EXTERNAL_DOMAIN" ); then
                         break
                     else
                         whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 78
@@ -297,7 +297,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                 if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3); then
                     echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
                     
-                    if ( grep -E "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" <<< "$EMAIL" ); then
+                    if ( grep -E "^[\w-\.]+@([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EMAIL" ); then
                         break
                     else
                         whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 78
