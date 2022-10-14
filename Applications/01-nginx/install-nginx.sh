@@ -21,7 +21,7 @@ install (){
 server {
   listen 80;
   listen [::]:80;
-  server_name localhost;
+  server_name localhost nginx.home nginx.$EXTERNAL_DOMAIN;
 
   location / {
     root /usr/share/nginx/html;
