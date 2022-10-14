@@ -31,7 +31,7 @@ install (){
 server {
   listen 80;
   listen [::]:80;
-  server_name localhost;
+  server_name localhost nginx.home nginx.$EXTERNAL_DOMAIN;
 
   location / {
     root /usr/share/nginx/html;
@@ -131,7 +131,7 @@ server {
       # Start Container
         docker-compose up -d
         sleep 5
-          
+
     else
         # Continue with an external Domain
         
