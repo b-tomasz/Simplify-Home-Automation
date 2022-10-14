@@ -541,7 +541,8 @@ install () {
     export NEEDRESTART_SUSPEND=1
 
     if [ ! -f "$CFG_PWD/ip.conf" ]; then
-        whiptail --title "Update" --msgbox "Systen was not Updated yet.\n" --ok-button "Update" 20 78
+        whiptail --title "Update" --msgbox "Systen was not Updated yet.\n" --ok-button "Update" 8 78
+        update
     fi
         
     # Install Docker
