@@ -223,7 +223,7 @@ check_ip (){
             if FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 78 3>&1 1>&2 2>&3); then
                 echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/install.log
                 
-                if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP" ); then
+                if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP" > /dev/null); then
                     break
                 else
                     whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 78
@@ -243,7 +243,7 @@ check_ip (){
             if FIXED_IP_GW=$(whiptail --title "IP Address" --inputbox "Enter the IP from the Router" 8 78 3>&1 1>&2 2>&3); then
                 echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/install.log
                 
-                if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP_GW" ); then
+                if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP_GW" > /dev/null); then
                     break
                 else
                     whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 78
@@ -259,7 +259,7 @@ check_ip (){
         
         
         
-        if (whiptail --title "Domain" --yesno "We reccomend to use an External Domain, so that the Script can generat an valid SSL Certificate and make the Tools accesable over HTTPS.
+        if (whiptail --title "Domain" --yesno "We reccomend to use an external Domain, so that the Script can generat an valid SSL Certificate and make the Tools accesable over HTTPS.
 
 If you use an external Domain, it ist necessary, that that \"YOUR-DOMAIN.ch\" and \"*.YOUR-DOMAIN.ch\" resolves to your IP an that the Following Ports redirecting to your Raspberry Pi under $FIXED_IP:
 
@@ -271,6 +271,8 @@ These Services are only working with an external Domain: VPN, Bitwarden
 
 Do you haven an external Domain and configured the DNS and Portforwarding?
             " --yes-button "Yes" --no-button "No" 20 90); then
+
+
             # Continue with external Domain
             
             while true
@@ -279,7 +281,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                 if EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 78 example.com 3>&1 1>&2 2>&3); then
                     echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
                     
-                    if ( grep -E "^([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EXTERNAL_DOMAIN" ); then
+                    if ( grep -E "^([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EXTERNAL_DOMAIN" > /dev/null); then
                         break
                     else
                         whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 78
@@ -297,7 +299,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                 if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 78 test@example.com 3>&1 1>&2 2>&3); then
                     echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
                     
-                    if ( grep -E "^[\w-\.]+@([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EMAIL" ); then
+                    if ( grep -E "^[\w-\.]+@([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EMAIL" > /dev/null); then
                         break
                     else
                         whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 78
@@ -346,7 +348,7 @@ EOT
         
         
         if ( whiptail --title "Reboot" --yesno "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --yes-button "Reboot" --no-button "Exit" 10 78); then
-            patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch
+            patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/install.log
             shutdown -r now
             exit_script 0
         else
@@ -615,8 +617,6 @@ MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --noca
     "Install" "Install Tools" \
     "Remove" "Remove Tools" \
 "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
-
-echo $MENU
 
 if [ $MENU = "Update" ] ;then
     update
