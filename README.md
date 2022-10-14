@@ -15,6 +15,8 @@
 >    - Ethernet Cable   
 > - Home Network
 > - DynDNS
+Ports forwarded to pi
+80,443,10000
 
 ## Folder Configuration
 
