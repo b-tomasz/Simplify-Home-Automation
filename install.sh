@@ -415,7 +415,7 @@ check_installation (){
     
     # Check if the Webinterface is reachable
     
-    if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_NAME.home 2>&1 | grep "200 OK"); then
+    if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_NAME.home 2>&1 |  grep -E '(HTTP).+(200)'); then
         echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
     else
         echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
