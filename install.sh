@@ -321,9 +321,6 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
         # https://www.thegeekstuff.com/2014/12/patch-command-examples/
         
         
-        # Write Patch File to Script Folder
-        echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
-        
 		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
 --- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
 +++ dhcpcd.conf.2       2022-10-02 12:07:36.564904885 +0200
@@ -346,7 +343,7 @@ EOT
         
         
         
-        
+        # Write Patch File to Script Folder
         if ( whiptail --title "Reboot" --yesno "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --yes-button "Reboot" --no-button "Exit" 10 78); then
             patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/install.log
             shutdown -r now
