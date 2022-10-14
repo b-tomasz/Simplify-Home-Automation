@@ -518,10 +518,20 @@ update () {
     # Disable needrestart during Script
     export NEEDRESTART_SUSPEND=1
     
+    # Check Architecture
+    check_arch
+    
+    # Set Locale
+    update_locale
+
     #Update the System
     echo "Start Update" >> $LOG_PWD/install.log
     update_locale
     update_system
+
+    # Check if Pi has fixed IP and offer to set an fixed IP
+    check_ip
+    
     
 }
 
@@ -529,18 +539,13 @@ update () {
 install () {
     # Disable needrestart during Script
     export NEEDRESTART_SUSPEND=1
-    
-    # Check Architecture
-    check_arch
-    
-    # Set Locale
-    update_locale
-    
+
+    if [ ! -f "$CFG_PWD/ip.conf" ]; then
+        whiptail --title "Update" --msgbox "Systen was not Updated yet.\n" --ok-button "Update" 20 78
+    fi
+        
     # Install Docker
     check_docker_installation
-    
-    # Check if Pi has fixed IP and offer to set an fixed IP
-    check_ip
     
     # Select Tools to install
     select_for_installation
