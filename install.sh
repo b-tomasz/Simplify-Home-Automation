@@ -491,7 +491,7 @@ install () {
     else
         whiptail --title "Sucessful Installation" --msgbox "All Tools were installed sucessfully and have Passed all Tests" --ok-button "Exit" 8 78
     fi
-
+    
 }
 
 # Remove Tools
@@ -514,6 +514,11 @@ remove () {
 
 # Initialize Log File
 echo "Script Started at: " $(date) > $LOG_PWD/install.log
+
+# Check if Script was started as Root
+if [ ! $(whoami) = root ]; then
+    whiptail --title "No Root" --msgbox "The Script needs to be Run as root.\nPlease exit the Script, then enter \"sudo su\" and rerun this Script." --ok-button "Exit" 10 78
+fi
 
 # Chose, what to do:
 MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --nocancel 20 78 4 \
