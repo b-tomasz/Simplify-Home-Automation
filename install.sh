@@ -381,7 +381,7 @@ install_container () {
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh
+    bash install-$CONTAINER_NAME.sh >> $LOG_PWD/install.log
     
 }
 
@@ -393,9 +393,9 @@ uninstall_container () {
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
     if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of $CONTAINER_NAME?" --yes-button "Keep Settings" --no-button "Delete" 8 78); then
-        bash install-$CONTAINER_NAME.sh -u
+        bash install-$CONTAINER_NAME.sh -u >> $LOG_PWD/install.log
     else
-        bash install-$CONTAINER_NAME.sh -ur
+        bash install-$CONTAINER_NAME.sh -ur >> $LOG_PWD/install.log
     fi
 }
 
@@ -468,17 +468,17 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install
     
     # Install nginx as base for the other Containers
-    install_container nginx
+    install_container nginx >> $LOG_PWD/install.log
     sleep 5
     
     # Check installation of nginx
     rm $CFG_PWD/faild_installation
-    check_installation nginx
+    check_installation nginx >> $LOG_PWD/install.log
     
     # Loop trough TOOLS and Install all selected Tools
     for TOOL in "${TOOLS[@]}"
     do
-        install_container $TOOL
+        install_container $TOOL >> $LOG_PWD/install.log
     done
     sleep 5
     
@@ -486,7 +486,7 @@ install () {
     # Loop trough TOOLS and Check if the Container was installed Sucessfully
     for TOOL in "${TOOLS[@]}"
     do
-        check_installation $TOOL
+        check_installation $TOOL >> $LOG_PWD/install.log
     done
     
     if [ -f "$CFG_PWD/faild_installation" ]; then
