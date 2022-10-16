@@ -463,14 +463,17 @@ install_container () {
 # Uninstall Container
 uninstall_container () {
     CONTAINER_NAME=$1
+    REMOVE_DATA=$2
     echo -e "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of $CONTAINER_NAME?" --yes-button "Keep Settings" --no-button "Delete" 8 78); then
-        bash install-$CONTAINER_NAME.sh -u >> $LOG_PWD/install.log
-    else
+    if [ REMOVE_DATA true ]; then
+        # Uninstall Container and remove all Data
         bash install-$CONTAINER_NAME.sh -ur >> $LOG_PWD/install.log
+    else
+        # Uninstall Container
+        bash install-$CONTAINER_NAME.sh -u >> $LOG_PWD/install.log
     fi
 }
 
@@ -727,6 +730,12 @@ remove () {
         select_for_uninstallation
         read -a TOOLS < $CFG_PWD/tools_to_uninstall
     fi
+
+    if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of the following Container(s):\n${TOOLS[@]}?" --yes-button "Keep Settings" --no-button "Delete" 8 78); then
+        REMOVE_DATA=false
+    else
+        REMOVE_DATA=true
+    fi
     
     {
         PROGRESS=0
@@ -738,7 +747,7 @@ remove () {
             
             echo -e "XXX\n$PROGRESS\Uninstall $TOOL...\nXXX"
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-            if uninstall_container $TOOL &>> $LOG_PWD/install.log; then
+            if uninstall_container $TOOL $REMOVE_DATA &>> $LOG_PWD/install.log; then
                 sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
             fi
         done
