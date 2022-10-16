@@ -62,5 +62,7 @@ All Ports marked with brackets () are not activ but can be activated in the dock
 
 ## [Setup your Raspberry Pi](Documentation/01-setup.md)
 
+## [Install Documentation](Documentation/02-install.md)
+
 ## Start the Installationscript
 > cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
