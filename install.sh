@@ -628,12 +628,12 @@ install () {
             esac
             
         done
-
+        
         # Wait for the Containers to start up
         for (( c=1; c<=10; c++ ))
         do
-        echo -e "XXX\n$PROGRESS\nWait for Startup of the Container $(( 10 - $c ))...\nXXX"
-        sleep 1
+            echo -e "XXX\n$PROGRESS\nWait for Startup of the Container $(( 10 - $c ))...\nXXX"
+            sleep 1
         done
         
         
@@ -642,6 +642,7 @@ install () {
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n$PROGRESS\Check $TOOL...\nXXX"
+            echo -e "Progress: $PROGRESS" >> $LOG_PWD/install.log
             check_installation $TOOL &>> $LOG_PWD/install.log
             sleep 0.5
         done
@@ -652,7 +653,7 @@ install () {
         for (( c=1; c<=5; c++ ))
         do
             if [ -f "$CFG_PWD/failed_installations" ]; then
-                echo -e "XXX\n95\Check faild installation again. Attempt $c of 5...\nXXX"
+                echo -e "XXX\n95\Check failed installation again. Attempt $c of 5...\nXXX"
                 echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/install.log
                 
                 read -a TOOLS < $CFG_PWD/failed_installations
@@ -667,7 +668,11 @@ install () {
                 break
             fi
             
-            sleep 10
+            for (( i=1; i<=20; i++ ))
+            do
+                echo -e "XXX\n95\Check failed installation again. Attempt $c of 5 Next attempt: $(( 20 - $i ))...\nXXX"
+                sleep 1
+            done
         done
         
         
@@ -697,7 +702,7 @@ remove () {
         select_for_uninstallation
         read -a TOOLS < $CFG_PWD/tools_to_uninstall
     fi
-
+    
     if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of the following Container(s):\n${TOOLS[@]}?" --yes-button "Keep Settings" --no-button "Delete" 8 80); then
         REMOVE_DATA=false
     else
