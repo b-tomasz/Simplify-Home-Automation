@@ -1,11 +1,20 @@
 # How to install the Containers
 
 - [How to install the Containers](#how-to-install-the-containers)
-  - [Start the installation](#start-the-installation)
-  - [Readme.md](#readmemd)
+  - [Check Prerequisits](#check-prerequisits)
+  - [Start the Installationscript](#start-the-installationscript)
 
-## Start the installation
+## Check Prerequisits
 
-To begin, Log-in to your Raspberry Pi via ssh. Please check all prerequisits from 
-## [Readme.md](../README.md)
+Please check all prerequisits from [Readme.md](../README.md)
 
+To begin, Log-in to your Raspberry Pi via ssh. 
+Change your workingdirectory to Sudo.
+
+<br>
+
+## Start the Installationscript
+Copy the following Code into your Bash Command Line
+> cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
+
+After 
