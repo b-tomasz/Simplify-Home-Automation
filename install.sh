@@ -456,6 +456,7 @@ install_container () {
     CONTAINER_NAME=$1
     PASSWORD=$2
     echo -e "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "Password: $PASSWORD" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
