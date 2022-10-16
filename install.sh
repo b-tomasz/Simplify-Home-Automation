@@ -518,7 +518,7 @@ check_installation (){
                 echo "Container bind9 is running" >> $LOG_PWD/install.log
             else
                 echo "Container bind9 has failed" >> $LOG_PWD/install.log
-                echo "bind9" >> $CFG_PWD/failed_installations
+                echo "pihole" >> $CFG_PWD/failed_installations
                 return 1
         fi;;
         database)
@@ -527,7 +527,7 @@ check_installation (){
                 echo "Container adminer is running" >> $LOG_PWD/install.log
             else
                 echo "Container adminer has failed" >> $LOG_PWD/install.log
-                echo "adminer" >> $CFG_PWD/failed_installations
+                echo "database" >> $CFG_PWD/failed_installations
                 return 1
         fi;;
     esac
