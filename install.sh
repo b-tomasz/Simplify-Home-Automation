@@ -718,6 +718,7 @@ remove () {
             
             echo -e "XXX\n$PROGRESS\Uninstall $TOOL...\nXXX"
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+            echo -e "Progress: $PROGRESS" >> $LOG_PWD/install.log
             if uninstall_container $TOOL $REMOVE_DATA &>> $LOG_PWD/install.log; then
                 sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
             fi
