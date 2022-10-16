@@ -482,7 +482,7 @@ check_installation (){
     else
         CONTAINER_DNS_NAME=$CONTAINER_NAME.home
     fi
-
+    
     echo -e "\n\n----------Check install Status of $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     
     # Check if the Container is Running
@@ -490,7 +490,7 @@ check_installation (){
         echo "Container $CONTAINER_NAME is running" >> $LOG_PWD/install.log
     else
         echo "Container $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
-        echo "$CONTAINER_NAME" >> $CFG_PWD/faild_installation
+        echo "$CONTAINER_NAME" >> $CFG_PWD/failed_installations
         return 1
     fi
     
@@ -500,7 +500,7 @@ check_installation (){
         echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
     else
         echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
-        echo "$CONTAINER_NAME" >> $CFG_PWD/faild_installation
+        echo "$CONTAINER_NAME" >> $CFG_PWD/failed_installations
         return 1
     fi
     
@@ -515,7 +515,7 @@ check_installation (){
                 echo "Container bind9 is running" >> $LOG_PWD/install.log
             else
                 echo "Container bind9 has failed" >> $LOG_PWD/install.log
-                echo "bind9" >> $CFG_PWD/faild_installation
+                echo "bind9" >> $CFG_PWD/failed_installations
                 return 1
         fi;;
         database)
@@ -524,7 +524,7 @@ check_installation (){
                 echo "Container adminer is running" >> $LOG_PWD/install.log
             else
                 echo "Container adminer has failed" >> $LOG_PWD/install.log
-                echo "adminer" >> $CFG_PWD/faild_installation
+                echo "adminer" >> $CFG_PWD/failed_installations
                 return 1
         fi;;
     esac
@@ -631,8 +631,8 @@ install () {
     
     {
         PROGRESS=0
-        CONTAINER_PROGRESS=$(( 100 / ( (${#TOOLS[@]} + 1) * 2 ) ))
-       
+        CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
+        
         # Install nginx as base for the other Containers
         install_container nginx &>> $LOG_PWD/install.log
         sleep 10
@@ -641,7 +641,7 @@ install () {
         echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
         
         # Check installation of nginx
-        rm $CFG_PWD/faild_installation &>> $LOG_PWD/install.log
+        rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
         check_installation nginx &>> $LOG_PWD/install.log
         
         # Loop trough TOOLS and Install all selected Tools
@@ -677,6 +677,30 @@ install () {
             sleep 0.5
         done
         
+        
+        # Check faild installation again. Try it 5 times every 10s
+        for (( c=1; c<=5; c++ ))
+        do
+            if [ -f "$CFG_PWD/failed_installations" ]; then
+                echo -e "XXX\n95\Check faild installation again. Attempt $c of 5...\nXXX"
+                echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/install.log
+                
+                read -a TOOLS < $CFG_PWD/failed_installations
+                echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/install.log
+                rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
+                
+                for TOOL in "${TOOLS[@]}"
+                do
+                    check_installation $TOOL &>> $LOG_PWD/install.log
+                done
+            else
+                break
+            fi
+            
+            sleep 10
+        done
+        
+        
         echo -e "XXX\n100\nFinished...\nXXX"
         sleep 0.5
         
@@ -685,8 +709,10 @@ install () {
     
     
     
-    if [ -f "$CFG_PWD/faild_installation" ]; then
-        whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/faild_installation)\n\nConsult the install Log under /var/homeautomation/script/log for further informations" --ok-button "Exit" 20 78
+    if [ -f "$CFG_PWD/failed_installations" ]; then
+        whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/failed_installations)\n\nConsult the install Log under /var/homeautomation/script/log for further informations.\n\nThe failed Installations will be removed now." --ok-button "Remove" 22 78
+        
+        
     else
         whiptail --title "Sucessful Installation" --msgbox "All Tools were installed sucessfully and have Passed all Tests" --ok-button "Exit" 8 78
     fi
@@ -695,27 +721,30 @@ install () {
 
 # Remove Tools
 remove () {
-    select_for_uninstallation
+    if [ -f "$CFG_PWD/failed_installations" ]; then
+        read -a TOOLS < $CFG_PWD/failed_installations
+    else
+        select_for_uninstallation
+        read -a TOOLS < $CFG_PWD/tools_to_uninstall
+    fi
     
-    read -a TOOLS < $CFG_PWD/tools_to_uninstall
-
-        {
+    {
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
-    
-    # Loop trough TOOLS and Uninstall all selected Tools
-    for TOOL in "${TOOLS[@]}"
-    do
-                
+        
+        # Loop trough TOOLS and Uninstall all selected Tools
+        for TOOL in "${TOOLS[@]}"
+        do
+            
             echo -e "XXX\n$PROGRESS\Uninstall $TOOL...\nXXX"
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-        if uninstall_container $TOOL &>> $LOG_PWD/install.log; then
-            sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
-        fi
-    done
-
-
-            echo -e "XXX\n100\nFinished...\nXXX"
+            if uninstall_container $TOOL &>> $LOG_PWD/install.log; then
+                sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
+            fi
+        done
+        
+        
+        echo -e "XXX\n100\nFinished...\nXXX"
         sleep 0.5
         
         
