@@ -293,14 +293,14 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                 fi
             done
             
-            
+            # Continue with E-Mail
             
             while true
             do
                 if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 80 test@example.com 3>&1 1>&2 2>&3); then
                     echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
                     
-                    if ( grep -E "^[\w-\.]+@([\w-\.]+\.)+[\w-]{2,4}$" <<< "$EMAIL" > /dev/null); then
+                    if ( grep -E "^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" <<< "$EMAIL" > /dev/null); then
                         break
                     else
                         whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 80
