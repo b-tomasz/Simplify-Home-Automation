@@ -342,17 +342,12 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
 EOT
         
         
-        
-        
+       
         # Write Patch File to Script Folder
-        if ( whiptail --title "Reboot" --yesno "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --yes-button "Reboot" --no-button "Exit" 10 78); then
+        if ( whiptail --title "Reboot" --msgbox "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --ok-button "Reboot" 10 78); then
             patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/install.log
             shutdown -r now
             exit_script 0
-        else
-            # Exit Script
-            echo "Exited, without setting IP and reboot" >> $LOG_PWD/install.log
-            exit_script 3
         fi
         
     fi
