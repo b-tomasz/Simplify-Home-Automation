@@ -81,7 +81,7 @@ exit_script () {
     rm $SCRIPT_PWD/$SCRIPT_NAME
     
     exit $1
-       
+    
 }
 
 # Update the Systen
@@ -342,7 +342,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
 EOT
         
         
-       
+        
         # Write Patch File to Script Folder
         if ( whiptail --title "Reboot" --msgbox "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --ok-button "Reboot" 10 78); then
             patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/install.log
@@ -502,6 +502,26 @@ check_installation (){
     
     
     #Todo Check for each Container
+    case $CONTAINER_NAME in
+        pihole)
+            # Check if the Container is Running
+            if [ "$( docker container inspect -f '{{.State.Status}}' bind9 )" == "running" ]; then
+                echo "Container bind9 is running" >> $LOG_PWD/install.log
+            else
+                echo "Container bind9 has failed" >> $LOG_PWD/install.log
+                echo "bind9" >> $CFG_PWD/faild_installation
+                return 1
+        fi;;
+        database)
+            # Check if the Container is Running
+            if [ "$( docker container inspect -f '{{.State.Status}}' adminer )" == "running" ]; then
+                echo "Container adminer is running" >> $LOG_PWD/install.log
+            else
+                echo "Container adminer has failed" >> $LOG_PWD/install.log
+                echo "adminer" >> $CFG_PWD/faild_installation
+                return 1
+        fi;;
+    esac
     
     
     echo -n "$CONTAINER_NAME " >> $CFG_PWD/installed_tools.txt
@@ -607,11 +627,11 @@ install () {
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 100 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         echo $CONTAINER_PROGRESS
-
-
+        
+        
         # Install nginx as base for the other Containers
         install_container nginx &>> $LOG_PWD/install.log
-        sleep 5
+        sleep 10
         
         PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
         echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
@@ -640,7 +660,8 @@ install () {
             esac
             
         done
-        sleep 5
+        echo -e "XXX\n$PROGRESS\nWait for Startup of the Container...\nXXX"
+        sleep 10
         
         
         # Loop trough TOOLS and Check if the Container was installed Sucessfully
@@ -649,6 +670,7 @@ install () {
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n20\Check $TOOL...\nXXX"
             check_installation $TOOL &>> $LOG_PWD/install.log
+            sleep 0.5
         done
         
         echo -e "XXX\n100\nFinished...\nXXX"
