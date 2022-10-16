@@ -18,7 +18,7 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
-      - "8000:80/tcp"
+      #- "8000:80/tcp"
     volumes:
       - '/var/homeautomation/pihole/volumes/pihole/etc-pihole:/etc/pihole'
       - '/var/homeautomation/pihole/volumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'    

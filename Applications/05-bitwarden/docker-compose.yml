@@ -7,9 +7,9 @@ services:
     container_name: bitwarden
     image: vaultwarden/server:latest
     restart: always
-    ports:
-      - 8001:80
-      - 9001:443
+    #ports:
+    #  - 8001:80
+    #  - 9001:443
     volumes:
       - /var/homeautomation/bitwarden/bwdata:/data
     environment:

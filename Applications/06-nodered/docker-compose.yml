@@ -7,8 +7,8 @@ services:
     container_name: nodered
     image: nodered/node-red:latest
     restart: always
-    ports:
-      - 8002:1880
+    #ports:
+    #  - 8002:1880
     volumes:
       - /var/homeautomation/nodered/volumes/node-red-data:/data
     environment:
