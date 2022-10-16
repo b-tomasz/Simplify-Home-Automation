@@ -641,7 +641,7 @@ install () {
         for TOOL in "${TOOLS[@]}"
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-            echo -e "XXX\n$PROGRESS\Check $TOOL...\nXXX"
+            echo -e "XXX\n$PROGRESS\nCheck $TOOL...\nXXX"
             echo -e "Progress: $PROGRESS" >> $LOG_PWD/install.log
             check_installation $TOOL &>> $LOG_PWD/install.log
             sleep 0.5
@@ -653,7 +653,7 @@ install () {
         for (( c=1; c<=5; c++ ))
         do
             if [ -f "$CFG_PWD/failed_installations" ]; then
-                echo -e "XXX\n95\Check failed installation again. Attempt $c of 5...\nXXX"
+                echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 5...\nXXX"
                 echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/install.log
                 
                 read -a TOOLS < $CFG_PWD/failed_installations
@@ -670,7 +670,7 @@ install () {
             
             for (( i=1; i<=20; i++ ))
             do
-                echo -e "XXX\n95\Check failed installation again. Attempt $c of 5 Next attempt: $(( 20 - $i ))...\nXXX"
+                echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 5 Next attempt: $(( 20 - $i ))...\nXXX"
                 sleep 1
             done
         done
@@ -716,8 +716,7 @@ remove () {
         for TOOL in "${TOOLS[@]}"
         do
             
-            echo -e "XXX\n$PROGRESS\Uninstall $TOOL...\nXXX"
-            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+            echo -e "XXX\n$PROGRESS\nUninstall $TOOL...\nXXX"
             echo -e "Progress: $PROGRESS" >> $LOG_PWD/install.log
             if uninstall_container $TOOL $REMOVE_DATA &>> $LOG_PWD/install.log; then
                 sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
