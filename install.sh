@@ -470,7 +470,7 @@ uninstall_container () {
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    if [ REMOVE_DATA true ]; then
+    if [ REMOVE_DATA = true ]; then
         # Uninstall Container and remove all Data
         bash install-$CONTAINER_NAME.sh -ur >> $LOG_PWD/install.log
     else
