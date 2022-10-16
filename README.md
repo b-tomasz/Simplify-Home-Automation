@@ -5,7 +5,8 @@
   - [Ports that neet to be forwarded to Raspberry Pi](#ports-that-neet-to-be-forwarded-to-raspberry-pi)
   - [Folder Configuration](#folder-configuration)
   - [Networks](#networks)
-  - [Application List with IPaddress](#application-list-with-ipaddress)
+  - [Application List with IP-address](#application-list-with-ip-address)
+  - [Application default Username's](#application-default-usernames)
   - [Setup your Raspberry Pi](#setup-your-raspberry-pi)
   - [Start the Installationscript](#start-the-installationscript)
 
@@ -32,7 +33,7 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 - Default homeautomation
 - Network is defined in Nginx Container
 
-## Application List with IPaddress
+## Application List with IP-address
 | Container | IP address | Ports                                     | Web address                        |
 | --------- | ---------- | ----------------------------------------- | ---------------------------------- |
 | Nginx     | 10.10.10.1 | 80:80,443:443                             | -                                  |
@@ -49,6 +50,15 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 | Unifi     | 10.10.90.1 | 8443:8443,3478:3478,8080:8080,10001:10001 | unifi.home / unifi.$Domain         |
 
 All Ports marked with brackets () are not activ but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the Container directly.
+
+## Application default Username's
+| Container | Username   |
+| --------- | ---------- |
+| Portainer | admin      |
+| Pihole    | admin      |
+| VPN       | admin      |
+| Database  | root       |
+| Grafana   | admin      |
 
 ## [Setup your Raspberry Pi](Documentation/01-setup.md)
 
