@@ -453,11 +453,12 @@ select_for_uninstallation () {
 # Install Container
 install_container () {
     CONTAINER_NAME=$1
+    PASSWORD=$2
     echo -e "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh >> $LOG_PWD/install.log
+    bash install-$CONTAINER_NAME.sh $PASSWORD >> $LOG_PWD/install.log
     
 }
 
