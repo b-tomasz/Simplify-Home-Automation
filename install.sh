@@ -22,6 +22,7 @@
 # 0 Finished without error
 # 3 Finished without error, Reboot skipped
 # 2 User Exited the Script
+# 4 Script was startet as non root
 
 # Create Script/Config/Log Folder
 mkdir -p /var/homeautomation/script/log
@@ -73,14 +74,8 @@ exit_script () {
     # Remove the install Script and Exit
     rm $SCRIPT_PWD/$SCRIPT_NAME
     
-    if [ $1 -eq 0 ] ; then
-        shutdown -r now
-        exit $1
-        
-    else
-        exit $1
-    fi
-    
+    exit $1
+       
 }
 
 # Update the Systen
@@ -695,6 +690,7 @@ echo "Script Started at: " $(date) > $LOG_PWD/install.log
 # Check if Script was started as Root
 if [ ! $(whoami) = root ]; then
     whiptail --title "No Root" --msgbox "The Script needs to be Run as root.\nPlease exit the Script, then enter \"sudo su\" and rerun this Script." --ok-button "Exit" 10 78
+    exit_script 4
 fi
 
 # Chose, what to do:
