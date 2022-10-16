@@ -622,12 +622,15 @@ install () {
         do
             PASSWORD=$(whiptail --title "Default Webinterface Passwords" --nocancel --passwordbox "Please Enter a password for Portainer, Pihole, VPN GUI and Database:" 8 80  3>&1 1>&2 2>&3)
             if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $PASSWORD ];then
+                echo -e "Password vor break: $PASSWORD" >> $LOG_PWD/install.log
                 break
             else
                 whiptail --title "Portainer Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
             fi
         done
     fi
+
+    echo -e "Password nach if: $PASSWORD" >> $LOG_PWD/install.log
     
     {
         PROGRESS=0
