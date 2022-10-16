@@ -119,14 +119,14 @@ check_docker_installation () {
     
     # Check if Docker is installed completly
     
-    if (dpkg -s docker.io docker-compose >> $LOG_PWD/install.log); then
+    if (dpkg -s docker.io docker-compose &>> /dev/null); then
         # Docker is already installed
         
         echo "Docker is already installed" >> $LOG_PWD/install.log
         whiptail --title "Docker Installation" --msgbox "Docker ist already installed on this System" --ok-button "Continue" 8 78
         
     else
-        
+        echo "Docker is not installed" >> $LOG_PWD/install.log
         if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 78); then
             # Install Docker
             
