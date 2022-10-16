@@ -120,7 +120,7 @@ server {
   allow  172.16.0.0/12;
   deny   all;
   server_name unifi.home unifi.$EXTERNAL_DOMAIN;
-  return 301 https://unifi.$EXTERNAL_DOMAIN:8443$request_uri;
+  return 301 https://unifi.home:9002$request_uri;
 }
 
         " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
