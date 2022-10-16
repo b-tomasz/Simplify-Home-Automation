@@ -43,7 +43,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/homeautomation/pihole/volumes/bind9/etc-bind:/etc/bind/:Z
-      - /var/homeautomation/pihole/volumes/bind9/var-cache-bind:/var/cache/bind:Z
+      - /var/homeautomation/pihole/volumes/bind9/var-cache-bind:/var/cache/bind
       - /var/homeautomation/pihole/volumes/bind9/var-lib-bind:/var/lib/bind:Z
     environment:
       TZ: 'Europe/Berlin'

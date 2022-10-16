@@ -154,7 +154,7 @@ ns1                IN A 10.10.30.2  ;
 2.30               IN PTR   bind9.$EXTERNAL_DOMAIN.
                    IN PTR   ns1.$EXTERNAL_DOMAIN.
 1.40               IN PTR   wireguard.$EXTERNAL_DOMAIN.
-*.41               IN PTR   vpn-user.$EXTERNAL_DOMAIN.
+1.41               IN PTR   vpn-user.$EXTERNAL_DOMAIN.
 1.50               IN PTR   bitwarden.$EXTERNAL_DOMAIN.
 1.60               IN PTR   nodered.$EXTERNAL_DOMAIN.
 1.70               IN PTR   database.$EXTERNAL_DOMAIN.
