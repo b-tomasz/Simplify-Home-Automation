@@ -10,6 +10,7 @@
 
 CONTAINER_ID=04
 CONTAINER_NAME=vpn
+PASSWORD=$1
 
 source /var/homeautomation/script/config/ip.conf
 
@@ -21,17 +22,6 @@ install (){
     
     # change to folder
     cd /var/homeautomation/$CONTAINER_NAME
-
-        # ask User for Pihole Password
-    while true
-    do
-        PASSWORD=$(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Enter a password for your VPN GUI:" 8 78  3>&1 1>&2 2>&3)
-        if [ $(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
-            break
-        else
-            whiptail --title "VPN GUI Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
-        fi
-    done
     
     # downlod docker-compose.yml and run it
     rm docker-compose.yml &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/$CONTAINER_ID-$CONTAINER_NAME/docker-compose.yml &> /dev/null

@@ -271,8 +271,8 @@ These Services are only working with an external Domain: VPN, Bitwarden
 
 Do you haven an external Domain and configured the DNS and Portforwarding?
             " --yes-button "Yes" --no-button "No" 20 90); then
-
-
+            
+            
             # Continue with external Domain
             
             while true
@@ -309,7 +309,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                     exit_script 2
                 fi
             done
-        
+            
             echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
         else
             # Continue without external Domain
@@ -522,12 +522,12 @@ update () {
     
     # Set Locale
     update_locale
-
+    
     #Update the System
     echo "Start Update" >> $LOG_PWD/install.log
     update_locale
     update_system
-
+    
     # Check if Pi has fixed IP and offer to set an fixed IP
     check_ip
     
@@ -538,12 +538,12 @@ update () {
 install () {
     # Disable needrestart during Script
     export NEEDRESTART_SUSPEND=1
-
+    
     if [ ! -f "$CFG_PWD/ip.conf" ]; then
         whiptail --title "Update" --msgbox "Systen was not Updated yet.\n" --ok-button "Update" 8 78
         update
     fi
-        
+    
     # Install Docker
     check_docker_installation
     
@@ -552,27 +552,116 @@ install () {
     
     read -a TOOLS < $CFG_PWD/tools_to_install
     
-    # Install nginx as base for the other Containers
-    install_container nginx >> $LOG_PWD/install.log
-    sleep 5
+    # Ask the User fot the Passwords of the Tools to be installed
+    if [[ " ${TOOLS[*]} " =~ "portainer" ]]; then
+        # ask User for Portainer Password
+        while true
+        do
+            PORTAINER_PASSWORD=$(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Enter a password for your Portainer:" 8 78  3>&1 1>&2 2>&3)
+            if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+                break
+            else
+                whiptail --title "Portainer Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
+            fi
+        done
+    fi
     
-    # Check installation of nginx
-    rm $CFG_PWD/faild_installation
-    check_installation nginx >> $LOG_PWD/install.log
+    if [[ " ${TOOLS[*]} " =~ "pihole" ]]; then
+        # ask User for Pihole Password
+        while true
+        do
+            PIHOLE_PASSWORD=$(whiptail --title "Pihole Password" --nocancel --passwordbox "Please Enter a password for your Pihole:" 8 78  3>&1 1>&2 2>&3)
+            if [ $(whiptail --title "Piihole Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+                break
+            else
+                whiptail --title "Pihole Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
+            fi
+        done
+    fi
     
-    # Loop trough TOOLS and Install all selected Tools
-    for TOOL in "${TOOLS[@]}"
-    do
-        install_container $TOOL >> $LOG_PWD/install.log
-    done
-    sleep 5
+    if [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
+        # ask User for Pihole Password
+        while true
+        do
+            VPN_PASSWORD=$(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Enter a password for your VPN GUI:" 8 78  3>&1 1>&2 2>&3)
+            if [ $(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+                break
+            else
+                whiptail --title "VPN GUI Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
+            fi
+        done
+    fi
+    
+    if [[ " ${TOOLS[*]} " =~ "database" ]]; then
+        # ask User for database Password
+        while true
+        do
+            DATABSE_PASSWORD=$(whiptail --title "Database Password" --nocancel --passwordbox "Please Enter a password for your Database:" 8 78  3>&1 1>&2 2>&3)
+            if [ $(whiptail --title "Database Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+                break
+            else
+                whiptail --title "Database Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
+            fi
+        done
+    fi
     
     
-    # Loop trough TOOLS and Check if the Container was installed Sucessfully
-    for TOOL in "${TOOLS[@]}"
-    do
-        check_installation $TOOL >> $LOG_PWD/install.log
-    done
+    
+    {
+        PROGRESS=0
+        CONTAINER_PROGRESS=$(( 100 / ( (${#TOOLS[@]} + 1) * 2 ) ))
+        echo $CONTAINER_PROGRESS
+
+
+        # Install nginx as base for the other Containers
+        install_container nginx >> $LOG_PWD/install.log
+        sleep 5
+        
+        PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+        echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
+        
+        # Check installation of nginx
+        rm $CFG_PWD/faild_installation
+        check_installation nginx >> $LOG_PWD/install.log
+        
+        # Loop trough TOOLS and Install all selected Tools
+        for TOOL in "${TOOLS[@]}"
+        do
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+            echo -e "XXX\n$PROGRESS\nInstall $TOOL...\nXXX"
+            
+            case $TOOL in
+                portainer)
+                install_container $TOOL $PORTAINER_PASSWORD &>> $LOG_PWD/install.log;;
+                pihole)
+                install_container $TOOL $PIHOLE_PASSWORD &>> $LOG_PWD/install.log;;
+                vpn)
+                install_container $TOOL $VPN_PASSWORD &>> $LOG_PWD/install.log;;
+                database)
+                install_container $TOOL $DATABSE_PASSWORD &>> $LOG_PWD/install.log;;
+                *)
+                install_container $TOOL &>> $LOG_PWD/install.log;;
+            esac
+            
+        done
+        sleep 5
+        
+        
+        # Loop trough TOOLS and Check if the Container was installed Sucessfully
+        for TOOL in "${TOOLS[@]}"
+        do
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+            echo -e "XXX\n20\Check $TOOL...\nXXX"
+            check_installation $TOOL >> $LOG_PWD/install.log
+        done
+        
+        echo -e "XXX\n100\nFinished...\nXXX"
+        sleep 0.5
+        
+        
+    } | whiptail --title "Install Containers" --gauge "Install nginx..." 6 50 0
+    
+    
     
     if [ -f "$CFG_PWD/faild_installation" ]; then
         whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/faild_installation)\n\nConsult the install Log under /var/homeautomation/script/log for further informations" --ok-button "Exit" 20 78
