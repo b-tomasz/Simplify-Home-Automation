@@ -680,6 +680,7 @@ install () {
             sleep 0.5
         done
         
+        cat $CFG_PWD/failed_installations >> $LOG_PWD/install.log
         
         # Check faild installation again. Try it 5 times every 10s
         for (( c=1; c<=5; c++ ))
