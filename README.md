@@ -46,8 +46,9 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 | Database  | 10.10.70.1 | (10002:3306)                                | -                                  |
 | - Adminer | 10.10.70.2 | (8003:8080)                                 | database.home / database.$Domain   |
 | Grafana   | 10.10.80.1 | (8004:3000)                                 | grafana.home / grafana.$Domain     |
-| Unifi     | 10.10.90.1 | (9002:8443),3478:3478,8080:8080,10001:10001 | unifi.home / unifi.$Domain         |
+| Unifi     | 10.10.90.1 | 8443:8443,3478:3478,8080:8080,10001:10001 | unifi.home / unifi.$Domain         |
 
+All Ports marked with () are not activ but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the Container directly.
 
 ## [Setup your Raspberry Pi](Documentation/setup.md)
 
