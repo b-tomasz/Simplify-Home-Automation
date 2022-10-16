@@ -105,7 +105,7 @@ update_system () {
             echo -e "XXX\n100\nFinished...\nXXX"
             sleep 0.5
             
-        } | whiptail --gauge "Update Packages..." 6 50 0
+        } | whiptail --gauge "Update Packages..." 6 80 0
         
     else
         echo "System update Skipped by User" >> $LOG_PWD/install.log
@@ -151,7 +151,7 @@ check_docker_installation () {
                 echo -e "XXX\n100\nFinished...\nXXX"
                 sleep 0.5
                 
-            } | whiptail --gauge "Update Packages..." 6 50 0
+            } | whiptail --gauge "Update Packages..." 6 80 0
             
         else
             # Exit Script
@@ -680,7 +680,7 @@ install () {
         sleep 0.5
         
         
-    } | whiptail --title "Install Containers" --gauge "Install nginx..." 6 50 0
+    } | whiptail --title "Install Containers" --gauge "Install nginx..." 6 80 0
     
     
     
@@ -728,7 +728,7 @@ remove () {
         sleep 0.5
         
         
-    } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 50 0
+    } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
 }
 
 ### Script
