@@ -626,9 +626,7 @@ install () {
     {
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 100 / ( (${#TOOLS[@]} + 1) * 2 ) ))
-        echo $CONTAINER_PROGRESS
-        
-        
+       
         # Install nginx as base for the other Containers
         install_container nginx &>> $LOG_PWD/install.log
         sleep 10
@@ -668,7 +666,7 @@ install () {
         for TOOL in "${TOOLS[@]}"
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-            echo -e "XXX\n20\Check $TOOL...\nXXX"
+            echo -e "XXX\n$PROGRESS\Check $TOOL...\nXXX"
             check_installation $TOOL &>> $LOG_PWD/install.log
             sleep 0.5
         done
