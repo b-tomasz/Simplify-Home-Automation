@@ -28,6 +28,8 @@ services:
     container_name: adminer
     image: adminer
     restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: database
     #ports:
     #  - 8003:8080
 
