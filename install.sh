@@ -554,7 +554,7 @@ install () {
         while true
         do
             PORTAINER_PASSWORD=$(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Enter a password for your Portainer:" 8 78  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+            if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PORTAINER_PASSWORD ];then
                 break
             else
                 whiptail --title "Portainer Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
@@ -567,7 +567,7 @@ install () {
         while true
         do
             PIHOLE_PASSWORD=$(whiptail --title "Pihole Password" --nocancel --passwordbox "Please Enter a password for your Pihole:" 8 78  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "Piihole Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+            if [ $(whiptail --title "Piihole Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PIHOLE_PASSWORD ];then
                 break
             else
                 whiptail --title "Pihole Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
@@ -580,7 +580,7 @@ install () {
         while true
         do
             VPN_PASSWORD=$(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Enter a password for your VPN GUI:" 8 78  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+            if [ $(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $VPN_PASSWORD ];then
                 break
             else
                 whiptail --title "VPN GUI Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
@@ -593,7 +593,7 @@ install () {
         while true
         do
             DATABSE_PASSWORD=$(whiptail --title "Database Password" --nocancel --passwordbox "Please Enter a password for your Database:" 8 78  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "Database Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $PASSWORD ];then
+            if [ $(whiptail --title "Database Password" --nocancel --passwordbox "Please Confirm your Password:" 8 78  3>&1 1>&2 2>&3) = $DATABSE_PASSWORD ];then
                 break
             else
                 whiptail --title "Database Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 78
@@ -610,15 +610,15 @@ install () {
 
 
         # Install nginx as base for the other Containers
-        install_container nginx >> $LOG_PWD/install.log
+        install_container nginx &>> $LOG_PWD/install.log
         sleep 5
         
         PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
         echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
         
         # Check installation of nginx
-        rm $CFG_PWD/faild_installation
-        check_installation nginx >> $LOG_PWD/install.log
+        rm $CFG_PWD/faild_installation &>> $LOG_PWD/install.log
+        check_installation nginx &>> $LOG_PWD/install.log
         
         # Loop trough TOOLS and Install all selected Tools
         for TOOL in "${TOOLS[@]}"
@@ -648,7 +648,7 @@ install () {
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n20\Check $TOOL...\nXXX"
-            check_installation $TOOL >> $LOG_PWD/install.log
+            check_installation $TOOL &>> $LOG_PWD/install.log
         done
         
         echo -e "XXX\n100\nFinished...\nXXX"
