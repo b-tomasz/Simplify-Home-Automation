@@ -686,8 +686,7 @@ install () {
     
     if [ -f "$CFG_PWD/failed_installations" ]; then
         whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/failed_installations)\n\nConsult the install Log under /var/homeautomation/script/log for further informations.\n\nThe failed Installations will be removed now." --ok-button "Remove" 22 80
-        
-        
+        remove        
     else
         whiptail --title "Sucessful Installation" --msgbox "All Tools were installed sucessfully and have Passed all Tests" --ok-button "Exit" 8 80
     fi
