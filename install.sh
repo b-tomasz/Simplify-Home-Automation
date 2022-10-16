@@ -627,11 +627,11 @@ install () {
             fi
         done
     fi
-
-
-
     
-{
+    
+    
+    
+    {
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         
@@ -698,10 +698,14 @@ install () {
                 echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/install.log
                 rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
                 
-                for TOOL in "${TOOLS[@]}"
-                do
-                    check_installation $TOOL &>> $LOG_PWD/install.log
-                done
+                if [ -z "$TOOLS" ];then
+                    for TOOL in "${TOOLS[@]}"
+                    do
+                        check_installation $TOOL &>> $LOG_PWD/install.log
+                    done
+                else
+                    break
+                fi
             else
                 break
             fi
