@@ -477,6 +477,12 @@ uninstall_container () {
 # Check installed Containers
 check_installation (){
     CONTAINER_NAME=$1
+    if [[ $CONTAINER_NAME = nginx ]]; then
+        CONTAINER_DNS_NAME=localhost
+    else
+        CONTAINER_DNS_NAME=$CONTAINER_NAME.home
+    fi
+
     echo -e "\n\n----------Check install Status of $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
     
     # Check if the Container is Running
@@ -490,7 +496,7 @@ check_installation (){
     
     # Check if the Webinterface is reachable
     
-    if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_NAME.home 2>&1 |  grep -E '(HTTP).+(200)'); then
+    if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_DNS_NAME 2>&1 |  grep -E '(HTTP).+(200)'); then
         echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
     else
         echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
