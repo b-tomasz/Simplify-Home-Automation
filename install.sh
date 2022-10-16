@@ -462,6 +462,17 @@ install_container () {
     
 }
 
+# Upgrade Container
+upgrade_container () {
+    CONTAINER_NAME=$1
+    echo -e "\n\n----------Upgrade $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    cd $SCRIPT_PWD
+    rm install-$CONTAINER_NAME.sh &> /dev/null
+    wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
+    bash install-$CONTAINER_NAME.sh -g >> $LOG_PWD/install.log
+    
+}
+
 # Uninstall Container
 uninstall_container () {
     CONTAINER_NAME=$1
@@ -557,8 +568,31 @@ update () {
     
     # Check if Pi has fixed IP and offer to set an fixed IP
     check_ip
-    
-    
+
+    # Update Containers
+    if [ ! -f "$CFG_PWD/ip.conf" ]; then
+    read -a TOOLS < $CFG_PWD/installed_tools.txt
+     {
+        PROGRESS=0
+        CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
+        
+        # Loop trough TOOLS and Upgrade all installed Tools
+        for TOOL in "${TOOLS[@]}"
+        do
+            
+            echo -e "XXX\n$PROGRESS\nUpgrade $TOOL...\nXXX"
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+            upgrade_container $TOOL &>> $LOG_PWD/install.log
+            
+        done
+        
+        
+        echo -e "XXX\n100\nFinished...\nXXX"
+        sleep 0.5
+        
+        
+    } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
+    fi
 }
 
 # Install Tools
@@ -717,7 +751,7 @@ remove () {
         do
             
             echo -e "XXX\n$PROGRESS\nUninstall $TOOL...\nXXX"
-            echo -e "Progress: $PROGRESS" >> $LOG_PWD/install.log
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             if uninstall_container $TOOL $REMOVE_DATA &>> $LOG_PWD/install.log; then
                 sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
             fi

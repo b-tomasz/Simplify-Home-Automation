@@ -181,8 +181,7 @@ ns1                IN A 10.10.30.2  ;
 # Upgrade Tools
 upgrade (){
     
-    #### ToDo
-    echo upgrade
+    docker-compose up -d
 }
 
 uninstall (){

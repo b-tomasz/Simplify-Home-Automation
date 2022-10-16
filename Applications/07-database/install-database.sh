@@ -29,8 +29,7 @@ install (){
 # Upgrade Tools
 upgrade (){
     
-    #### ToDo
-    echo upgrade
+    docker-compose up -d
 }
 
 uninstall (){
