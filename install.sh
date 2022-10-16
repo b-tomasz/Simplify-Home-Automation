@@ -698,15 +698,28 @@ remove () {
     select_for_uninstallation
     
     read -a TOOLS < $CFG_PWD/tools_to_uninstall
+
+        {
+        PROGRESS=0
+        CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
     
     # Loop trough TOOLS and Uninstall all selected Tools
     for TOOL in "${TOOLS[@]}"
     do
-        if uninstall_container $TOOL;
-        then
+                
+            echo -e "XXX\n$PROGRESS\Uninstall $TOOL...\nXXX"
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+        if uninstall_container $TOOL &>> $LOG_PWD/install.log; then
             sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
         fi
     done
+
+
+            echo -e "XXX\n100\nFinished...\nXXX"
+        sleep 0.5
+        
+        
+    } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 50 0
 }
 
 ### Script
