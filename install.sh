@@ -702,7 +702,7 @@ remove () {
         read -a TOOLS < $CFG_PWD/tools_to_uninstall
     fi
     
-    if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of the following Container(s):\n${TOOLS[@]}?" --yes-button "Keep Settings" --no-button "Delete" 8 80); then
+    if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of the following Container(s):\n${TOOLS[*]}" --yes-button "Keep Settings" --no-button "Delete" 8 80); then
         REMOVE_DATA=false
     else
         REMOVE_DATA=true
