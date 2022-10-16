@@ -649,6 +649,7 @@ install () {
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n$PROGRESS\nInstall $TOOL...\nXXX"
+            echo -e "Password: $PASSWORD" >> $LOG_PWD/install.log
             
             case $TOOL in
                 portainer)
