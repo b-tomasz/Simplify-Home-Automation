@@ -346,6 +346,7 @@ EOT
         # Write Patch File to Script Folder
         if ( whiptail --title "Reboot" --msgbox "After Setting an new IP you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --ok-button "Reboot" 10 80); then
             patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/install.log
+            echo "System Reboot afer fixed IP-address" >> $LOG_PWD/install.log
             shutdown -r now
             exit_script 0
         fi
