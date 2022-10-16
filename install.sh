@@ -494,7 +494,7 @@ check_installation (){
         echo "Container $CONTAINER_NAME is running" >> $LOG_PWD/install.log
     else
         echo "Container $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
-        echo "$CONTAINER_NAME" >> $CFG_PWD/failed_installations
+        echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations
         return 1
     fi
     
@@ -504,7 +504,7 @@ check_installation (){
         echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
     else
         echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
-        echo "$CONTAINER_NAME" >> $CFG_PWD/failed_installations
+        echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations
         return 1
     fi
     
@@ -519,7 +519,7 @@ check_installation (){
                 echo "Container bind9 is running" >> $LOG_PWD/install.log
             else
                 echo "Container bind9 has failed" >> $LOG_PWD/install.log
-                echo "pihole" >> $CFG_PWD/failed_installations
+                echo -n "pihole " >> $CFG_PWD/failed_installations
                 return 1
         fi;;
         database)
@@ -528,7 +528,7 @@ check_installation (){
                 echo "Container adminer is running" >> $LOG_PWD/install.log
             else
                 echo "Container adminer has failed" >> $LOG_PWD/install.log
-                echo "database" >> $CFG_PWD/failed_installations
+                echo -n "database " >> $CFG_PWD/failed_installations
                 return 1
         fi;;
     esac
