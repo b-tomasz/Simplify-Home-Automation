@@ -579,59 +579,18 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install
     
     # Ask the User fot the Passwords of the Tools to be installed
-    if [[ " ${TOOLS[*]} " =~ "portainer" ]]; then
+    if [[ " ${TOOLS[*]} " =~ "portainer" ]] || [[ " ${TOOLS[*]} " =~ "database" ]] || [[ " ${TOOLS[*]} " =~ "pihole" ]] || [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
         # ask User for Portainer Password
         while true
         do
-            PORTAINER_PASSWORD=$(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Enter a password for your Portainer:" 8 80  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $PORTAINER_PASSWORD ];then
+            PASSWORD=$(whiptail --title "Default Webinterface Passwords" --nocancel --passwordbox "Please Enter a password for Portainer, Pihole, VPN GUI and Database:" 8 80  3>&1 1>&2 2>&3)
+            if [ $(whiptail --title "Portainer Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $PASSWORD ];then
                 break
             else
                 whiptail --title "Portainer Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
             fi
         done
     fi
-    
-    if [[ " ${TOOLS[*]} " =~ "pihole" ]]; then
-        # ask User for Pihole Password
-        while true
-        do
-            PIHOLE_PASSWORD=$(whiptail --title "Pihole Password" --nocancel --passwordbox "Please Enter a password for your Pihole:" 8 80  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "Piihole Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $PIHOLE_PASSWORD ];then
-                break
-            else
-                whiptail --title "Pihole Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
-            fi
-        done
-    fi
-    
-    if [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
-        # ask User for Pihole Password
-        while true
-        do
-            VPN_PASSWORD=$(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Enter a password for your VPN GUI:" 8 80  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "VPN GUI Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $VPN_PASSWORD ];then
-                break
-            else
-                whiptail --title "VPN GUI Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
-            fi
-        done
-    fi
-    
-    if [[ " ${TOOLS[*]} " =~ "database" ]]; then
-        # ask User for database Password
-        while true
-        do
-            DATABSE_PASSWORD=$(whiptail --title "Database Password" --nocancel --passwordbox "Please Enter a password for your Database:" 8 80  3>&1 1>&2 2>&3)
-            if [ $(whiptail --title "Database Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $DATABSE_PASSWORD ];then
-                break
-            else
-                whiptail --title "Database Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
-            fi
-        done
-    fi
-    
-    
     
     {
         PROGRESS=0
@@ -656,13 +615,13 @@ install () {
             
             case $TOOL in
                 portainer)
-                install_container $TOOL $PORTAINER_PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
                 pihole)
-                install_container $TOOL $PIHOLE_PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
                 vpn)
-                install_container $TOOL $VPN_PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
                 database)
-                install_container $TOOL $DATABSE_PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
                 *)
                 install_container $TOOL &>> $LOG_PWD/install.log;;
             esac
