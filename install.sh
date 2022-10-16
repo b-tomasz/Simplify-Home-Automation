@@ -628,8 +628,13 @@ install () {
             esac
             
         done
-        echo -e "XXX\n$PROGRESS\nWait for Startup of the Container...\nXXX"
-        sleep 10
+
+        # Wait for the Containers to start up
+        for (( c=1; c<=10; c++ ))
+        do
+        echo -e "XXX\n$PROGRESS\nWait for Startup of the Container $(( 10 - $c ))...\nXXX"
+        sleep 1
+        done
         
         
         # Loop trough TOOLS and Check if the Container was installed Sucessfully
