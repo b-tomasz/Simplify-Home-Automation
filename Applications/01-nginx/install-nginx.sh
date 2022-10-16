@@ -123,7 +123,7 @@ server {
   return 301 https://unifi.home:9002$request_uri;
 }
 
-        " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
+" > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
         
 
       # Start Container
