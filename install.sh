@@ -632,7 +632,7 @@ install () {
 
     echo -e "Password nach if: $PASSWORD" >> $LOG_PWD/install.log
     
-    {
+    PASSWORD=$PASSWORD {
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         
