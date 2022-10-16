@@ -454,13 +454,13 @@ select_for_uninstallation () {
 # Install Container
 install_container () {
     CONTAINER_NAME=$1
-    PASSWORD=$2
+    CONTAINER_PASSWORD=$2
     echo -e "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
-    echo -e "Password: $PASSWORD" >> $LOG_PWD/install.log
+    echo -e "Password: $CONTAINER_PASSWORD" >> $LOG_PWD/install.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh $PASSWORD >> $LOG_PWD/install.log
+    bash install-$CONTAINER_NAME.sh $CONTAINER_PASSWORD >> $LOG_PWD/install.log
     
 }
 
@@ -630,9 +630,10 @@ install () {
         done
     fi
 
+
     echo -e "Password nach if: $PASSWORD" >> $LOG_PWD/install.log
     
-    PASSWORD=$PASSWORD {
+{
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         
@@ -646,6 +647,8 @@ install () {
         # Check installation of nginx
         rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
         check_installation nginx &>> $LOG_PWD/install.log
+
+        echo -e "Password nach if: $PASSWORD" >> $LOG_PWD/install.log
         
         # Loop trough TOOLS and Install all selected Tools
         for TOOL in "${TOOLS[@]}"
