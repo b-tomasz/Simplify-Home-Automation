@@ -680,7 +680,6 @@ install () {
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n$PROGRESS\nCheck $TOOL...\nXXX"
-            echo -e "Progress: $PROGRESS" >> $LOG_PWD/install.log
             check_installation $TOOL &>> $LOG_PWD/install.log
             sleep 0.5
         done
@@ -698,7 +697,7 @@ install () {
                 echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/install.log
                 rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
                 
-                if [ -z "$TOOLS" ];then
+                if [ ! -z "$TOOLS" ];then
                     for TOOL in "${TOOLS[@]}"
                     do
                         check_installation $TOOL &>> $LOG_PWD/install.log
