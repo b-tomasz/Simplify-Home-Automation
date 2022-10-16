@@ -311,7 +311,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                 fi
             done
             
-            echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
+            echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nNO_EXTERNAL_DOMAIN=false\nEXTERNAL_DOMAIN=$EXTERNAL_DOMAIN\nEMAIL=$EMAIL" > $CFG_PWD/ip.conf
         else
             # Continue without external Domain
             echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=example.com\nNO_EXTERNAL_DOMAIN=true" > $CFG_PWD/ip.conf
