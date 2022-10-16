@@ -2,6 +2,7 @@
 
 - [Simplify-Home-Automation](#simplify-home-automation)
   - [Prerequisits:](#prerequisits)
+  - [Ports that neet to be forwarded to Raspberry Pi](#ports-that-neet-to-be-forwarded-to-raspberry-pi)
   - [Folder Configuration](#folder-configuration)
   - [Networks](#networks)
   - [Application List with IPaddress](#application-list-with-ipaddress)
@@ -15,8 +16,11 @@
 >    - Ethernet Cable   
 > - Home Network
 > - DynDNS
-Ports forwarded to pi
-80,443,10000
+
+## Ports that neet to be forwarded to Raspberry Pi
+- 80
+- 443
+- 10000
 
 ## Folder Configuration
 
