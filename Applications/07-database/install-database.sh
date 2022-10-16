@@ -20,6 +20,7 @@ install (){
     
     
     # Start Container
+    echo "$PASSWORD ist gesetzt"
     MYSQL_ROOT_PASSWORD=$PASSWORD docker-compose up -d
 
     
