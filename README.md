@@ -50,7 +50,7 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 
 All Ports marked with brackets () are not activ but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the Container directly.
 
-## [Setup your Raspberry Pi](Documentation/setup.md)
+## [Setup your Raspberry Pi](Documentation/01-setup.md)
 
 ## Start the Installationscript
 > cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
