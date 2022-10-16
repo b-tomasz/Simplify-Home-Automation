@@ -385,15 +385,13 @@ select_for_installation () {
         
     else
         
-        whiptail --title "Install Tools" --checklist \
-        "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
-        "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install
         
-        
-        # Remove the " to use it as Array
-        sed -i 's/"//g' $CFG_PWD/tools_to_install
-        
-        if [ $? -eq 0 ] ; then
+        if (whiptail --title "Install Tools" --checklist \
+            "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
+            "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install) ; then
+            
+            # Remove the " to use it as Array
+            sed -i 's/"//g' $CFG_PWD/tools_to_install
             echo "User selected:" >> $LOG_PWD/install.log
             cat $CFG_PWD/tools_to_install >> $LOG_PWD/install.log
             
@@ -430,15 +428,18 @@ select_for_uninstallation () {
         
     else
         
-        whiptail --title "Remove Tools" --checklist \
-        "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
-        "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall
+        
         
         
         # Remove the " to use it as Array
         sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
         
-        if [ $? -eq 0 ] ; then
+        if (whiptail --title "Remove Tools" --checklist \
+            "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
+            "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall) ; then
+            
+            # Remove the " to use it as Array
+            sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
             echo "User selected:" >> $LOG_PWD/install.log
             cat $CFG_PWD/tools_to_uninstall >> $LOG_PWD/install.log
             
@@ -568,30 +569,30 @@ update () {
     
     # Check if Pi has fixed IP and offer to set an fixed IP
     check_ip
-
+    
     # Update Containers
     if [ ! -f "$CFG_PWD/ip.conf" ]; then
-    read -a TOOLS < $CFG_PWD/installed_tools.txt
-     {
-        PROGRESS=0
-        CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
-        
-        # Loop trough TOOLS and Upgrade all installed Tools
-        for TOOL in "${TOOLS[@]}"
-        do
+        read -a TOOLS < $CFG_PWD/installed_tools.txt
+        {
+            PROGRESS=0
+            CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
             
-            echo -e "XXX\n$PROGRESS\nUpgrade $TOOL...\nXXX"
-            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-            upgrade_container $TOOL &>> $LOG_PWD/install.log
+            # Loop trough TOOLS and Upgrade all installed Tools
+            for TOOL in "${TOOLS[@]}"
+            do
+                
+                echo -e "XXX\n$PROGRESS\nUpgrade $TOOL...\nXXX"
+                PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+                upgrade_container $TOOL &>> $LOG_PWD/install.log
+                
+            done
             
-        done
-        
-        
-        echo -e "XXX\n100\nFinished...\nXXX"
-        sleep 0.5
-        
-        
-    } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
+            
+            echo -e "XXX\n100\nFinished...\nXXX"
+            sleep 0.5
+            
+            
+        } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
     fi
 }
 
@@ -720,7 +721,7 @@ install () {
     
     if [ -f "$CFG_PWD/failed_installations" ]; then
         whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/failed_installations)\n\nConsult the install Log under /var/homeautomation/script/log for further informations.\n\nThe failed Installations will be removed now." --ok-button "Remove" 22 80
-        remove        
+        remove
     else
         whiptail --title "Sucessful Installation" --msgbox "All Tools were installed sucessfully and have Passed all Tests" --ok-button "Exit" 8 80
     fi
