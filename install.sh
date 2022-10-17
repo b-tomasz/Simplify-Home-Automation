@@ -75,7 +75,7 @@ exit_script () {
     unset NEEDRESTART_SUSPEND
     
     # Restart Sevices, where needed
-    needrestart -r a -q &>> $LOG_PWD/install.log
+    needrestart -r a -q &>> $LOG_PWD/script.log
     
     # Remove the install Script and Exit
     rm $SCRIPT_PWD/$SCRIPT_NAME
@@ -108,7 +108,7 @@ update_system () {
         } | whiptail --gauge "Update Packages..." 6 80 0
         
     else
-        echo "System update Skipped by User" >> $LOG_PWD/install.log
+        echo "System update Skipped by User" >> $LOG_PWD/script.log
         return
     fi
     
@@ -122,31 +122,31 @@ check_docker_installation () {
     if (dpkg -s docker.io docker-compose &>> /dev/null); then
         # Docker is already installed
         
-        echo "Docker is already installed" >> $LOG_PWD/install.log
+        echo "Docker is already installed" >> $LOG_PWD/script.log
         whiptail --title "Docker Installation" --msgbox "Docker ist already installed on this System" --ok-button "Continue" 8 80
         
     else
-        echo "Docker is not installed" >> $LOG_PWD/install.log
+        echo "Docker is not installed" >> $LOG_PWD/script.log
         if (whiptail --title "Install Docker" --yesno "Docker is not installed yet. Do you want to install Docker now?" --yes-button "Install" --no-button "Exit" 8 80); then
             # Install Docker
             
             # Todo: needrestart can interrupt the install process. Possible solution: https://github.com/liske/needrestart/issues/71
             
             {
-                echo -e "\n\n----------Update Packages----------\n" >> $LOG_PWD/install.log
-                apt-get update  -y -q >> $LOG_PWD/install.log
+                echo -e "\n\n----------Update Packages----------\n" >> $LOG_PWD/script.log
+                apt-get update  -y -q >> $LOG_PWD/script.log
                 
                 echo -e "XXX\n20\nInstall docker.io...\nXXX"
-                echo -e "\n\n----------Install docker.io----------\n" >> $LOG_PWD/install.log
-                apt-get install docker.io -y -q >> $LOG_PWD/install.log
+                echo -e "\n\n----------Install docker.io----------\n" >> $LOG_PWD/script.log
+                apt-get install docker.io -y -q >> $LOG_PWD/script.log
                 
                 echo -e "XXX\n50\nInstall docker-compose...\nXXX"
-                echo -e "\n\n----------Install docker-compose----------\n" >> $LOG_PWD/install.log
-                apt-get install docker-compose -y -q >> $LOG_PWD/install.log
+                echo -e "\n\n----------Install docker-compose----------\n" >> $LOG_PWD/script.log
+                apt-get install docker-compose -y -q >> $LOG_PWD/script.log
                 
                 echo -e "XXX\n80\nCleanup System...\nXXX"
-                echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/install.log
-                apt-get autoremove -y -q >> $LOG_PWD/install.log
+                echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/script.log
+                apt-get autoremove -y -q >> $LOG_PWD/script.log
                 
                 echo -e "XXX\n100\nFinished...\nXXX"
                 sleep 0.5
@@ -155,7 +155,7 @@ check_docker_installation () {
             
         else
             # Exit Script
-            echo "Install of Docker aborted by the User" >> $LOG_PWD/install.log
+            echo "Install of Docker aborted by the User" >> $LOG_PWD/script.log
             exit_script 2
         fi
         
@@ -180,7 +180,7 @@ update_locale () {
 check_arch () {
     
     ARCH=$(uname -m)
-    echo "The Architecture is: $ARCH" >> $LOG_PWD/install.log
+    echo "The Architecture is: $ARCH" >> $LOG_PWD/script.log
     
     if [ $ARCH == "aarch64" ]
     then
@@ -190,7 +190,7 @@ check_arch () {
             return
         else
             # Exit Script
-            echo "Installscript aborted by the User" >> $LOG_PWD/install.log
+            echo "Installscript aborted by the User" >> $LOG_PWD/script.log
             exit_script 2
         fi
     fi
@@ -205,7 +205,7 @@ check_ip (){
             sleep 2
         else
             # Exit Script
-            echo "eth0 is not connected" >> $LOG_PWD/install.log
+            echo "eth0 is not connected" >> $LOG_PWD/script.log
             exit_script 2
         fi
     done
@@ -222,7 +222,7 @@ check_ip (){
         do
             
             if FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 80 3>&1 1>&2 2>&3); then
-                echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/install.log
+                echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/script.log
                 
                 if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP" > /dev/null); then
                     break
@@ -230,7 +230,7 @@ check_ip (){
                     whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 80
                 fi
             else
-                echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
+                echo "No Fixed IP was set for eth0" >> $LOG_PWD/script.log
                 exit_script 2
             fi
             
@@ -242,7 +242,7 @@ check_ip (){
         do
             
             if FIXED_IP_GW=$(whiptail --title "IP Address" --inputbox "Enter the IP from the Router" 8 80 3>&1 1>&2 2>&3); then
-                echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/install.log
+                echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/script.log
                 
                 if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP_GW" > /dev/null); then
                     break
@@ -250,7 +250,7 @@ check_ip (){
                     whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 80
                 fi
             else
-                echo "No Fixed IP was set for eth0" >> $LOG_PWD/install.log
+                echo "No Fixed IP was set for eth0" >> $LOG_PWD/script.log
                 exit_script 2
             fi
             
@@ -280,7 +280,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             do
                 
                 if EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 80 example.com 3>&1 1>&2 2>&3); then
-                    echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/install.log
+                    echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
                     
                     if ( grep -E "^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}$" <<< "$EXTERNAL_DOMAIN" > /dev/null); then
                         break
@@ -288,7 +288,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                         whiptail --title "Domain" --msgbox "The entered Domain is not valid" 8 80
                     fi
                 else
-                    echo "No Domain was set" >> $LOG_PWD/install.log
+                    echo "No Domain was set" >> $LOG_PWD/script.log
                     exit_script 2
                 fi
             done
@@ -298,7 +298,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             while true
             do
                 if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 80 test@example.com 3>&1 1>&2 2>&3); then
-                    echo "E-Mail Set to $EMAIL" >> $LOG_PWD/install.log
+                    echo "E-Mail Set to $EMAIL" >> $LOG_PWD/script.log
                     
                     if ( grep -E "^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" <<< "$EMAIL" > /dev/null); then
                         break
@@ -306,7 +306,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
                         whiptail --title "E-Mail" --msgbox "The entered E-Mail is not valid" 8 80
                     fi
                 else
-                    echo "No E-Mail was set" >> $LOG_PWD/install.log
+                    echo "No E-Mail was set" >> $LOG_PWD/script.log
                     exit_script 2
                 fi
             done
@@ -345,8 +345,8 @@ EOT
         
         # Write Patch File to Script Folder
         if ( whiptail --title "Reboot" --msgbox "After Setting an new IP-address you have to reboot your Raspbery Pi. You have set the following Settings:\nIP: $FIXED_IP\nGateway: $FIXED_IP_GW\nExternal Domain: $EXTERNAL_DOMAIN" --ok-button "Reboot" 10 80); then
-            patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/install.log
-            echo "System Reboot after setting fixed IP-address" >> $LOG_PWD/install.log
+            patch -d /etc -b < $CFG_PWD/dhcpcd.conf.patch >> $LOG_PWD/script.log
+            echo "System Reboot after setting fixed IP-address" >> $LOG_PWD/script.log
             shutdown -r now
             exit_script 0
         fi
@@ -392,11 +392,11 @@ select_for_installation () {
             
             # Remove the " to use it as Array
             sed -i 's/"//g' $CFG_PWD/tools_to_install.txt
-            echo "User selected:" >> $LOG_PWD/install.log
-            cat $CFG_PWD/tools_to_install.txt >> $LOG_PWD/install.log
+            echo "User selected:" >> $LOG_PWD/script.log
+            cat $CFG_PWD/tools_to_install.txt >> $LOG_PWD/script.log
             
         else
-            echo "User Canceled at Tool selection" >> $LOG_PWD/install.log
+            echo "User Canceled at Tool selection" >> $LOG_PWD/script.log
             exit_script 2
         fi
     fi
@@ -434,11 +434,11 @@ select_for_uninstallation () {
             
             # Remove the " to use it as Array
             sed -i 's/"//g' $CFG_PWD/tools_to_uninstall.txt
-            echo "User selected:" >> $LOG_PWD/install.log
-            cat $CFG_PWD/tools_to_uninstall.txt >> $LOG_PWD/install.log
+            echo "User selected:" >> $LOG_PWD/script.log
+            cat $CFG_PWD/tools_to_uninstall.txt >> $LOG_PWD/script.log
             
         else
-            echo "User Canceled at Tool for uninstall selection" >> $LOG_PWD/install.log
+            echo "User Canceled at Tool for uninstall selection" >> $LOG_PWD/script.log
             exit_script 2
         fi
         
@@ -449,22 +449,22 @@ select_for_uninstallation () {
 install_container () {
     CONTAINER_NAME=$1
     CONTAINER_PASSWORD=$2
-    echo -e "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "\n\n----------Install $CONTAINER_NAME----------\n" >> $LOG_PWD/script.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh $CONTAINER_PASSWORD >> $LOG_PWD/install.log
+    bash install-$CONTAINER_NAME.sh $CONTAINER_PASSWORD >> $LOG_PWD/script.log
     
 }
 
 # Upgrade Container
 upgrade_container () {
     CONTAINER_NAME=$1
-    echo -e "\n\n----------Upgrade $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "\n\n----------Upgrade $CONTAINER_NAME----------\n" >> $LOG_PWD/script.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
-    bash install-$CONTAINER_NAME.sh -g >> $LOG_PWD/install.log
+    bash install-$CONTAINER_NAME.sh -g >> $LOG_PWD/script.log
     
 }
 
@@ -472,16 +472,16 @@ upgrade_container () {
 uninstall_container () {
     CONTAINER_NAME=$1
     REMOVE_DATA=$2
-    echo -e "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "\n\n----------Uninstall $CONTAINER_NAME----------\n" >> $LOG_PWD/script.log
     cd $SCRIPT_PWD
     rm install-$CONTAINER_NAME.sh &> /dev/null
     wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/${CONTAINER_IDS[$CONTAINER_NAME]}-$CONTAINER_NAME/install-$CONTAINER_NAME.sh &> /dev/null
     if [ $REMOVE_DATA = true ]; then
         # Uninstall Container and remove all Data
-        bash install-$CONTAINER_NAME.sh -ur >> $LOG_PWD/install.log
+        bash install-$CONTAINER_NAME.sh -ur >> $LOG_PWD/script.log
     else
         # Uninstall Container
-        bash install-$CONTAINER_NAME.sh -u >> $LOG_PWD/install.log
+        bash install-$CONTAINER_NAME.sh -u >> $LOG_PWD/script.log
     fi
 }
 
@@ -494,13 +494,13 @@ check_installation (){
         CONTAINER_DNS_NAME=$CONTAINER_NAME.home
     fi
     
-    echo -e "\n\n----------Check install Status of $CONTAINER_NAME----------\n" >> $LOG_PWD/install.log
+    echo -e "\n\n----------Check install Status of $CONTAINER_NAME----------\n" >> $LOG_PWD/script.log
     
     # Check if the Container is Running
     if [ "$( docker container inspect -f '{{.State.Status}}' $CONTAINER_NAME )" == "running" ]; then
-        echo "Container $CONTAINER_NAME is running" >> $LOG_PWD/install.log
+        echo "Container $CONTAINER_NAME is running" >> $LOG_PWD/script.log
     else
-        echo "Container $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
+        echo "Container $CONTAINER_NAME has failed" >> $LOG_PWD/script.log
         echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations.txt
         return 1
     fi
@@ -508,9 +508,9 @@ check_installation (){
     # Check if the Webinterface is reachable
     
     if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_DNS_NAME 2>&1 |  grep -E '(HTTP).+(200)'); then
-        echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
+        echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/script.log
     else
-        echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
+        echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/script.log
         echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations.txt
         return 1
     fi
@@ -523,18 +523,18 @@ check_installation (){
         pihole)
             # Check if the Container is Running
             if [ "$( docker container inspect -f '{{.State.Status}}' bind9 )" == "running" ]; then
-                echo "Container bind9 is running" >> $LOG_PWD/install.log
+                echo "Container bind9 is running" >> $LOG_PWD/script.log
             else
-                echo "Container bind9 has failed" >> $LOG_PWD/install.log
+                echo "Container bind9 has failed" >> $LOG_PWD/script.log
                 echo -n "pihole " >> $CFG_PWD/failed_installations.txt
                 return 1
         fi;;
         database)
             # Check if the Container is Running
             if [ "$( docker container inspect -f '{{.State.Status}}' adminer )" == "running" ]; then
-                echo "Container adminer is running" >> $LOG_PWD/install.log
+                echo "Container adminer is running" >> $LOG_PWD/script.log
             else
-                echo "Container adminer has failed" >> $LOG_PWD/install.log
+                echo "Container adminer has failed" >> $LOG_PWD/script.log
                 echo -n "database " >> $CFG_PWD/failed_installations.txt
                 return 1
         fi;;
@@ -557,7 +557,7 @@ update () {
     update_locale
     
     #Update the System
-    echo "Start Update" >> $LOG_PWD/install.log
+    echo "Start Update" >> $LOG_PWD/script.log
     update_locale
     update_system
     
@@ -577,7 +577,7 @@ update () {
                 
                 echo -e "XXX\n$PROGRESS\nUpgrade $TOOL...\nXXX"
                 PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-                upgrade_container $TOOL &>> $LOG_PWD/install.log
+                upgrade_container $TOOL &>> $LOG_PWD/script.log
                 
             done
             
@@ -653,7 +653,7 @@ install () {
 +127.0.0.1      unifi.$EXTERNAL_DOMAIN
 EOT
         
-    patch -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/install.log   
+    patch -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/script.log   
     
     # Install Containers
 
@@ -662,15 +662,15 @@ EOT
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         
         # Install nginx as base for the other Containers
-        install_container nginx &>> $LOG_PWD/install.log
+        install_container nginx &>> $LOG_PWD/script.log
         sleep 10
         
         PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
         echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
         
         # Check installation of nginx
-        rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/install.log
-        check_installation nginx &>> $LOG_PWD/install.log
+        rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
+        check_installation nginx &>> $LOG_PWD/script.log
         
         # Loop trough TOOLS and Install all selected Tools
         for TOOL in "${TOOLS[@]}"
@@ -680,15 +680,15 @@ EOT
             
             case $TOOL in
                 portainer)
-                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 pihole)
-                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 vpn)
-                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 database)
-                install_container $TOOL $PASSWORD &>> $LOG_PWD/install.log;;
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 *)
-                install_container $TOOL &>> $LOG_PWD/install.log;;
+                install_container $TOOL &>> $LOG_PWD/script.log;;
             esac
             
         done
@@ -706,27 +706,27 @@ EOT
         do
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n$PROGRESS\nCheck $TOOL...\nXXX"
-            check_installation $TOOL &>> $LOG_PWD/install.log
+            check_installation $TOOL &>> $LOG_PWD/script.log
             sleep 0.5
         done
         
-        cat $CFG_PWD/failed_installations.txt >> $LOG_PWD/install.log
+        cat $CFG_PWD/failed_installations.txt >> $LOG_PWD/script.log
         
         # Check faild installation again. Try it 5 times every 10s
         for (( c=1; c<=5; c++ ))
         do
             if [ -f "$CFG_PWD/failed_installations.txt" ]; then
                 echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 5...\nXXX"
-                echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/install.log
+                echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/script.log
                 
                 read -a TOOLS < $CFG_PWD/failed_installations.txt
-                echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/install.log
-                rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/install.log
+                echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/script.log
+                rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
                 
                 if [ ! -z "$TOOLS" ];then
                     for TOOL in "${TOOLS[@]}"
                     do
-                        check_installation $TOOL &>> $LOG_PWD/install.log
+                        check_installation $TOOL &>> $LOG_PWD/script.log
                     done
                 else
                     break
@@ -785,7 +785,7 @@ remove () {
             
             echo -e "XXX\n$PROGRESS\nUninstall $TOOL...\nXXX"
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-            if uninstall_container $TOOL $REMOVE_DATA &>> $LOG_PWD/install.log; then
+            if uninstall_container $TOOL $REMOVE_DATA &>> $LOG_PWD/script.log; then
                 sed -i "s/$TOOL//g" $CFG_PWD/installed_tools.txt
             fi
         done
@@ -801,7 +801,7 @@ remove () {
 ### Script
 
 # Initialize Log File
-echo "Script Started at: " $(date) > $LOG_PWD/install.log
+echo "Script Started at: " $(date) > $LOG_PWD/script.log
 
 # Chose, what to do:
 MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --nocancel 20 80 4 \
