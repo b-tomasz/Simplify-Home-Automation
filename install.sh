@@ -388,12 +388,12 @@ select_for_installation () {
         
         if (whiptail --title "Install Tools" --checklist \
             "Which Tools do you want to Install.\nUse SPACE to select/unselect a Tool.\nNginx as reverse Proxy with Certbot for LetsEncrypt certificates will also get installed, if not already installed." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
-            "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install) ; then
+            "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_install.txt) ; then
             
             # Remove the " to use it as Array
-            sed -i 's/"//g' $CFG_PWD/tools_to_install
+            sed -i 's/"//g' $CFG_PWD/tools_to_install.txt
             echo "User selected:" >> $LOG_PWD/install.log
-            cat $CFG_PWD/tools_to_install >> $LOG_PWD/install.log
+            cat $CFG_PWD/tools_to_install.txt >> $LOG_PWD/install.log
             
         else
             echo "User Canceled at Tool selection" >> $LOG_PWD/install.log
@@ -432,16 +432,16 @@ select_for_uninstallation () {
         
         
         # Remove the " to use it as Array
-        sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
+        sed -i 's/"//g' $CFG_PWD/tools_to_uninstall.txt
         
         if (whiptail --title "Remove Tools" --checklist \
             "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
-            "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall) ; then
+            "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall.txt) ; then
             
             # Remove the " to use it as Array
-            sed -i 's/"//g' $CFG_PWD/tools_to_uninstall
+            sed -i 's/"//g' $CFG_PWD/tools_to_uninstall.txt
             echo "User selected:" >> $LOG_PWD/install.log
-            cat $CFG_PWD/tools_to_uninstall >> $LOG_PWD/install.log
+            cat $CFG_PWD/tools_to_uninstall.txt >> $LOG_PWD/install.log
             
         else
             echo "User Canceled at Tool for uninstall selection" >> $LOG_PWD/install.log
@@ -507,7 +507,7 @@ check_installation (){
         echo "Container $CONTAINER_NAME is running" >> $LOG_PWD/install.log
     else
         echo "Container $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
-        echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations
+        echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations.txt
         return 1
     fi
     
@@ -551,7 +551,7 @@ EOT
         echo "Webinterface of $CONTAINER_NAME is up" >> $LOG_PWD/install.log
     else
         echo "Webinterface of $CONTAINER_NAME has failed" >> $LOG_PWD/install.log
-        echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations
+        echo -n "$CONTAINER_NAME " >> $CFG_PWD/failed_installations.txt
         return 1
     fi
     
@@ -566,7 +566,7 @@ EOT
                 echo "Container bind9 is running" >> $LOG_PWD/install.log
             else
                 echo "Container bind9 has failed" >> $LOG_PWD/install.log
-                echo -n "pihole " >> $CFG_PWD/failed_installations
+                echo -n "pihole " >> $CFG_PWD/failed_installations.txt
                 return 1
         fi;;
         database)
@@ -575,7 +575,7 @@ EOT
                 echo "Container adminer is running" >> $LOG_PWD/install.log
             else
                 echo "Container adminer has failed" >> $LOG_PWD/install.log
-                echo -n "database " >> $CFG_PWD/failed_installations
+                echo -n "database " >> $CFG_PWD/failed_installations.txt
                 return 1
         fi;;
     esac
@@ -646,7 +646,7 @@ install () {
     # Select Tools to install
     select_for_installation
     
-    read -a TOOLS < $CFG_PWD/tools_to_install
+    read -a TOOLS < $CFG_PWD/tools_to_install.txt
     
     # Ask the User fot the Passwords of the Tools to be installed
     if [[ " ${TOOLS[*]} " =~ "portainer" ]] || [[ " ${TOOLS[*]} " =~ "database" ]] || [[ " ${TOOLS[*]} " =~ "pihole" ]] || [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
@@ -677,7 +677,7 @@ install () {
         echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
         
         # Check installation of nginx
-        rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
+        rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/install.log
         check_installation nginx &>> $LOG_PWD/install.log
         
         # Loop trough TOOLS and Install all selected Tools
@@ -718,18 +718,18 @@ install () {
             sleep 0.5
         done
         
-        cat $CFG_PWD/failed_installations >> $LOG_PWD/install.log
+        cat $CFG_PWD/failed_installations.txt >> $LOG_PWD/install.log
         
         # Check faild installation again. Try it 5 times every 10s
         for (( c=1; c<=5; c++ ))
         do
-            if [ -f "$CFG_PWD/failed_installations" ]; then
+            if [ -f "$CFG_PWD/failed_installations.txt" ]; then
                 echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 5...\nXXX"
                 echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/install.log
                 
-                read -a TOOLS < $CFG_PWD/failed_installations
+                read -a TOOLS < $CFG_PWD/failed_installations.txt
                 echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/install.log
-                rm $CFG_PWD/failed_installations &>> $LOG_PWD/install.log
+                rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/install.log
                 
                 if [ ! -z "$TOOLS" ];then
                     for TOOL in "${TOOLS[@]}"
@@ -759,8 +759,8 @@ install () {
     
     
     
-    if [ -f "$CFG_PWD/failed_installations" ]; then
-        whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/failed_installations)\n\nConsult the install Log under /var/homeautomation/script/log for further informations.\n\nThe failed Installations will be removed now." --ok-button "Remove" 22 80
+    if [ -f "$CFG_PWD/failed_installations.txt" ]; then
+        whiptail --title "Failed Installation" --msgbox "The following Installation(s) has failed:\n$(cat $CFG_PWD/failed_installations.txt)\n\nConsult the install Log under /var/homeautomation/script/log for further informations.\n\nThe failed Installations will be removed now." --ok-button "Remove" 22 80
         remove
     else
         whiptail --title "Sucessful Installation" --msgbox "All Tools were installed sucessfully and have Passed all Tests" --ok-button "Exit" 8 80
@@ -770,11 +770,11 @@ install () {
 
 # Remove Tools
 remove () {
-    if [ -f "$CFG_PWD/failed_installations" ]; then
-        read -a TOOLS < $CFG_PWD/failed_installations
+    if [ -f "$CFG_PWD/failed_installations.txt" ]; then
+        read -a TOOLS < $CFG_PWD/failed_installations.txt
     else
         select_for_uninstallation
-        read -a TOOLS < $CFG_PWD/tools_to_uninstall
+        read -a TOOLS < $CFG_PWD/tools_to_uninstall.txt
     fi
     
     if (whiptail --title "Uninstall $CONTAINER_NAME" --yesno "Do you want to keep your Settings of the following Container(s):\n${TOOLS[*]}" --yes-button "Keep Settings" --no-button "Delete" 8 80); then
@@ -798,7 +798,7 @@ remove () {
             fi
         done
         
-        
+        rm $CFG_PWD/failed_installations.txt
         echo -e "XXX\n100\nFinished...\nXXX"
         sleep 0.5
         
