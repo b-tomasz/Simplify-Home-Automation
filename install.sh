@@ -432,7 +432,7 @@ select_for_uninstallation () {
         
         
         # Remove the " to use it as Array
-        sed -i 's/"//g' $CFG_PWD/tools_to_uninstall.txt
+        #sed -i 's/"//g' $CFG_PWD/tools_to_uninstall.txt
         
         if (whiptail --title "Remove Tools" --checklist \
             "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
