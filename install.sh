@@ -653,7 +653,7 @@ install () {
 +127.0.0.1      unifi.$EXTERNAL_DOMAIN
 EOT
         
-    patch -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/script.log   
+    patch -l -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/script.log   
     
     # Install Containers
 
