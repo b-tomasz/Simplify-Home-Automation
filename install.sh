@@ -511,6 +511,40 @@ check_installation (){
         return 1
     fi
     
+    # Add hostnames to /etc/hosts
+
+		cat > $CFG_PWD/hosts.patch << EOT
+--- /etc/hosts  2022-10-17 21:16:38.981733164 +0200
++++ /etc/hosts_new      2022-10-17 21:16:29.137905998 +0200
+@@ -4,3 +4,23 @@
+ ff02::2                ip6-allrouters
+ 
+ 127.0.1.1      $(hostname)
++
++## Entrys for ckeching Webinterface availability
++127.0.0.1      nginx.home
++127.0.0.1      portainer.home
++127.0.0.1      pihole.home
++127.0.0.1      vpn.home
++127.0.0.1      bitwarden.home
++127.0.0.1      nodered.home
++127.0.0.1      database.home
++127.0.0.1      grafana.home
++127.0.0.1      unifi.home
++127.0.0.1      nginx.$EXTERNAL_DOMAIN
++127.0.0.1      portainer.$EXTERNAL_DOMAIN
++127.0.0.1      pihole.$EXTERNAL_DOMAIN
++127.0.0.1      vpn.$EXTERNAL_DOMAIN
++127.0.0.1      bitwarden.$EXTERNAL_DOMAIN
++127.0.0.1      nodered.$EXTERNAL_DOMAIN
++127.0.0.1      database.$EXTERNAL_DOMAIN
++127.0.0.1      grafana.$EXTERNAL_DOMAIN
++127.0.0.1      unifi.$EXTERNAL_DOMAIN
+EOT
+        
+    patch -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/install.log        
+        
+
     # Check if the Webinterface is reachable
     
     if (wget -O /dev/null -S --no-check-certificate -q $CONTAINER_DNS_NAME 2>&1 |  grep -E '(HTTP).+(200)'); then
