@@ -33,7 +33,7 @@ After the script started select Install and press Enter
 <img src="Images/install/Install001.png" alt="Chose OS" width="500"/>
   
 ### The System will now chek a few parameters. Like the following:
-- archictecture of your System
+- your Systems archictecture
 - Is your System up-to-date
 
 If one or multiple fail you will get notified like this:
