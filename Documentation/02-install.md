@@ -34,7 +34,7 @@ After the script started select Install and press Enter
   
 ### The System will now chek a few parameters. Like the following:
 - your systems architecture
-- Is your System up-to-date
+- if your System is up-to-date
 
 If one or multiple fail you will get notified like this:
 
@@ -47,7 +47,7 @@ Select "Update" to start the Process
 
 ### As soon the update is finished the script Continues with some essential Promts.
 
-- Please enter Fixed IP, IP of your Router.
+- Please enter Fixed IP and IP of your Router.
 
 <img src="Images/install/Install006.png" alt="Chose OS" width="400"/><img src="Images/install/Install007.png" alt="Chose OS" width="400"/>
 
