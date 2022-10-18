@@ -22,14 +22,14 @@ Copy the following Code into your Bash Command Line
 > cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
 After the script started select Install and press Enter
-  <img src="Images/install/Install001.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install001.png" alt="Chose OS" width="500"/>
   
 ### The System will now chek a few parameters. Like the following:
 - archictecture of your System
 - Is your System up-to-date
 
 If one or multiple fail you will get notified like this:
-  <img src="Images/install/Install002.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install002.png" alt="Chose OS" width="500"/>
 
 ### In the next Promt you will be asked to update the System.
 Select "Update" to start the Process
