@@ -4,9 +4,6 @@
   - [Check Prerequisits](#check-prerequisits)
   - [Connect to Raspberry Pi](#connect-to-raspberry-pi)
   - [Start the Installationscript](#start-the-installationscript)
-    - [The System will now chek a few parameters. Like the following:](#the-system-will-now-chek-a-few-parameters-like-the-following)
-    - [In the next Promt you will be asked to update the System.](#in-the-next-promt-you-will-be-asked-to-update-the-system)
-    - [As soon the update is finished the script Continues with some essential Promts.](#as-soon-the-update-is-finished-the-script-continues-with-some-essential-promts)
 
 ## Check Prerequisits
 
@@ -32,7 +29,7 @@ After the script started select Install and press Enter
 
 <img src="Images/install/Install001.png" alt="Chose OS" width="500"/>
   
-### The System will now chek a few parameters. Like the following:
+The System will now chek a few parameters. Like the following:
 - your systems architecture
 - if your System is up-to-date
 
@@ -40,12 +37,12 @@ If one or multiple fail you will get notified like this:
 
 <img src="Images/install/Install002.png" alt="Chose OS" width="500"/>
 
-### In the next Promt you will be asked to update the System.
+In the next Promt you will be asked to update the System.
 Select "Update" to start the Process
 
 <img src="Images/install/Install004.png" alt="Chose OS" width="500"/>
 
-### As soon the update is finished the script Continues with some essential Promts.
+As soon the update is finished the script Continues with some essential Promts.
 
 - Please enter Fixed IP and IP of your Router.
 
