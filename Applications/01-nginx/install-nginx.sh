@@ -81,6 +81,11 @@ server {
   location / {
     proxy_pass http://10.10.60.1:1880;
   }
+  #These header fields are required if your application is using Websockets
+	proxy_set_header Upgrade $http_upgrade;
+
+	#These header fields are required if your application is using Websockets    
+	proxy_set_header Connection "upgrade";
 }
 
 ###   Database    ###
@@ -311,6 +316,12 @@ server {
 
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+
+  #These header fields are required if your application is using Websockets
+	proxy_set_header Upgrade $http_upgrade;
+
+	#These header fields are required if your application is using Websockets    
+	proxy_set_header Connection "upgrade";
 }
 
 ###   Database    ###
