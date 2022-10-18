@@ -561,9 +561,6 @@ update () {
     update_locale
     update_system
     
-    # Check if Pi has fixed IP and offer to set an fixed IP
-    check_ip
-    
     # Update Containers
     if [ ! -f "$CFG_PWD/ip.conf" ]; then
         read -a TOOLS < $CFG_PWD/installed_tools.txt
@@ -595,10 +592,11 @@ install () {
     # Disable needrestart during Script
     export NEEDRESTART_SUSPEND=1
     
-    if [ ! -f "$CFG_PWD/ip.conf" ]; then
-        whiptail --title "Update" --msgbox "Systen was not Updated yet.\n" --ok-button "Update" 8 80
-        update
-    fi
+    whiptail --title "Update" --msgbox "Systen will get Updated now.\n" --ok-button "Update" 8 80
+    update
+
+    # Check if Pi has fixed IP and offer to set an fixed IP
+    check_ip
     
     # Install Docker
     check_docker_installation
