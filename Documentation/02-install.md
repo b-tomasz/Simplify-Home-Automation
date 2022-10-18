@@ -55,29 +55,29 @@ Select "Update" to start the Process
 
 <img src="Images/install/Install008.png" alt="Chose OS" width="500"/>
 
-If you choose yes, you will get asked to type in your External Domain and your E-Mail address.
+If you choose yes, you will get asked to type in your External Domain and your E-Mail address. Otherwise this part will get skiped.
 
 <img src="Images/install/Install009.png" alt="Chose OS" width="400"/><img src="Images/install/Install010.png" alt="Chose OS" width="400"/>
 
-Now the Raspberry Pi needs to reboot, to apply the configured Settings. Reconnect to the Pi as described before.
+Now the Raspberry Pi needs to reboot, to apply the configured Settings. Reconnect to the Pi as described earlier.
 
 After you successfull reconnected to the pi, you need to restart the script using the following command:
 > cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
-Choose again install. Now the Docker installation begins. This is the Prerequisit for all the following.
+Choose install. Now the Docker installation begins. This is the Prerequisit for all of the following.
 
 <img src="Images/install/Install012.png" alt="Chose OS" width="400"/><img src="Images/install/Install013.png" alt="Chose OS" width="400"/>
 
-As soon Docker is installed the next Promt will ask what Applications to install. you can sellect them via Space bar and Arrows on the keyboard. Confirm your selection with Enter.
+As soon as Docker is installed the next Promt will ask what Applications to install. You can sellect them via Space bar and Arrows on the keyboard. Confirm your selection with Enter.
 
 <img src="Images/install/Install014.png" alt="Chose OS" width="500"/>
 
 If you choose either Portainer, Grafana, VPN or PiHole you will get promted to type in a default Password. It will be the same for all Applications and you can change it on the Webinterface after installation.
 
-If you complete this task successfully the installation begins. Please be paitient this could take a while. As soon as the installation completes you will get notified.
+If you complete this task successfully the installation begins. Please be paitient this could take a while. As soon as the installation is completed you will get notified.
 
 <img src="Images/install/Install017.png" alt="Chose OS" width="400"/><img src="Images/install/Install018.png" alt="Chose OS" width="400"/>
 
-You can now close the Terminal or Powershell. The installation is finished.
+You can now close the Terminal or Powershell. The installation is now finished.
 
 All Products are now availible as described in [README.md](../README.md)
