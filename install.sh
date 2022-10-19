@@ -607,11 +607,11 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install.txt
     
     # Ask the User fot the Passwords of the Tools to be installed
-    if [[ " ${TOOLS[*]} " =~ "portainer" ]] || [[ " ${TOOLS[*]} " =~ "database" ]] || [[ " ${TOOLS[*]} " =~ "pihole" ]] || [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
+    if [[ " ${TOOLS[*]} " =~ "portainer" ]] || [[ " ${TOOLS[*]} " =~ "database" ]] || [[ " ${TOOLS[*]} " =~ "pihole" ]] || [[ " ${TOOLS[*]} " =~ "grafana" ]] || [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
         # ask User for Default Webinterface Passwords
         while true
         do
-            PASSWORD=$(whiptail --title "Default Webinterface Passwords" --nocancel --passwordbox "Please Enter a password for Portainer, Pihole, VPN GUI and Database:" 8 80  3>&1 1>&2 2>&3)
+            PASSWORD=$(whiptail --title "Default Webinterface Passwords" --nocancel --passwordbox "Please Enter a password for Portainer, Pihole, VPN GUI, Grafana and Database:" 8 80  3>&1 1>&2 2>&3)
             if [ $(whiptail --title "Default Webinterface Passwords" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $PASSWORD ];then
                 break
             else
@@ -684,6 +684,8 @@ EOT
                 vpn)
                 install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 database)
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
+                grafana)
                 install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 *)
                 install_container $TOOL &>> $LOG_PWD/script.log;;
