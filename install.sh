@@ -26,7 +26,7 @@
 
 # Check if Script was started as Root
 if [ ! $(whoami) = root ]; then
-    whiptail --title "No Root" --msgbox "The Script needs to be Run as root.\nPlease exit the Script, then enter \"sudo su\" and rerun this Script." --ok-button "Exit" 10 80
+    whiptail --title "No Root" --msgbox "The Script needs to be Run as root.\nPlease exit the Script, then enter \"sudo su\" and rerun to this Script." --ok-button "Exit" 10 80
     exit 4
 fi
 
@@ -55,12 +55,12 @@ CONTAINER_IDS[unifi]=09
 
 # Decription for each Tool to use in the Selection
 declare -A TOOL_DESCRIPTION
-TOOL_DESCRIPTION[nginx]="Reverse Proxy with Certbotfor SSL Certs"
-TOOL_DESCRIPTION[portainer]="Manage Docker Container with GUI"
+TOOL_DESCRIPTION[nginx]="Reverse Proxy with Certbot for SSL Certs"
+TOOL_DESCRIPTION[portainer]="Manage Docker Container in a Webinterface"
 TOOL_DESCRIPTION[pihole]="DNS filter for Ads and Tracking"
-TOOL_DESCRIPTION[vpn]="Secure Acces to your network from Everywhere"
+TOOL_DESCRIPTION[vpn]="Secure Access to your network from Everywhere"
 TOOL_DESCRIPTION[bitwarden]="Password Safe"
-TOOL_DESCRIPTION[nodered]="Connect homautomation"
+TOOL_DESCRIPTION[nodered]="Manage and connect homautomation"
 TOOL_DESCRIPTION[database]="Database to store Data"
 TOOL_DESCRIPTION[grafana]="Visualize Data in a nice Gaph"
 TOOL_DESCRIPTION[unifi]="Unifi Controller, for Managing Unifi Devices"
@@ -105,10 +105,10 @@ update_system () {
             echo -e "XXX\n100\nFinished...\nXXX"
             sleep 0.5
             
-        } | whiptail --gauge "Update Packages..." 6 80 0
+        } | whiptail --gauge "Update packages..." 6 80 0
         
     else
-        echo "System update Skipped by User" >> $LOG_PWD/script.log
+        echo "System update skipped by user" >> $LOG_PWD/script.log
         return
     fi
     
@@ -201,7 +201,7 @@ check_ip (){
     
     # Check is interface eth0 is up
     until [ $(cat /sys/class/net/eth0/operstate) == "up" ]; do
-        if ( whiptail --title "IP Address" --yesno "Your eth0 interface is not connected.\nPlease connect an Ethernet Cable and reload, or Exit the Script" --yes-button "reload" --no-button "Exit" 8 80); then
+        if ( whiptail --title "IP-address" --yesno "Your eth0 interface is not connected.\nPlease connect an Ethernet Cable and reload, or Exit the Script" --yes-button "reload" --no-button "Exit" 8 80); then
             sleep 2
         else
             # Exit Script
@@ -213,7 +213,7 @@ check_ip (){
     # Check if the Pi has an Fixed IP
     if (cat /etc/dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
     then
-        whiptail --title "IP Address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 80
+        whiptail --title "IP-address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 80
         return
     else
         
@@ -221,13 +221,13 @@ check_ip (){
         while true
         do
             
-            if FIXED_IP=$(whiptail --title "IP Address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 80 3>&1 1>&2 2>&3); then
+            if FIXED_IP=$(whiptail --title "IP-address" --inputbox "Which IP you want to set as Fixed IP for your Raspberry Pi?" 8 80 3>&1 1>&2 2>&3); then
                 echo "Fixed IP Set to $FIXED_IP" >> $LOG_PWD/script.log
                 
                 if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP" > /dev/null); then
                     break
                 else
-                    whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 80
+                    whiptail --title "IP-address" --msgbox "The entered IP is not valid" 8 80
                 fi
             else
                 echo "No Fixed IP was set for eth0" >> $LOG_PWD/script.log
@@ -241,13 +241,13 @@ check_ip (){
         while true
         do
             
-            if FIXED_IP_GW=$(whiptail --title "IP Address" --inputbox "Enter the IP from the Router" 8 80 3>&1 1>&2 2>&3); then
+            if FIXED_IP_GW=$(whiptail --title "IP-address" --inputbox "Enter the IP from the Router" 8 80 3>&1 1>&2 2>&3); then
                 echo "Gateway Set to $FIXED_IP_GW" >> $LOG_PWD/script.log
                 
                 if ( grep -E "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$" <<< "$FIXED_IP_GW" > /dev/null); then
                     break
                 else
-                    whiptail --title "IP Address" --msgbox "The entered IP is not valid" 8 80
+                    whiptail --title "IP-address" --msgbox "The entered IP is not valid" 8 80
                 fi
             else
                 echo "No Fixed IP was set for eth0" >> $LOG_PWD/script.log
@@ -260,9 +260,9 @@ check_ip (){
         
         
         
-        if (whiptail --title "Domain" --yesno "We reccomend to use an external Domain. The Script can generat an valid SSL Certificate and make the Tools accesable over HTTPS.
+        if (whiptail --title "Domain" --yesno "We reccomend to use an external Domain. The Script can generat a valid SSL Certificate and make the Tools accessible over HTTPS.
 
-If you use an external Domain, it ist necessary, that \"YOUR-DOMAIN.ch\" and \"*.YOUR-DOMAIN.ch\" resolves to your IP an that the Following Ports redirecting to your Raspberry Pi under $FIXED_IP:
+If you use an external Domain, it ist necessary, that \"YOUR-DOMAIN.ch\" and \"*.YOUR-DOMAIN.ch\" resolves to your IP and that the Following Ports redirecting to your Raspberry Pi under $FIXED_IP:
 
 HTTP: 80 /tcp
 HTTPS: 443 /tcp
