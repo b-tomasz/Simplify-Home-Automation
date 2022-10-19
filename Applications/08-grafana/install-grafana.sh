@@ -4,6 +4,7 @@
 
 CONTAINER_ID=08
 CONTAINER_NAME=grafana
+PASSWORD=$1
 
 install (){
     
@@ -19,7 +20,7 @@ install (){
     
     
     # Start Container
-    docker-compose up -d
+    WEBPASSWORD=$PASSWORD docker-compose up -d
     
 }
 
