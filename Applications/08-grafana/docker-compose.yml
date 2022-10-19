@@ -2,12 +2,12 @@
 # Insired By: https://grafana.com/docs/grafana/v9.0/setup-grafana/installation/docker/
 # https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-docker/
 
-version: '2.1'
+version: '3.7'
 
 services:
   grafana:
     container_name: grafana
-    image: grafana/grafana-oss:8.2.0
+    image: grafana/grafana-oss:latest
     #ports:
     #  - 8004:3000
     user: "0:0"
