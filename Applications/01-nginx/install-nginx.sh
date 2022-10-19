@@ -127,6 +127,7 @@ server {
   deny   all;
   server_name grafana.home grafana.$EXTERNAL_DOMAIN;
   location / {
+    proxy_set_header Host $http_host;
     proxy_pass http://10.10.80.1:3000;
   }
   #These header fields are required if your application is using Websockets
@@ -389,6 +390,7 @@ server {
   deny   all;
   server_name grafana.$EXTERNAL_DOMAIN;
   location / {
+    proxy_set_header Host $http_host;
     proxy_pass http://10.10.80.1:3000;
   }
   #These header fields are required if your application is using Websockets
