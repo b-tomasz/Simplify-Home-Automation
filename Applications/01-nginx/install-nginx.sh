@@ -53,6 +53,11 @@ server {
   location / {
     proxy_pass http://10.10.20.1:9000;
   }
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade $http_upgrade;
+
+  #These header fields are required if your application is using Websockets    
+  proxy_set_header Connection "upgrade";
 }
 
 ###   Pihole    ###
@@ -67,6 +72,11 @@ server {
   location / {
     proxy_pass http://10.10.30.1;
   }
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade $http_upgrade;
+
+  #These header fields are required if your application is using Websockets    
+  proxy_set_header Connection "upgrade";
 }
 
 ###   Nodered    ###
@@ -100,6 +110,11 @@ server {
   location / {
     proxy_pass http://10.10.70.2:8080;
   }
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade $http_upgrade;
+
+  #These header fields are required if your application is using Websockets    
+  proxy_set_header Connection "upgrade";
 }
 
 ###   Grafana    ###
@@ -114,6 +129,11 @@ server {
   location / {
     proxy_pass http://10.10.80.1:3000;
   }
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade $http_upgrade;
+
+  #These header fields are required if your application is using Websockets    
+  proxy_set_header Connection "upgrade";
 }
 
 ###   Unifi    ###
