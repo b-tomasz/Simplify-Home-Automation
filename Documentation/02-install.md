@@ -3,7 +3,7 @@
 - [How to install the Containers](#how-to-install-the-containers)
   - [Check Prerequisits](#check-prerequisits)
   - [Connect to Raspberry Pi](#connect-to-raspberry-pi)
-  - [Start the Installationscript](#start-the-installationscript)
+  - [Start the Script](#start-the-script)
 
 ## Check Prerequisits
 
@@ -21,7 +21,7 @@ Type in the following:
 If you connected Successfully to the Raspberry Pi, elevate yourself to superuser using the following command:
 >sudo su
 
-## Start the Installationscript
+## Start the Script
 Copy the following Code into your Bash Command Line
 > cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 

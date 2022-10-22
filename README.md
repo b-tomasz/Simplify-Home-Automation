@@ -8,6 +8,7 @@
   - [Application List with IP-address](#application-list-with-ip-address)
   - [Application default Username's](#application-default-usernames)
   - [Setup your Raspberry Pi](#setup-your-raspberry-pi)
+  - [Install Documentation](#install-documentation)
   - [Start the Installationscript](#start-the-installationscript)
 
 ## Prerequisits:

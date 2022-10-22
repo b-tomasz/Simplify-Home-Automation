@@ -2,7 +2,7 @@
 
 - [How to update the System and all Containers](#how-to-update-the-system-and-all-containers)
   - [Connect to Raspberry Pi](#connect-to-raspberry-pi)
-  - [Start the Installationscript](#start-the-installationscript)
+  - [Start the Script](#start-the-script)
 
 ## Connect to Raspberry Pi
 To begin, Log-in to your Raspberry Pi via ssh. 
@@ -15,7 +15,7 @@ Type in the following:
 If you connected Successfully to the Raspberry Pi, elevate yourself to superuser using the following command:
 >sudo su
 
-## Start the Installationscript
+## Start the Script
 Copy the following Code into your Bash Command Line
 > cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 
@@ -35,5 +35,5 @@ The system and all containers will be updated.
 
 <img src="Images/update/Update004.png" alt="System is updating" width="500"/>
 
-After successfull installation you are done and can close the commandline.
+After successfull update you are done and can close the commandline.
 
