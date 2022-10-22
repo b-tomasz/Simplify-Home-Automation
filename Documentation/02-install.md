@@ -27,7 +27,7 @@ Copy the following Code into your Bash Command Line
 
 After the script started select Install and press Enter
 
-<img src="Images/install/Install001.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install001.png" alt="Choose install" width="500"/>
   
 The System will now chek a few parameters. Like the following:
 - your systems architecture
@@ -35,26 +35,26 @@ The System will now chek a few parameters. Like the following:
 
 If one or multiple fail you will get notified like this:
 
-<img src="Images/install/Install002.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install002.png" alt="failed prerequisite" width="500"/>
 
 In the next Promt you will be asked to update the System.
 Select "Update" to start the Process
 
-<img src="Images/install/Install004.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install004.png" alt="Update system" width="500"/>
 
 As soon the update is finished the script Continues with some essential Promts.
 
 - Please enter Fixed IP and IP of your Router.
 
-<img src="Images/install/Install006.png" alt="Chose OS" width="400"/><img src="Images/install/Install007.png" alt="Chose OS" width="400"/>
+<img src="Images/install/Install006.png" alt="Fixed ip pi" width="400"/><img src="Images/install/Install007.png" alt="Fixed ip router" width="400"/>
 
 - The next Promt is about the External Domain
 
-<img src="Images/install/Install008.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install008.png" alt="Domain info" width="500"/>
 
 If you choose yes, you will get asked to type in your External Domain and your E-Mail address. Otherwise this part will get skiped.
 
-<img src="Images/install/Install009.png" alt="Chose OS" width="400"/><img src="Images/install/Install010.png" alt="Chose OS" width="400"/>
+<img src="Images/install/Install009.png" alt="External domain" width="400"/><img src="Images/install/Install010.png" alt="E-Mail address" width="400"/>
 
 Now the Raspberry Pi needs to reboot, to apply the configured Settings. Reconnect to the Pi as described earlier.
 
@@ -63,17 +63,17 @@ After you successfull reconnected to the pi, you need to restart the script usin
 
 Choose install. Now the Docker installation begins. This is the Prerequisit for all of the following.
 
-<img src="Images/install/Install012.png" alt="Chose OS" width="400"/><img src="Images/install/Install013.png" alt="Chose OS" width="400"/>
+<img src="Images/install/Install012.png" alt="Docker installation" width="400"/><img src="Images/install/Install013.png" alt="Docker is installing" width="400"/>
 
 As soon as Docker is installed the next Promt will ask what Applications to install. You can sellect them via Space bar and Arrows on the keyboard. Confirm your selection with Enter.
 
-<img src="Images/install/Install014.png" alt="Chose OS" width="500"/>
+<img src="Images/install/Install014.png" alt="Chose Products" width="500"/>
 
 If you choose either Portainer, Grafana, VPN or PiHole you will get promted to type in a default Password. It will be the same for all Applications and you can change it on the Webinterface after installation.
 
 If you complete this task successfully the installation begins. Please be paitient this could take a while. As soon as the installation is completed you will get notified.
 
-<img src="Images/install/Install017.png" alt="Chose OS" width="400"/><img src="Images/install/Install018.png" alt="Chose OS" width="400"/>
+<img src="Images/install/Install017.png" alt="Products are installing" width="400"/><img src="Images/install/Install018.png" alt="Successfully installed" width="400"/>
 
 You can now close the Terminal or Powershell. The installation is now finished.
 
