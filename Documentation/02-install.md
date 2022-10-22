@@ -29,7 +29,7 @@ After the script started select Install and press Enter
 
 <img src="Images/install/Install001.png" alt="Choose install" width="500"/>
   
-The System will now chek a few parameters. Like the following:
+The System will now check a few parameters. Like the following:
 - your systems architecture
 - if your System is up-to-date
 
