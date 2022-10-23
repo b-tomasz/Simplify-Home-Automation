@@ -265,7 +265,10 @@ server {
 
 server {
   listen 443 ssl;
-  deny $FIXED_IP_GW;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
   server_name portainer.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.20.1:9000;
