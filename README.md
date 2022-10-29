@@ -24,6 +24,9 @@
 - 443
 - 10000
 
+   <img src="Documentation/Images/Readme001.png" alt="Portforwarding" width="500"/>
+
+   <img src="Documentation/Images/Readme002.png" alt="Portforwarding" width="200"/><img src="Documentation/Images/Readme003.png" alt="Portforwarding" width="200"/>
 ## Folder Configuration
 
 All Folder get created in   /var/homeautomation \
@@ -53,6 +56,9 @@ Apllicationfolder           /var/homeautomation/$Applicationname
 All Ports marked with brackets () are not activ but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the Container directly.
 
 ## Application default Username's
+
+The Passwort gets set during the installation script.
+
 | Container | Username |
 | --------- | -------- |
 | Portainer | admin    |

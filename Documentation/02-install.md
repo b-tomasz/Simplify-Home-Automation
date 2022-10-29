@@ -17,6 +17,11 @@ To begin, Log-in to your Raspberry Pi via ssh.
 
 Type in the following:
 >ssh pi@home-server.local
+If you set a diffrent hostname, replace home-server with your hostname.
+
+If it's the first time you connect to the raspberry pi you neet to accept the fingerprint of the pi by typing yes.
+
+After this you need to enter your password.
 
 If you connected Successfully to the Raspberry Pi, elevate yourself to superuser using the following command:
 >sudo su
@@ -48,7 +53,7 @@ As soon the update is finished the script Continues with some essential Promts.
 
 <img src="Images/install/Install006.png" alt="Fixed ip pi" width="400"/><img src="Images/install/Install007.png" alt="Fixed ip router" width="400"/>
 
-- The next Promt is about the External Domain
+- The next Promt is about the External Domain, this will be used to connect to your system via this domain. If you select Yes, your Portforwarding must be active to the Raspberry Pi as discribed in the script. Your External Domain must resolve to your Public IP. For example you can use bitwarden from everywhere. If you select no, Bitwarden, VPN and SSL can not be installed.
 
 <img src="Images/install/Install008.png" alt="Domain info" width="500"/>
 
@@ -69,7 +74,7 @@ As soon as Docker is installed the next Promt will ask what Applications to inst
 
 <img src="Images/install/Install014.png" alt="Chose Products" width="500"/>
 
-If you choose either Portainer, Grafana, VPN or PiHole you will get promted to type in a default Password. It will be the same for all Applications and you can change it on the Webinterface after installation.
+If you choose either Portainer, Grafana, Database, VPN or PiHole you will get promted to type in a default Password. It will be the same for all Applications and you can change it on the Webinterface after installation.
 
 If you complete this task successfully the installation begins. Please be paitient this could take a while. As soon as the installation is completed you will get notified.
 
