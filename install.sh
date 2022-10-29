@@ -562,7 +562,7 @@ update () {
     update_system
     
     # Update Containers
-    if [ ! -f "$CFG_PWD/ip.conf" ]; then
+    if [ ! -f "$CFG_PWD/ip.conf" ] && [ ! -f "$CFG_PWD/installed_tools.txt" ]; then 
         read -a TOOLS < $CFG_PWD/installed_tools.txt
         {
             PROGRESS=0
