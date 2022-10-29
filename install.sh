@@ -279,7 +279,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             while true
             do
                 
-                if EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 80 example.com 3>&1 1>&2 2>&3); then
+                if EXTERNAL_DOMAIN=$(whiptail --title "Domain" --inputbox "Enter your external Domain to use with this Project" 8 80 3>&1 1>&2 2>&3); then
                     echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
                     
                     if ( grep -E "^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}$" <<< "$EXTERNAL_DOMAIN" > /dev/null); then
@@ -297,7 +297,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             
             while true
             do
-                if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 80 test@example.com 3>&1 1>&2 2>&3); then
+                if EMAIL=$(whiptail --title "E-Mail" --inputbox "Enter your E-Mail address to use for Certificate Creation" 8 80 3>&1 1>&2 2>&3); then
                     echo "E-Mail Set to $EMAIL" >> $LOG_PWD/script.log
                     
                     if ( grep -E "^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" <<< "$EMAIL" > /dev/null); then
