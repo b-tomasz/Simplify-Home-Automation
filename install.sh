@@ -715,12 +715,12 @@ EOT
         
         cat $CFG_PWD/failed_installations.txt >> $LOG_PWD/script.log
         
-        # Check faild installation again. Try it 5 times every 10s
-        for (( c=1; c<=5; c++ ))
+        # Check faild installation again. Try it 10 times every 10s
+        for (( c=1; c<=10; c++ ))
         do
             if [ -f "$CFG_PWD/failed_installations.txt" ]; then
-                echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 5...\nXXX"
-                echo -e "\n\n----------Check failed installations again. Attempt $c of 5 ----------\n" >> $LOG_PWD/script.log
+                echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 10...\nXXX"
+                echo -e "\n\n----------Check failed installations again. Attempt $c of 10 ----------\n" >> $LOG_PWD/script.log
                 
                 read -a TOOLS < $CFG_PWD/failed_installations.txt
                 echo -e "Failed Installations: ${TOOLS[@]}" >> $LOG_PWD/script.log
@@ -740,7 +740,7 @@ EOT
             
             for (( i=1; i<=20; i++ ))
             do
-                echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 5 Next attempt: $(( 20 - $i ))...\nXXX"
+                echo -e "XXX\n95\nCheck failed installation again. Attempt $c of 10 Next attempt: $(( 20 - $i ))...\nXXX"
                 sleep 1
             done
         done
