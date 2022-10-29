@@ -585,6 +585,8 @@ update () {
             
         } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
     fi
+
+    whiptail --title "Update" --msgbox "Your System is up to date." --ok-button "Continue" 8 80
 }
 
 # Install Tools
