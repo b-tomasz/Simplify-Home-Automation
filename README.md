@@ -57,7 +57,7 @@ All Ports marked with brackets () are not active, but can be activated in the do
 
 ## Application default Username's
 
-The Password gets set during the installation script.
+During installation you enter an Password. That Password will be set for all containers as default Password. You can change the Passwords after installation in the Webinterface of each Container.
 
 | Container | Username |
 | --------- | -------- |
