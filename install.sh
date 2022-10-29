@@ -592,7 +592,6 @@ install () {
     # Disable needrestart during Script
     export NEEDRESTART_SUSPEND=1
     
-    whiptail --title "Update" --msgbox "Systen will get Updated now.\n" --ok-button "Update" 8 80
     update
 
     # Check if Pi has fixed IP and offer to set an fixed IP
