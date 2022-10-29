@@ -221,7 +221,7 @@ docker run -it --rm --name certbot --net homeautomation --ip 10.10.10.2 \
         # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
         # https://crontab.guru
         croncmd="/var/homeautomation/$CONTAINER_NAME/renew_cert.sh"
-        cronjob="0 */1 * * * $croncmd"
+        cronjob="0 1 * * * $croncmd"
         
         ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
         
