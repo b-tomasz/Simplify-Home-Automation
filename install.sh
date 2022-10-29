@@ -666,7 +666,9 @@ EOT
         echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
         
         # Check installation of nginx
-        rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
+        if [ -f "$CFG_PWD/failed_installations.txt" ];then
+            rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
+        fi
         check_installation nginx &>> $LOG_PWD/script.log
         
         # Loop trough TOOLS and Install all selected Tools
