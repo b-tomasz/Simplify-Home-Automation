@@ -56,7 +56,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
 }
 
@@ -75,7 +75,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
 }
 
@@ -94,7 +94,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
 }
 
@@ -113,7 +113,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
 }
 
@@ -133,7 +133,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
 }
 
@@ -149,13 +149,13 @@ server {
   return 301 https://unifi.home:8443"'$request_uri'";
 }
 
-" > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
+        " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
         
-
-      # Start Container
+        
+        # Start Container
         docker-compose up -d
         sleep 5
-
+        
     else
         # Continue with an external Domain
         
@@ -276,7 +276,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -297,7 +297,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -318,7 +318,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -335,7 +335,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -356,7 +356,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -377,7 +377,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -399,7 +399,7 @@ server {
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
@@ -416,11 +416,21 @@ server {
   server_name unifi.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass https://10.10.90.1:8443;
+	  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+	  proxy_set_header Host \$http_host;
+	  proxy_set_header X-Forwarded-Proto \$scheme;
+	  proxy_set_header X-Real-IP \$remote_addr;
+	  proxy_set_header Upgrade \$http_upgrade;
+	  proxy_set_header Connection \"Upgrade\";
+	  proxy_buffering off;
+	  proxy_ssl_verify off;
+
   }
+
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade "'$http_upgrade'";
 
-  #These header fields are required if your application is using Websockets    
+  #These header fields are required if your application is using Websockets
   proxy_set_header Connection "'"upgrade"'";
   ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
