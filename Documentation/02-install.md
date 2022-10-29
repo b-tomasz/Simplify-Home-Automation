@@ -11,17 +11,25 @@ Please check all prerequisites from [Readme.md](../README.md)
 
 
 ## Connect to Raspberry Pi
-To begin, Log-in to your Raspberry Pi via ssh. 
-- If you use Windows, open PowerShell
-- If you use Linux or macOS open Terminal
+1. To begin, Log-in to your Raspberry Pi via ssh. 
+      - If you use Windows, open PowerShell
+      - If you use Linux or macOS open Terminal
+2. Enter the following command:
+   - change the "pi" to your Username, if you changed it during installation
+   - replace "home-server" with the hostname you set during installation
+  
+```
+ssh pi@home-server.local
+```
 
-Type in the following:
->ssh pi@home-server.local
-If you set a different hostname, replace home-server with your hostname.
+3. On the first connection, you will get a warning, that you're connecting to an unknown Device. To confirm that, enter "yes" and confirm by pressing Enter
+4. Enter your Password and confirm by pressing Enter. **Note: you will not see any input, when you enter your Password**
+5. If the Connection was successfully, you should see the following line in your command prompt:
 
-If it's the first time you connect to the Raspberry Pi, you need to accept the fingerprint of the pi by typing yes.
+```
+pi@home-server:~ $
+```
 
-After this, you need to enter your password.
 
 If you connected Successfully to the Raspberry Pi, elevate yourself to superuser using the following command:
 >sudo su
