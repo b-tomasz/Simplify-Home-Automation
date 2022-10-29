@@ -186,7 +186,7 @@ check_arch () {
     then
         whiptail --title "System Architecture" --msgbox "Your Architecture is $ARCH" --ok-button "Continue" 8 80
     else
-        if (whiptail --title "System Architecture" --yesno "Your Architecture is $ARCH\n Your Platform is not Supported\n Ignor this at your own risk" --yes-button "Ignore" --no-button "Exit" 8 80); then
+        if (whiptail --title "System Architecture" --yesno "Your Architecture is $ARCH\nYour Platform is not Supported\nIgnor this at your own risk" --yes-button "Ignore" --no-button "Exit" 10 80); then
             return
         else
             # Exit Script
@@ -562,7 +562,7 @@ update () {
     update_system
     
     # Update Containers
-    if [ ! -f "$CFG_PWD/ip.conf" ]; then
+    if [ ! -f "$CFG_PWD/ip.conf" ] && [ -f "$CFG_PWD/installed_tools.txt" ]; then 
         read -a TOOLS < $CFG_PWD/installed_tools.txt
         {
             PROGRESS=0
