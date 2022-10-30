@@ -145,8 +145,24 @@ server {
   allow  10.0.0.0/8;
   allow  172.16.0.0/12;
   deny   all;
-  server_name unifi.home unifi.$EXTERNAL_DOMAIN;
-  return 301 https://unifi.home:8443"'$request_uri'";
+  server_name unifi.home unifi.example.com;
+  location / {
+    proxy_pass https://10.10.90.1:8443/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade "'$http_upgrade'";
+    proxy_set_header Connection "'"upgrade"'";
+    proxy_set_header Proxy "'""'";
+    proxy_set_header Host "'$host'";
+    proxy_set_header X-Real-IP "'$remote_addr'";
+    proxy_set_header X-Forward-For "'$proxy_add_x_forwarded_for'";
+    proxy_ssl_verify off;
+    proxy_set_header Origin '';
+  }
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade "'$http_upgrade'";
+
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Connection "'"upgrade"'";
 }
 
         " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
