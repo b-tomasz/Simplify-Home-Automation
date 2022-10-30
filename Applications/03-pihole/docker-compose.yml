@@ -27,8 +27,8 @@ services:
       TZ: 'Europe/Berlin'
       PIHOLE_DNS_: '10.10.30.2'
       WEBPASSWORD: ${WEBPASSWORD}
-      VIRTUAL_HOST: pihole.${EXTERNAL_DOMAIN}
-    hostname: pihole.${EXTERNAL_DOMAIN}
+      VIRTUAL_HOST: pihole.${VIRTUAL_HOST}
+    hostname: pihole.${VIRTUAL_HOST}
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)  
     depends_on:
