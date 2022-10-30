@@ -174,10 +174,10 @@ ns1                IN A 10.10.30.2  ;
     
     
     # Start Container
-    if [ EXTERNAL_DOMAIN = "example.com" ]; then
-    VIRTUAL_HOST = "home"
+    if [ $EXTERNAL_DOMAIN = "example.com" ]; then
+    VIRTUAL_HOST="home"
     else
-    VIRTUAL_HOST = $EXTERNAL_DOMAIN
+    VIRTUAL_HOST=$EXTERNAL_DOMAIN
     fi
     VIRTUAL_HOST=$VIRTUAL_HOST WEBPASSWORD=$PASSWORD docker-compose up -d
     
