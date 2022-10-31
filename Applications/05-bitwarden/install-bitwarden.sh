@@ -23,7 +23,9 @@ install (){
 
 # Upgrade Tools
 upgrade (){
-
+    # Upgrade Container
+    cd /var/homeautomation/$CONTAINER_NAME
+    docker-compose pull
     docker-compose up -d
 }
 
