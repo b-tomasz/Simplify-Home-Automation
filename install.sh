@@ -794,7 +794,9 @@ remove () {
             fi
         done
         
-        rm $CFG_PWD/failed_installations.txt
+        if [ -f "$CFG_PWD/failed_installations.txt" ]; then
+        rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
+        fi
         echo -e "XXX\n100\nFinished...\nXXX"
         sleep 0.5
         
