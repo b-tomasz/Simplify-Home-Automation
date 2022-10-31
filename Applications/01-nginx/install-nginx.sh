@@ -157,6 +157,7 @@ server {
     proxy_set_header X-Forward-For \$proxy_add_x_forwarded_for;
     proxy_ssl_verify off;
     proxy_set_header Origin '';
+    proxy_cookie_flags ~ nosecure;
   }
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade \$http_upgrade;
