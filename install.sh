@@ -558,7 +558,6 @@ update () {
     
     #Update the System
     echo "Start Update" >> $LOG_PWD/script.log
-    update_locale
     update_system
     
     # Update Containers
