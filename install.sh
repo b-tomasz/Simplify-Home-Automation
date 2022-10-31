@@ -661,19 +661,25 @@ EOT
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         
-        # Install nginx as base for the other Containers
-        install_container nginx &>> $LOG_PWD/script.log
-        sleep 10
-        
-        PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-        echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
-        
-        # Check installation of nginx
+
         if [ -f "$CFG_PWD/failed_installations.txt" ];then
             rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
         fi
-        check_installation nginx &>> $LOG_PWD/script.log
+
+        # Install nginx as base for the other Containers
+        if ! grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null ; then
+            install_container nginx &>> $LOG_PWD/script.log
+            sleep 10
         
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+            echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
+
+        # Check installation of nginx
+        check_installation nginx &>> $LOG_PWD/script.log
+        else
+            PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+        fi
+
         # Loop trough TOOLS and Install all selected Tools
         for TOOL in "${TOOLS[@]}"
         do
