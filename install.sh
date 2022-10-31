@@ -427,7 +427,7 @@ select_for_uninstallation () {
         exit_script 2
         
     else
-
+        
         if (whiptail --title "Remove Tools" --checklist \
             "Which Tools do you want to remove.\nUse SPACE to select/unselect a Tool." 20 80 $((${#SELECTION_ARRAY[@]} / 3)) \
             "${SELECTION_ARRAY[@]}"  2> $CFG_PWD/tools_to_uninstall.txt) ; then
@@ -562,30 +562,32 @@ update () {
     update_system
     
     # Update Containers
-    if [ -f "$CFG_PWD/installed_tools.txt" ]; then 
-        read -a TOOLS < $CFG_PWD/installed_tools.txt
-        {
-            PROGRESS=0
-            CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
-            
-            # Loop trough TOOLS and Upgrade all installed Tools
-            for TOOL in "${TOOLS[@]}"
-            do
+    if [ -f "$CFG_PWD/installed_tools.txt" ]; then
+        if (whiptail --title "Update Container" --yesno "Do you want to Update Your Containers?" --yes-button "Update" --no-button "Skip" 8 80); then
+            read -a TOOLS < $CFG_PWD/installed_tools.txt
+            {
+                PROGRESS=0
+                CONTAINER_PROGRESS=$(( 100 / ( ${#TOOLS[@]}) ))
                 
-                echo -e "XXX\n$PROGRESS\nUpgrade $TOOL...\nXXX"
-                PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
-                upgrade_container $TOOL &>> $LOG_PWD/script.log
+                # Loop trough TOOLS and Upgrade all installed Tools
+                for TOOL in "${TOOLS[@]}"
+                do
+                    
+                    echo -e "XXX\n$PROGRESS\nUpgrade $TOOL...\nXXX"
+                    PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
+                    upgrade_container $TOOL &>> $LOG_PWD/script.log
+                    
+                done
                 
-            done
-            
-            docker image prune -f
-            echo -e "XXX\n100\nFinished...\nXXX"
-            sleep 0.5
-            
-            
-        } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
+                docker image prune -f
+                echo -e "XXX\n100\nFinished...\nXXX"
+                sleep 0.5
+                
+                
+            } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
+        fi
     fi
-
+    
     whiptail --title "Update" --msgbox "Your System is up to date." --ok-button "Continue" 8 80
 }
 
@@ -595,7 +597,7 @@ install () {
     export NEEDRESTART_SUSPEND=1
     
     update
-
+    
     # Check if Pi has fixed IP and offer to set an fixed IP
     check_ip
     
@@ -622,13 +624,13 @@ install () {
     fi
     
     # Add hostnames to /etc/hosts
-
+    
 		cat > $CFG_PWD/hosts.patch << EOT
 --- /etc/hosts  2022-10-17 21:16:38.981733164 +0200
 +++ /etc/hosts_new      2022-10-17 21:16:29.137905998 +0200
 @@ -4,3 +4,23 @@
  ff02::2                ip6-allrouters
- 
+
  127.0.1.1      $(hostname)
 +
 +## Entrys for ckeching Webinterface availability
@@ -651,11 +653,11 @@ install () {
 +127.0.0.1      grafana.$EXTERNAL_DOMAIN
 +127.0.0.1      unifi.$EXTERNAL_DOMAIN
 EOT
-        
-    patch -l -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/script.log   
+    
+    patch -l -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/script.log
     
     # Install Containers
-
+    
     {
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
