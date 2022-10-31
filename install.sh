@@ -578,7 +578,7 @@ update () {
                 
             done
             
-            
+            docker image prune -f
             echo -e "XXX\n100\nFinished...\nXXX"
             sleep 0.5
             
