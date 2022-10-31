@@ -28,7 +28,7 @@ services:
       PIHOLE_DNS_: '10.10.30.2'
       WEBPASSWORD: ${WEBPASSWORD}
       VIRTUAL_HOST: pihole.${VIRTUAL_HOST}
-    hostname: pihole.${VIRTUAL_HOST}
+    hostname: pihole
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)  
     depends_on:
