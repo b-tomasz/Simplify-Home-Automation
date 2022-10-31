@@ -16,10 +16,10 @@ services:
     user: 0:0
 
     networks:
-      bitwarden:
+      nodered:
         ipv4_address: 10.10.60.1
 
 networks:
-  bitwarden:
+  nodered:
     name: homeautomation
     external: true
