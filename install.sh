@@ -720,7 +720,7 @@ EOT
             sleep 0.5
         done
         
-        cat $CFG_PWD/failed_installations.txt >> $LOG_PWD/script.log
+        cat $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
         
         # Check faild installation again. Try it 10 times every 10s
         for (( c=1; c<=10; c++ ))
