@@ -597,7 +597,7 @@ SHARE_USERNAME=$(whiptail --title "Share Password" --nocancel --passwordbox "Ent
         cp /etc/fstab /etc/fstab_orig
         echo -e "\n\n# Network share for Backup\n$FSTAB_COMMAND" >> /etc/fstab
 
-
+mount -a
 
 
     select_location
