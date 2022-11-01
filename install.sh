@@ -898,11 +898,11 @@ backup () {
     
     # Chose, what to do:
     MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 4 \
-        "Select Location" "Select the Loctaion for the Backup" \
-        
+        "SelectLocation" "Select the Loctaion for the Backup" \
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
+    echo $MENU
     
-    if [ $MENU = "Select Location" ] ;then
+    if [ $MENU = "SelectLocation" ] ;then
         select_location
         elif [ $MENU = "sdfs" ] ;then
         install
