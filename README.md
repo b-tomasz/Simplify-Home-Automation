@@ -42,7 +42,7 @@ This Repository is designed get easy access to Home automation and Home Network 
 | Database  | 10.10.70.1 | (10002:3306)                                      | -                                        |
 | - Adminer | 10.10.70.2 | (8003:8080)                                       | database.home / database.[your Domain]   |
 | Grafana   | 10.10.80.1 | (8004:3000)                                       | grafana.home / grafana.[your Domain]     |
-| Unifi     | 10.10.90.1 | 8443:8443, 3478:3478,<br />8080:8080, 10001:10001 | unifi.home / unifi.[your Domain]         |
+| Unifi     | 10.10.90.1 | (8443:8443), 3478:3478,<br />8080:8080, 10001:10001 | unifi.home / unifi.[your Domain]         |
 
 All Ports marked with brackets () are not active, but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the Container directly.
 
