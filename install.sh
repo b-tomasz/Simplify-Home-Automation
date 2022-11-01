@@ -552,7 +552,7 @@ check_installation (){
 select_location() {
     
     # Chose, what to do:
-    MENU=$(whiptail --title "Backup" --menu "Where do you want to store the Backups?" --nocancel 20 80 4 \
+    MENU=$(whiptail --title "Backup" --menu "Where do you want to store the Backups?" --nocancel 20 80 2 \
         "Network Share" "Network Drive like a Nas" \
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
     
@@ -897,12 +897,12 @@ remove () {
 backup () {
     
     # Chose, what to do:
-    MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 4 \
-        "SelectLocation" "Select the Loctaion for the Backup" \
+    MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 2 \
+        "Select Location" "Select the Loctaion for the Backup" \
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
     echo $MENU
     
-    if [ $MENU = "SelectLocation" ] ;then
+    if [ $MENU = "Select Location" ] ;then
         select_location
         elif [ $MENU = "sdfs" ] ;then
         install
