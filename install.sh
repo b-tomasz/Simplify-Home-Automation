@@ -899,8 +899,7 @@ backup () {
     # Chose, what to do:
     MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 4 \
         "Select Location" "Select the Loctaion for the Backup" \
-        "Install" "Install Tools" \
-        "Remove" "Remove Tools" \
+        
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
     
     if [ $MENU = "Select Location" ] ;then
@@ -924,11 +923,11 @@ backup () {
 echo "Script Started at: " $(date) > $LOG_PWD/script.log
 
 # Chose, what to do:
-MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --nocancel 20 80 4 \
+MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --nocancel 20 80 5 \
     "Update" "Update the System and the installed tools" \
     "Install" "Install Tools" \
     "Remove" "Remove Tools" \
-    "Backup" "Remove Tools" \
+    "Backup" "Backup Data" \
 "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
 
 if [ $MENU = "Update" ] ;then
