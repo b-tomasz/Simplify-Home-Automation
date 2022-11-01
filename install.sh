@@ -556,7 +556,7 @@ select_location() {
         "Network Share" "Network Drive like a Nas" \
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
     
-    if [ $MENU = "Network Share" ] ;then
+    if [ "$MENU" = "Network Share" ] ;then
         #select a Network Drive and Mount it.
         echo "Setup Network Share for Backup" >> $LOG_PWD/script.log
         
@@ -615,13 +615,13 @@ select_location() {
         
         
         
-        elif [ $MENU = "sdfs" ] ;then
+        elif [ "$MENU" = "sdfs" ] ;then
         install
-        elif [ $MENU = "Remove" ] ;then
+        elif [ "$MENU" = "Remove" ] ;then
         remove
-        elif [ $MENU = "Backup" ] ;then
+        elif [ "$MENU" = "Backup" ] ;then
         backup
-        elif [ $MENU = "Exit" ] ;then
+        elif [ "$MENU" = "Exit" ] ;then
         exit 2
         
     fi
@@ -900,17 +900,16 @@ backup () {
     MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 2 \
         "Select Location" "Select the Loctaion for the Backup" \
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
-    echo $MENU
     
-    if [ $MENU = "Select Location" ] ;then
+    if [ "$MENU" = "Select Location" ] ;then
         select_location
-        elif [ $MENU = "sdfs" ] ;then
+        elif [ "$MENU" = "sdfs" ] ;then
         install
-        elif [ $MENU = "Remove" ] ;then
+        elif [ "$MENU" = "Remove" ] ;then
         remove
-        elif [ $MENU = "Backup" ] ;then
+        elif [ "$MENU" = "Backup" ] ;then
         backup
-        elif [ $MENU = "Exit" ] ;then
+        elif [ "$MENU" = "Exit" ] ;then
         exit 2
         
     fi
@@ -930,15 +929,15 @@ MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --noca
     "Backup" "Backup Data" \
 "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
 
-if [ $MENU = "Update" ] ;then
+if [ "$MENU" = "Update" ] ;then
     update
-    elif [ $MENU = "Install" ] ;then
+    elif [ "$MENU" = "Install" ] ;then
     install
-    elif [ $MENU = "Remove" ] ;then
+    elif [ "$MENU" = "Remove" ] ;then
     remove
-    elif [ $MENU = "Backup" ] ;then
+    elif [ "$MENU" = "Backup" ] ;then
     backup
-    elif [ $MENU = "Exit" ] ;then
+    elif [ "$MENU" = "Exit" ] ;then
     exit 2
     
 fi
