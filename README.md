@@ -1,6 +1,6 @@
 # Simplify-Home-Automation
 
-<img src="Documentation/Images/Readme000.png" alt="title" width="800"/>
+<img src="Documentation/Images/Readme000.png" alt="title"/>
 
 - [Simplify-Home-Automation](#simplify-home-automation)
   - [Overview](#overview)
