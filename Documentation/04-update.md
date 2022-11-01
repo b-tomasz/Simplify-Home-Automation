@@ -24,7 +24,6 @@ ssh pi@home-server.local
 pi@home-server:~ $
 ```
 
-
 6. If you connected Successfully to the Raspberry Pi, elevate yourself to superuser using the following command:
 ```
 sudo su
