@@ -547,6 +547,73 @@ check_installation (){
     
 }
 
+select_location() {
+
+    # Chose, what to do:
+MENU=$(whiptail --title "Backup" --menu "Where do you want to store the Backups?" --nocancel 20 80 4 \
+    "Network Share" "Network Drive like a Nas" \
+"Exit" "Leave this Script" 3>&1 1>&2 2>&3)
+
+if [ $MENU = "Network Share" ] ;then
+    #select a Network Drive and Mount it.
+    echo "Setup Network Share for Backup" >> $LOG_PWD/script.log
+
+
+    # Create Mount point
+    mkdir -p $SCRIPT_PWD/backup
+
+                while true
+            do
+                
+                if SHARE_PWD=$(whiptail --title "Network Share" --inputbox "Enter the path to your network share\nLike: \\\\192.168.1.10\\backup" 8 80 3>&1 1>&2 2>&3); then
+                    echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
+                    echo "$SHARE_PWD"
+                    
+                    if ( grep -P '^(\\)(\\[\w\.-_]+){2,}$' <<< "$SHARE_PWD" > /dev/null); then
+                        break
+                    else
+                        whiptail --title "Network Share" --msgbox "The entered Path is not valid" 8 80
+                    fi
+                else
+                    echo "No Path was set" >> $LOG_PWD/script.log
+                    exit_script 2
+                fi
+            done
+
+SHARE_USERNAME=$(whiptail --title "Share Password" --nocancel --passwordbox "Enter the Password for your Network share." 8 80  3>&1 1>&2 2>&3)
+
+            while true
+        do
+            SHARE_PASSWORD=$(whiptail --title "Share Password" --nocancel --passwordbox "Enter the Password for your Network share." 8 80  3>&1 1>&2 2>&3)
+            if [ $(whiptail --title "Share Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $SHARE_PASSWORD ];then
+                break
+            else
+                whiptail --title "Share Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
+            fi
+        done
+
+        FSTAB_COMMAND="$SHARE_PWD $SCRIPT_PWD/backup cifs username=$SHARE_USERNAME,password=$SHARE_PASSWORD 0 0"
+
+        cp /etc/fstab /etc/fstab_orig
+        echo -e "\n\n# Network share for Backup\n$FSTAB_COMMAND" >> /etc/fstab
+
+
+
+
+    select_location
+    elif [ $MENU = "sdfs" ] ;then
+    install
+    elif [ $MENU = "Remove" ] ;then
+    remove
+    elif [ $MENU = "Backup" ] ;then
+    backup
+    elif [ $MENU = "Exit" ] ;then
+    exit 2
+    
+fi
+
+}
+
 # Update the System
 update () {
     # Disable needrestart during Script
@@ -812,6 +879,31 @@ remove () {
     } | whiptail --title "Uninstall" --gauge "Uninstall ..." 6 80 0
 }
 
+# Backup Data
+backup () {
+    
+# Chose, what to do:
+MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 4 \
+    "Select Location" "Select the Loctaion for the Backup" \
+    "Install" "Install Tools" \
+    "Remove" "Remove Tools" \
+"Exit" "Leave this Script" 3>&1 1>&2 2>&3)
+
+if [ $MENU = "Select Location" ] ;then
+    select_location
+    elif [ $MENU = "sdfs" ] ;then
+    install
+    elif [ $MENU = "Remove" ] ;then
+    remove
+    elif [ $MENU = "Backup" ] ;then
+    backup
+    elif [ $MENU = "Exit" ] ;then
+    exit 2
+    
+fi
+
+}
+
 ### Script
 
 # Initialize Log File
@@ -830,6 +922,8 @@ if [ $MENU = "Update" ] ;then
     install
     elif [ $MENU = "Remove" ] ;then
     remove
+    elif [ $MENU = "Backup" ] ;then
+    backup
     elif [ $MENU = "Exit" ] ;then
     exit 2
     
