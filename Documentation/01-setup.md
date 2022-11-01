@@ -1,7 +1,5 @@
 # How to setup your Raspberry Pi
 
-
-
 - [How to setup your Raspberry Pi](#how-to-setup-your-raspberry-pi)
   - [What you need to Start](#what-you-need-to-start)
   - [Installation of the Operating System](#installation-of-the-operating-system)
