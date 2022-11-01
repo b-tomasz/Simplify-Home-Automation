@@ -560,7 +560,7 @@ select_location() {
         #select a Network Drive and Mount it.
         echo "Setup Network Share for Backup" >> $LOG_PWD/script.log
         
-        if ! grep -s "$BACKUP_PWD" /etc/fstab &> /dev/null ; then
+        if grep -s "$BACKUP_PWD" /etc/fstab &> /dev/null ; then
             if (whiptail --title "Network Share" --yesno "There is already a network share set up.\nDo you want to change the Backup location?" --yes-button "Change" --no-button "Exit" 8 80); then
                 
                 # remove previous mount
