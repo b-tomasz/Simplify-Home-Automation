@@ -90,20 +90,20 @@ That you can Access all Tools with theire DNS Name, it is Necessary that You cha
 
 >This Method applies only for that device you change it. It is fine for Testing purposes. For a final Installation we reccomend using the [Network wide](#network-wide) setting.
 
-1. Press the **Windows Key + R**
+1. Press the **Windows Key + R**, to open the Run dialog.
 2. Enter **ncpa.cpl** an presse Enter
    
    <img src="Documentation/Images/Readme004.png" alt="Local DNS 1" width="400"/>
 
-3. Right Click on your Used Network connection and select **Preferences** 
+3. Right Click on your Used Network connection and select **Properties** 
    
    <img src="Documentation/Images/Readme005.png" alt="Local DNS 2" width="300"/>
    
-4. Double Click on **Internet Protokoll Version 4** to open your IP settings
+4. Double Click on **Internetprotokoll. Version 4** to open your IP settings
    
    <img src="Documentation/Images/Readme006.png" alt="Local DNS 3" width="300"/>
    
-5. Cahnge to **Folgende DNS-Serveradressen verwenden** and enter the IP of your Raspberry Pi
+5. Cahnge to **Use the following DNS server address** and enter the IP of your Raspberry Pi
    
    <img src="Documentation/Images/Readme007.png" alt="Local DNS 4" width="300"/>
 
