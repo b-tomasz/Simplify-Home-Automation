@@ -27,7 +27,7 @@ if ( df | grep "$BACKUP_PWD" &> /dev/null); then
     
     
     # Start caontainers
-    docker container stop $RUNNING_CONTAINER
+    docker container start $RUNNING_CONTAINER
     
 else
     echo -e "Backup Path not found" >> $LOG_PWD/backup.log
