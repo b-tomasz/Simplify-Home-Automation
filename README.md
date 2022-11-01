@@ -1,8 +1,9 @@
 # Simplify-Home-Automation
 
+<img src="Documentation/Images/Readme000.png" alt="title" width="800"/>
+
 - [Simplify-Home-Automation](#simplify-home-automation)
   - [Overview](#overview)
-  - [Setup your Raspberry Pi](#setup-your-raspberry-pi)
   - [Prerequisites:](#prerequisites)
   - [Application List with IP-addresses](#application-list-with-ip-addresses)
   - [Networks](#networks)
@@ -13,9 +14,9 @@
 
 ## Overview
 
-This Repository
+This Repository is designed get easy access to Home automation and Home Network management.
 
-## [Setup your Raspberry Pi](Documentation/01-setup.md)
+[Setup your Raspberry Pi](Documentation/01-setup.md)
 
 ## Prerequisites:
 
