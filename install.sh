@@ -594,7 +594,7 @@ select_location() {
             fi
         done
         
-        SHARE_USERNAME=$(whiptail --title "Share Password" --nocancel --passwordbox "Enter the Password for your Network share." 8 80  3>&1 1>&2 2>&3)
+        SHARE_USERNAME=$(whiptail --title "Share Username" --nocancel --inputbox "Enter the Username for your Network share." 8 80  3>&1 1>&2 2>&3)
         
         while true
         do
@@ -610,7 +610,10 @@ select_location() {
         
         cp /etc/fstab /etc/fstab_orig
         echo -e "\n$FSTAB_COMMAND" >> /etc/fstab
+
+        echo -e "Added to Fstab:\n$FSTAB_COMMAND" >> $LOG_PWD/script.log
         
+        # Applie the new fstab Config
         mount -a
         
         
