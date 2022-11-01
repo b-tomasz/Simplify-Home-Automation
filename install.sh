@@ -564,7 +564,7 @@ select_location() {
             if (whiptail --title "Network Share" --yesno "There is already a network share set up.\nDo you want to change the Backup location?" --yes-button "Change" --no-button "Exit" 8 80); then
                 
                 # remove previous mount
-                sed -i "/${BACKUP_PWD//\//\\/}/d" myfile.txt
+                sed -i "/${BACKUP_PWD//\//\\/}/d" /etc/fstab
                 umount $BACKUP_PWD
                 
             else
