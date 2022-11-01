@@ -564,8 +564,8 @@ select_location() {
             if (whiptail --title "Network Share" --yesno "There is already a network share set up.\nDo you want to change the Backup location?" --yes-button "Change" --no-button "Exit" 8 80); then
                 
                 # remove previous mount
-                sed -i "/${BACKUP_PWD//\//\\/}/d" /etc/fstab
-                umount $BACKUP_PWD
+                sed -i "/${BACKUP_PWD//\//\\/}/d" /etc/fstab &>> $LOG_PWD/script.log
+                umount $BACKUP_PWD &>> $LOG_PWD/script.log
                 
             else
                 exit 2
@@ -581,7 +581,6 @@ select_location() {
             
             if SHARE_PWD=$(whiptail --title "Network Share" --inputbox "Enter the path to your network share\nLike: \\\\192.168.1.10\\backup" 10 80 3>&1 1>&2 2>&3); then
                 echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
-                echo "$SHARE_PWD"
                 
                 if ( grep -P '^(\\)(\\[\w\.-_]+){2,}$' <<< "$SHARE_PWD" > /dev/null); then
                     break
