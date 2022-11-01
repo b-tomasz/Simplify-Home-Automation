@@ -7,8 +7,7 @@
   - [Application List with IP-addresses](#application-list-with-ip-addresses)
   - [Networks](#networks)
   - [Ports that need to be forwarded to Raspberry Pi](#ports-that-need-to-be-forwarded-to-raspberry-pi)
-  - [DNS Configuration](#dns-configuration)
-  - [Folder Configuration](#folder-configuration)
+    - [Network wide](#network-wide)
   - [Application default Username's](#application-default-usernames)
   - [Start the Installation script](#start-the-installation-script)
 
@@ -54,21 +53,39 @@ All Ports marked with brackets () are not active, but can be activated in the do
 
 If you use an external Domain to use SSL Certificates (what we strongly reccomend) then it is necessary that you forward the follwing Ports to Your Raspberry Pi 
 
-- HTTP: 80 (tcp)
-  - Used to generate SSL certificates and redirert http to https
-- HTTPS: 443 (tcp)
-  - Used to Access Bitwarden from Outside your Network
-- VPN: 10000 (udp)
-  - Used to connect to your Homenetwork via a VPN
+1. Press the **Windows Key + R**
+2. Enter **ncpa.cpl** an presse Enter
+   
+   <img src="Documentation/Images/Readme004.png" alt="Local DNS 1" width="400"/>
 
-Further Information and example configuration is listed in the [install documentation](Documentation/02-install.md#ports-that-need-to-be-forwarded-to-raspberry-pi)
+3. Right Click on your Used Network connection and select **Preferences** 
+   
+   <img src="Documentation/Images/Readme005.png" alt="Local DNS 2" width="300"/>
+   
+4. Double Click on **Internet Protokoll Version 4** to open your IP settings
+   
+   <img src="Documentation/Images/Readme006.png" alt="Local DNS 3" width="300"/>
+   
+5. Cahnge to **Folgende DNS-Serveradressen verwenden** and enter the IP of your Raspberry Pi
+   
+   <img src="Documentation/Images/Readme007.png" alt="Local DNS 4" width="300"/>
 
-## DNS Configuration
+6. Click on **OK** to close the dialog boxes.
 
-After successfully installed PiHole you need to set your DNS Setting pointing to the Raspberry Pi.
-Further information discribed in the [install documentation](Documentation/02-install.md#change-dns-server)
+### Network wide
 
-## Folder Configuration
+>This Mathod applies for all Devices connected to your Networ and is the best option for a final installation.
+
+1. Open the Webinterface of your Router by entering the IP Address of your Router in the Webbrowser. If you didn't changed the IP it will be 192.168.1.1
+2. Enable the Expert mode on the left side and then navigate to **Network -> Settings -> IP setting**
+3. Scroll down to **IP address distribution (DHCP)**
+4. Enable the Checkbox **DNS servers advertised via DHCP options 6** and enter the IP Address of your Raspberry Py
+
+    <img src="Documentation/Images/Readme008.png" alt="DNS over DHCP" width="800"/>
+
+5. You have to reconnect your Device that this Change applies to your Device 
+
+
 
 All folders get created in  /var/homeautomation \
 Script folder               /var/homeautomation/script \

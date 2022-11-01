@@ -12,10 +12,15 @@
 # Functions with Parameters:
 # https://www.redhat.com/sysadmin/arguments-options-bash-scripts
 #
-# Script kontrolle:
+#
+# Shell Check:
 # https://www.shellcheck.net/
 #
 #
+# Patch File:
+# https://man7.org/linux/man-pages/man1/patch.1.html
+# https://www.thegeekstuff.com/2014/12/patch-command-examples/
+
 
 ### Exit Codes:
 
@@ -317,10 +322,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=example.com\nNO_EXTERNAL_DOMAIN=true" > $CFG_PWD/ip.conf
         fi
         
-        # Different Solution with Patch instead of sed:
-        # https://man7.org/linux/man-pages/man1/patch.1.html
-        # https://www.thegeekstuff.com/2014/12/patch-command-examples/
-        
+      
         
 		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
 --- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
