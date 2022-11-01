@@ -630,6 +630,22 @@ select_location() {
     
 }
 
+# Enable Backup
+enable_bakup () {
+    # Backup Script herunterladen und Cronjob für tägliches Backup erstellen
+        cd //var/homeautomation/script; rm backup.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/backup-feature/backup.sh &> /dev/null
+        chmod +x /var/homeautomation/script/backup.sh
+        
+        
+        # Add Script renewal to Chronjob
+        # https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
+        # https://crontab.guru
+        croncmd="/var/homeautomation/script/backup.sh"
+        cronjob="0 2 * * * $croncmd"
+        
+        ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+}
+
 # Update the System
 update () {
     # Disable needrestart during Script
@@ -899,14 +915,15 @@ remove () {
 backup () {
     
     # Chose, what to do:
-    MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 2 \
+    MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 3 \
         "Select Location" "Select the Loctaion for the Backup" \
+        "Enable Backup" "Enable the daily automatic Backup" \
     "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
     
     if [ "$MENU" = "Select Location" ] ;then
         select_location
-        elif [ "$MENU" = "sdfs" ] ;then
-        install
+        elif [ "$MENU" = "Enable Backup" ] ;then
+        enable_bakup
         elif [ "$MENU" = "Remove" ] ;then
         remove
         elif [ "$MENU" = "Backup" ] ;then
