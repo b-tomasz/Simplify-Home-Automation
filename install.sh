@@ -46,7 +46,7 @@ SCRIPT_PWD=/tmp
 SCRIPT_NAME=install.sh
 LOG_PWD=/var/homeautomation/script/log
 CFG_PWD=/var/homeautomation/script/config
-BACKUP_PWD=/var/homeautomation/backup
+BACKUP_PWD=/mnt/backup/share
 
 # ContainerIDs
 declare -A CONTAINER_IDS
