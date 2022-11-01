@@ -11,6 +11,7 @@
   - [Folder Configuration](#folder-configuration)
   - [Application default Username's](#application-default-usernames)
   - [Start the Installation script](#start-the-installation-script)
+  - [Used Docker images](#used-docker-images)
 
 ## Overview
 
@@ -85,3 +86,19 @@ During installation you enter an Password. That Password will be set for all con
 ```
 cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 ```
+
+## Used Docker images
+| Application | Link                                                  |
+| ----------- | ----------------------------------------------------- |
+| Nginx:      | https://hub.docker.com/_/nginx                        |
+| Certbot:    | https://hub.docker.com/r/certbot/certbot              |
+| Portainer:  | https://hub.docker.com/r/portainer/portainer-ce       |
+| Pihole:     | https://hub.docker.com/r/pihole/pihole                |
+| Bind9:      | https://hub.docker.com/r/ubuntu/bind9                 |
+| Wireguard:  | https://hub.docker.com/r/weejewel/wg-easy             |
+| Bitwarden:  | https://hub.docker.com/r/vaultwarden/server           |
+| Nodered:    | https://hub.docker.com/r/nodered/node-red             |
+| Database:   | https://hub.docker.com/_/mysql                        |
+| Adminer:    | https://hub.docker.com/_/adminer                      |
+| Grafana:    | https://hub.docker.com/r/grafana/grafana-oss          |
+| Unifi:      | https://hub.docker.com/r/linuxserver/unifi-controller |
