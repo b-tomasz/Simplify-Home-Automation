@@ -38,7 +38,7 @@ fi
 # Create Script/Config/Log Folder
 mkdir -p /var/homeautomation/script/log
 mkdir -p /var/homeautomation/script/config
-mkdir -p /var/homeautomation/script/backup
+mkdir -p /mnt/backup/share
 cd /var/homeautomation/script
 
 ### Variables
