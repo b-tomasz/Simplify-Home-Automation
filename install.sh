@@ -322,7 +322,7 @@ Do you haven an external Domain and configured the DNS and Portforwarding?
             echo -e "FIXED_IP=$FIXED_IP\nFIXED_IP_GW=$FIXED_IP_GW\nEXTERNAL_DOMAIN=example.com\nNO_EXTERNAL_DOMAIN=true" > $CFG_PWD/ip.conf
         fi
         
-      
+        
         
 		cat > $CFG_PWD/dhcpcd.conf.patch << EOT
 --- dhcpcd.conf 2022-07-25 17:48:05.000000000 +0200
@@ -548,41 +548,41 @@ check_installation (){
 }
 
 select_location() {
-
+    
     # Chose, what to do:
-MENU=$(whiptail --title "Backup" --menu "Where do you want to store the Backups?" --nocancel 20 80 4 \
-    "Network Share" "Network Drive like a Nas" \
-"Exit" "Leave this Script" 3>&1 1>&2 2>&3)
-
-if [ $MENU = "Network Share" ] ;then
-    #select a Network Drive and Mount it.
-    echo "Setup Network Share for Backup" >> $LOG_PWD/script.log
-
-
-    # Create Mount point
-    mkdir -p $SCRIPT_PWD/backup
-
-                while true
-            do
+    MENU=$(whiptail --title "Backup" --menu "Where do you want to store the Backups?" --nocancel 20 80 4 \
+        "Network Share" "Network Drive like a Nas" \
+    "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
+    
+    if [ $MENU = "Network Share" ] ;then
+        #select a Network Drive and Mount it.
+        echo "Setup Network Share for Backup" >> $LOG_PWD/script.log
+        
+        
+        # Create Mount point
+        mkdir -p $SCRIPT_PWD/backup
+        
+        while true
+        do
+            
+            if SHARE_PWD=$(whiptail --title "Network Share" --inputbox "Enter the path to your network share\nLike: \\\\192.168.1.10\\backup" 8 80 3>&1 1>&2 2>&3); then
+                echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
+                echo "$SHARE_PWD"
                 
-                if SHARE_PWD=$(whiptail --title "Network Share" --inputbox "Enter the path to your network share\nLike: \\\\192.168.1.10\\backup" 8 80 3>&1 1>&2 2>&3); then
-                    echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
-                    echo "$SHARE_PWD"
-                    
-                    if ( grep -P '^(\\)(\\[\w\.-_]+){2,}$' <<< "$SHARE_PWD" > /dev/null); then
-                        break
-                    else
-                        whiptail --title "Network Share" --msgbox "The entered Path is not valid" 8 80
-                    fi
+                if ( grep -P '^(\\)(\\[\w\.-_]+){2,}$' <<< "$SHARE_PWD" > /dev/null); then
+                    break
                 else
-                    echo "No Path was set" >> $LOG_PWD/script.log
-                    exit_script 2
+                    whiptail --title "Network Share" --msgbox "The entered Path is not valid" 8 80
                 fi
-            done
-
-SHARE_USERNAME=$(whiptail --title "Share Password" --nocancel --passwordbox "Enter the Password for your Network share." 8 80  3>&1 1>&2 2>&3)
-
-            while true
+            else
+                echo "No Path was set" >> $LOG_PWD/script.log
+                exit_script 2
+            fi
+        done
+        
+        SHARE_USERNAME=$(whiptail --title "Share Password" --nocancel --passwordbox "Enter the Password for your Network share." 8 80  3>&1 1>&2 2>&3)
+        
+        while true
         do
             SHARE_PASSWORD=$(whiptail --title "Share Password" --nocancel --passwordbox "Enter the Password for your Network share." 8 80  3>&1 1>&2 2>&3)
             if [ $(whiptail --title "Share Password" --nocancel --passwordbox "Please Confirm your Password:" 8 80  3>&1 1>&2 2>&3) = $SHARE_PASSWORD ];then
@@ -591,27 +591,27 @@ SHARE_USERNAME=$(whiptail --title "Share Password" --nocancel --passwordbox "Ent
                 whiptail --title "Share Password" --msgbox "The Passwords you entred do not match.\nPlease Try it again." 8 80
             fi
         done
-
+        
         FSTAB_COMMAND="$SHARE_PWD $SCRIPT_PWD/backup cifs username=$SHARE_USERNAME,password=$SHARE_PASSWORD 0 0"
-
+        
         cp /etc/fstab /etc/fstab_orig
         echo -e "\n\n# Network share for Backup\n$FSTAB_COMMAND" >> /etc/fstab
-
-mount -a
-
-
-    select_location
-    elif [ $MENU = "sdfs" ] ;then
-    install
-    elif [ $MENU = "Remove" ] ;then
-    remove
-    elif [ $MENU = "Backup" ] ;then
-    backup
-    elif [ $MENU = "Exit" ] ;then
-    exit 2
+        
+        mount -a
+        
+        
+        select_location
+        elif [ $MENU = "sdfs" ] ;then
+        install
+        elif [ $MENU = "Remove" ] ;then
+        remove
+        elif [ $MENU = "Backup" ] ;then
+        backup
+        elif [ $MENU = "Exit" ] ;then
+        exit 2
+        
+    fi
     
-fi
-
 }
 
 # Update the System
@@ -730,25 +730,25 @@ EOT
         PROGRESS=0
         CONTAINER_PROGRESS=$(( 95 / ( (${#TOOLS[@]} + 1) * 2 ) ))
         
-
+        
         if [ -f "$CFG_PWD/failed_installations.txt" ];then
             rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
         fi
-
+        
         # Install nginx as base for the other Containers
         if ! grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null ; then
             install_container nginx &>> $LOG_PWD/script.log
             sleep 10
-        
+            
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
             echo -e "XXX\n$PROGRESS\nCheck nginx...\nXXX"
-
-        # Check installation of nginx
-        check_installation nginx &>> $LOG_PWD/script.log
+            
+            # Check installation of nginx
+            check_installation nginx &>> $LOG_PWD/script.log
         else
             PROGRESS=$(( $PROGRESS + $CONTAINER_PROGRESS ))
         fi
-
+        
         # Loop trough TOOLS and Install all selected Tools
         for TOOL in "${TOOLS[@]}"
         do
@@ -870,7 +870,7 @@ remove () {
         done
         
         if [ -f "$CFG_PWD/failed_installations.txt" ]; then
-        rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
+            rm $CFG_PWD/failed_installations.txt &>> $LOG_PWD/script.log
         fi
         echo -e "XXX\n100\nFinished...\nXXX"
         sleep 0.5
@@ -882,26 +882,26 @@ remove () {
 # Backup Data
 backup () {
     
-# Chose, what to do:
-MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 4 \
-    "Select Location" "Select the Loctaion for the Backup" \
-    "Install" "Install Tools" \
-    "Remove" "Remove Tools" \
-"Exit" "Leave this Script" 3>&1 1>&2 2>&3)
-
-if [ $MENU = "Select Location" ] ;then
-    select_location
-    elif [ $MENU = "sdfs" ] ;then
-    install
-    elif [ $MENU = "Remove" ] ;then
-    remove
-    elif [ $MENU = "Backup" ] ;then
-    backup
-    elif [ $MENU = "Exit" ] ;then
-    exit 2
+    # Chose, what to do:
+    MENU=$(whiptail --title "Backup" --menu "What do you want to do?" --nocancel 20 80 4 \
+        "Select Location" "Select the Loctaion for the Backup" \
+        "Install" "Install Tools" \
+        "Remove" "Remove Tools" \
+    "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
     
-fi
-
+    if [ $MENU = "Select Location" ] ;then
+        select_location
+        elif [ $MENU = "sdfs" ] ;then
+        install
+        elif [ $MENU = "Remove" ] ;then
+        remove
+        elif [ $MENU = "Backup" ] ;then
+        backup
+        elif [ $MENU = "Exit" ] ;then
+        exit 2
+        
+    fi
+    
 }
 
 ### Script
@@ -914,6 +914,7 @@ MENU=$(whiptail --title "Install Script" --menu "What do you want to do?" --noca
     "Update" "Update the System and the installed tools" \
     "Install" "Install Tools" \
     "Remove" "Remove Tools" \
+    "Backup" "Remove Tools" \
 "Exit" "Leave this Script" 3>&1 1>&2 2>&3)
 
 if [ $MENU = "Update" ] ;then
