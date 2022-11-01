@@ -16,8 +16,6 @@
 
 This Repository is designed get easy access to Home automation and Home Network management.
 
-[Setup your Raspberry Pi](Documentation/01-setup.md)
-
 ## Prerequisites:
 
 > - Raspberry Pi 4 (RaspbianOS 64-Bit)
