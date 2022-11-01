@@ -579,7 +579,7 @@ select_location() {
         while true
         do
             
-            if SHARE_PWD=$(whiptail --title "Network Share" --inputbox "Enter the path to your network share\nLike: \\\\192.168.1.10\\backup" 8 80 3>&1 1>&2 2>&3); then
+            if SHARE_PWD=$(whiptail --title "Network Share" --inputbox "Enter the path to your network share\nLike: \\\\192.168.1.10\\backup" 10 80 3>&1 1>&2 2>&3); then
                 echo "Domain Set to $EXTERNAL_DOMAIN" >> $LOG_PWD/script.log
                 echo "$SHARE_PWD"
                 
@@ -609,7 +609,7 @@ select_location() {
         FSTAB_COMMAND="$SHARE_PWD $BACKUP_PWD cifs username=$SHARE_USERNAME,password=$SHARE_PASSWORD 0 0"
         
         cp /etc/fstab /etc/fstab_orig
-        echo -e "\n$FSTAB_COMMAND" >> /etc/fstab
+        echo -e "\n${FSTAB_COMMAND//\\/\\\\}" >> /etc/fstab
 
         echo -e "Added to Fstab:\n$FSTAB_COMMAND" >> $LOG_PWD/script.log
         
