@@ -58,15 +58,15 @@ If you use an external Domain to use SSL Certificates (what we strongly reccomen
    
    <img src="Documentation/Images/Readme004.png" alt="Local DNS 1" width="400"/>
 
-3. Right Click on your Used Network connection and select **Preferences** 
+3. Right Click on your Used Network connection and select **Properties** 
    
    <img src="Documentation/Images/Readme005.png" alt="Local DNS 2" width="300"/>
    
-4. Double Click on **Internet Protokoll Version 4** to open your IP settings
+4. Double Click on **Internetprotokoll Version 4** to open your IP settings
    
    <img src="Documentation/Images/Readme006.png" alt="Local DNS 3" width="300"/>
    
-5. Cahnge to **Folgende DNS-Serveradressen verwenden** and enter the IP of your Raspberry Pi
+5. Cahnge to **Use the following DNS server addresses** and enter the IP of your Raspberry Pi
    
    <img src="Documentation/Images/Readme007.png" alt="Local DNS 4" width="300"/>
 
