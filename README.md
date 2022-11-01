@@ -20,11 +20,13 @@ This Repository is designed get easy access to Home automation and Home Network 
 
 ## Prerequisites:
 
-> - Raspberry Pi
+> - Raspberry Pi 4 (RaspbianOS 64-Bit)
 >    - Power Supply
 >    - SD Card / SD Card Reader
->    - Ethernet Cable   
+>    - Ethernet Cable
 > - (DynDNS)
+
+[Start installation with your Raspberry Pi](Documentation/01-setup.md)
 
 ## Application List with IP-addresses
 
