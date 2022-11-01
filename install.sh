@@ -633,7 +633,7 @@ select_location() {
 # Enable Backup
 enable_bakup () {
     # Backup Script herunterladen und Cronjob für tägliches Backup erstellen
-        cd //var/homeautomation/script; rm backup.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/backup-feature/backup.sh &> /dev/null
+        cd /var/homeautomation/script; rm backup.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/backup-feature/backup.sh &> /dev/null
         chmod +x /var/homeautomation/script/backup.sh
         
         
@@ -644,6 +644,9 @@ enable_bakup () {
         cronjob="0 2 * * * $croncmd"
         
         ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+
+# Run the Backup
+        bash /var/homeautomation/script/backup.sh
 }
 
 # Update the System
