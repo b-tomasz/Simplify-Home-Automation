@@ -38,6 +38,7 @@ fi
 # Create Script/Config/Log Folder
 mkdir -p /var/homeautomation/script/log
 mkdir -p /var/homeautomation/script/config
+mkdir -p /var/homeautomation/script/backup
 cd /var/homeautomation/script
 
 ### Variables
@@ -45,6 +46,7 @@ SCRIPT_PWD=/tmp
 SCRIPT_NAME=install.sh
 LOG_PWD=/var/homeautomation/script/log
 CFG_PWD=/var/homeautomation/script/config
+BACKUP_PWD=/var/homeautomation/backup
 
 # ContainerIDs
 declare -A CONTAINER_IDS
@@ -558,9 +560,21 @@ select_location() {
         #select a Network Drive and Mount it.
         echo "Setup Network Share for Backup" >> $LOG_PWD/script.log
         
+        if ! grep -s "$BACKUP_PWD" /etc/fstab &> /dev/null ; then
+            if (whiptail --title "Network Share" --yesno "There is already a network share set up.\nDo you want to change the Backup location?" --yes-button "Change" --no-button "Exit" 8 80); then
+                
+                # remove previous mount
+                sed -i "/${BACKUP_PWD//\//\\/}/d" myfile.txt
+                umount $BACKUP_PWD
+                
+            else
+                exit 2
+            fi
+            
+            
+        fi
         
-        # Create Mount point
-        mkdir -p $SCRIPT_PWD/backup
+        
         
         while true
         do
@@ -592,15 +606,15 @@ select_location() {
             fi
         done
         
-        FSTAB_COMMAND="$SHARE_PWD $SCRIPT_PWD/backup cifs username=$SHARE_USERNAME,password=$SHARE_PASSWORD 0 0"
+        FSTAB_COMMAND="$SHARE_PWD $BACKUP_PWD cifs username=$SHARE_USERNAME,password=$SHARE_PASSWORD 0 0"
         
         cp /etc/fstab /etc/fstab_orig
-        echo -e "\n\n# Network share for Backup\n$FSTAB_COMMAND" >> /etc/fstab
+        echo -e "\n$FSTAB_COMMAND" >> /etc/fstab
         
         mount -a
         
         
-        select_location
+        
         elif [ $MENU = "sdfs" ] ;then
         install
         elif [ $MENU = "Remove" ] ;then
