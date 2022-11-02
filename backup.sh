@@ -4,13 +4,16 @@
 #
 # Inspired BY:
 # rsync:
-# https://linux.die.net/man/1/rsync
-# https://jumpcloud.com/blog/how-to-backup-linux-system-rsync
+# https://linux.die.net/man/1/tar
+# https://www.ionos.com/digitalguide/server/tools/tar-backup-how-to-create-an-archive-with-linux/
 #
 
 
 LOG_PWD=/var/homeautomation/script/log
 BACKUP_PWD=/mnt/backup/share
+
+mount -a
+sleep 2
 
 if ( df | grep "$BACKUP_PWD" &> /dev/null); then
     
@@ -21,7 +24,7 @@ if ( df | grep "$BACKUP_PWD" &> /dev/null); then
     docker container stop $RUNNING_CONTAINER
     
     # Backup Data:
-    rsync -aAXv /var/homeautomation/ –-delete /mnt/backup/share
+    tar -cvpzf /mnt/backup/share/level0.tar.gz -g /mnt/backup/share/timestamp.dat /var/homeautomation/
     
     
     
@@ -32,3 +35,5 @@ if ( df | grep "$BACKUP_PWD" &> /dev/null); then
 else
     echo -e "Backup Path not found" >> $LOG_PWD/backup.log
 fi
+
+WORKSPACE_NAME
