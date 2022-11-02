@@ -99,15 +99,15 @@ update_system () {
         
         {
             echo -e "\n\n----------Update Packages----------\n" >> $LOG_PWD/update.log
-            apt-get update -y -q >> $LOG_PWD/update.log
+            apt-get update -y -q &>> $LOG_PWD/update.log
             
             echo -e "XXX\n20\nUpgrade System...\nXXX"
             echo -e "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
-            apt-get upgrade -y -q >> $LOG_PWD/update.log
+            apt-get upgrade -y -q &>> $LOG_PWD/update.log
             
             echo -e "XXX\n60\nCleanup System...\nXXX"
             echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
-            apt-get autoremove -y -q >> $LOG_PWD/update.log
+            apt-get autoremove -y -q &>> $LOG_PWD/update.log
             
             echo -e "XXX\n100\nFinished...\nXXX"
             sleep 0.5
@@ -141,19 +141,19 @@ check_docker_installation () {
             
             {
                 echo -e "\n\n----------Update Packages----------\n" >> $LOG_PWD/script.log
-                apt-get update  -y -q >> $LOG_PWD/script.log
+                apt-get update  -y -q &>> $LOG_PWD/script.log
                 
                 echo -e "XXX\n20\nInstall docker.io...\nXXX"
                 echo -e "\n\n----------Install docker.io----------\n" >> $LOG_PWD/script.log
-                apt-get install docker.io -y -q >> $LOG_PWD/script.log
+                apt-get install docker.io -y -q &>> $LOG_PWD/script.log
                 
                 echo -e "XXX\n50\nInstall docker-compose...\nXXX"
                 echo -e "\n\n----------Install docker-compose----------\n" >> $LOG_PWD/script.log
-                apt-get install docker-compose -y -q >> $LOG_PWD/script.log
+                apt-get install docker-compose -y -q &>> $LOG_PWD/script.log
                 
                 echo -e "XXX\n80\nCleanup System...\nXXX"
                 echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/script.log
-                apt-get autoremove -y -q >> $LOG_PWD/script.log
+                apt-get autoremove -y -q &>> $LOG_PWD/script.log
                 
                 echo -e "XXX\n100\nFinished...\nXXX"
                 sleep 0.5
