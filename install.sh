@@ -101,7 +101,7 @@ update_system () {
             
             echo -e "XXX\n20\nUpgrade System...\nXXX"
             echo -e "\n\n----------Upgrade System----------\n" >> $LOG_PWD/update.log
-            apt-get -qq upgrade -y &>> $LOG_PWD/update.log
+            apt-get upgrade -y -q &>> $LOG_PWD/update.log
             
             echo -e "XXX\n60\nCleanup System...\nXXX"
             echo -e "\n\n----------Cleanup System----------\n" >> $LOG_PWD/update.log
