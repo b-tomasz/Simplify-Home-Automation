@@ -216,7 +216,7 @@ check_ip (){
     done
     
     # Check if the Pi has an Fixed IP
-    if (cat /etc/dhcpcd.conf | grep -Pzo 'interface eth0\nstatic ip_address')
+    if (cat /etc/dhcpcd.conf | grep -Pzoq 'interface eth0\nstatic ip_address')
     then
         whiptail --title "IP-address" --msgbox "You allready have a fixed IP on eth0" --ok-button "Continue" 8 80
         return
