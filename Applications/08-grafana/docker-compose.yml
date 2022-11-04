@@ -14,6 +14,7 @@ services:
     environment:
       #- GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource    # Automativaly install Plugins
       - GF_SECURITY_ADMIN_PASSWORD=${WEBPASSWORD}
+      - GF_AUTH_ANONYMOUS_ENABLED=true  # Enable, that an User without Login can view the default Organisation
     
     volumes:
       - /var/homeautomation/grafana/volumes/grafana-data:/var/lib/grafana
