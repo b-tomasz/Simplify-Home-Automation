@@ -669,7 +669,7 @@ EOT
         fi
 
         # Install nginx as base for the other Containers
-        if ! grep -s $val $CFG_PWD/installed_tools.txt &> /dev/null ; then
+        if ! grep -s "nginx" $CFG_PWD/installed_tools.txt &> /dev/null ; then
             install_container nginx &>> $LOG_PWD/script.log
             sleep 10
         
