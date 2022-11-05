@@ -1,8 +1,8 @@
-# How to uninstall a Container from the System
+# How to uninstall a container from the system
 
-- [How to uninstall a Container from the System](#how-to-uninstall-a-container-from-the-system)
+- [How to uninstall a container from the system](#how-to-uninstall-a-container-from-the-system)
   - [Connect to Raspberry Pi](#connect-to-raspberry-pi)
-  - [Start the Script](#start-the-script)
+  - [Start the script](#start-the-script)
 
 ## Connect to Raspberry Pi
 1. To begin, log-in to your Raspberry Pi via ssh. 
@@ -17,7 +17,7 @@ ssh pi@home-server.local
 ```
 
 3. On the first connection, you will get a warning, that you're connecting to an unknown device. To confirm that, enter "yes" and confirm by pressing Enter
-4. Enter your password and confirm by pressing Enter. **Note: you will not see any input, when you enter your password**
+4. Type in your password and confirm by pressing Enter. **Note: you will not see any input, when you enter your password**
 5. If the connection was successfully, you should see the following line in your command prompt:
 
 ```
@@ -29,13 +29,13 @@ pi@home-server:~ $
 sudo su
 ```
 
-## Start the Script
+## Start the script
 1. Copy the following code into your Bash command line
 ```
 cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 ```
 
-2. After the script started, select Remove and press Enter
+2. After the script started, select "Remove" and press Enter
 
 <img src="Images/remove/Remove001.png" alt="Choose remove" width="500"/>
   
