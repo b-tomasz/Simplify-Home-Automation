@@ -9,7 +9,7 @@
       - If you use Windows, open PowerShell
       - If you use Linux or macOS open Terminal
 2. Enter the following command:
-   - change the "pi" to your Username, if you changed it during installation
+   - change the "pi" to your username, if you changed it during installation
    - replace "home-server" with the hostname you set during installation
   
 ```
