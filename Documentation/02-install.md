@@ -129,7 +129,7 @@ cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-to
 
 <img src="Images/install/Install014.png" alt="Choose Products" width="500"/>
 
-4. If you choose either Portainer, Grafana, Database, VPN or PiHole you will get prompted to type in a default Password. It will be the same for all applications, and you can change it on the webinterface after installation.
+4. If you choose either Portainer, Grafana, Database, VPN or Pi-hole you will get prompted to type in a default Password. It will be the same for all applications, and you can change it on the webinterface after installation.
 
 5. If you complete this task successfully, the installation begins. Please be patient, this could take a while. As soon as the installation is completed, you will get notified.
 
