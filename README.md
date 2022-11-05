@@ -8,14 +8,14 @@
   - [Application List with IP-addresses](#application-list-with-ip-addresses)
   - [Networks](#networks)
   - [Ports that need to be forwarded to Raspberry Pi](#ports-that-need-to-be-forwarded-to-raspberry-pi)
-  - [Folder Configuration](#folder-configuration)
-  - [Application default Username's](#application-default-usernames)
-  - [Start the Installation script](#start-the-installation-script)
+  - [Folder configuration](#folder-configuration)
+  - [Application default username's](#application-default-usernames)
+  - [Start the installation script](#start-the-installation-script)
   - [Used Docker images](#used-docker-images)
 
 ## Overview
 
-This Repository is designed get easy access to Home automation and Home Network management.
+This Repository is designed to get easy access to Home automation and Home Network management.
 
 ## Prerequisites:
 
@@ -53,26 +53,26 @@ All Ports marked with brackets () are not active, but can be activated in the do
 
 ## Ports that need to be forwarded to Raspberry Pi
 
-If you use an external Domain to use SSL Certificates (what we strongly reccomend) then it is necessary that you forward the follwing Ports to Your Raspberry Pi 
+If you use an external Domain to use SSL Certificates (what we strongly recommend) it is necessary that you forward the follwing Ports to Your Raspberry Pi 
 
 - HTTP: 80 (tcp)
-  - Used to generate SSL certificates and redirert http to https
+  - Used to generate SSL certificates and redirect http to https
 - HTTPS: 443 (tcp)
-  - Used to Access Bitwarden from Outside your Network
+  - Used to access Bitwarden from outside your Network
 - VPN: 10000 (udp)
-  - Used to connect to your Homenetwork via a VPN
+  - Used to connect to your homenetwork via a VPN
 
-Further Information and example configuration is listed in the [install documentation](Documentation/02-install.md#ports-that-need-to-be-forwarded-to-raspberry-pi)
+Further information and example configuration is listed in the [install documentation](Documentation/02-install.md#ports-that-need-to-be-forwarded-to-raspberry-pi)
 
-## Folder Configuration
+## Folder configuration
 
 All folders get created in  /var/homeautomation \
 Script folder               /var/homeautomation/script \
-Apllicationfolder           /var/homeautomation/$Applicationname
+Applicationfolder           /var/homeautomation/$Applicationname
 
-## Application default Username's
+## Application default username's
 
-During installation you enter an Password. That Password will be set for all containers as default Password. You can change the Passwords after installation in the Webinterface of each Container.
+During installation you enter a password. That password will be set for all containers as default password. You can change the passwords after installation in the Webinterface of each container.
 
 | Container | Username |
 | --------- | -------- |
@@ -82,7 +82,7 @@ During installation you enter an Password. That Password will be set for all con
 | Database  | root     |
 | Grafana   | admin    |
 
-## Start the Installation script
+## Start the installation script
 ```
 cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/install.sh &> /dev/null; bash install.sh
 ```
