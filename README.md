@@ -15,14 +15,14 @@
 
 ## Overview
 
-This Repository is designed to get easy access to Home automation and Home Network management.
+This repository is designed to get easy access to homeautomation and homenetwork management.
 
 ## Prerequisites:
 
 > - Raspberry Pi 4 (RaspbianOS 64-Bit)
->    - Power Supply
->    - SD Card / SD Card Reader
->    - Ethernet Cable
+>    - Power supply
+>    - SD card / SD card reader
+>    - Ethernet cable
 > - (DynDNS)
 
 [Start installation with your Raspberry Pi](Documentation/01-setup.md)
@@ -44,21 +44,21 @@ This Repository is designed to get easy access to Home automation and Home Netwo
 | Grafana   | 10.10.80.1 | (8004:3000)                                         | grafana.home / grafana.[your Domain]     |
 | Unifi     | 10.10.90.1 | (8443:8443), 3478:3478,<br />8080:8080, 10001:10001 | unifi.home / unifi.[your Domain]         |
 
-All Ports marked with brackets () are not active, but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the Container directly.
+All ports marked with brackets () are not active, but can be activated in the docker-compose.yml File of each container. These are only required if you want to access the container directly.
 
 ## Networks
 
 - Default homeautomation
-- Network is defined in Nginx Container
+- Network is defined in Nginx container
 
 ## Ports that need to be forwarded to Raspberry Pi
 
-If you use an external Domain to use SSL Certificates (what we strongly recommend) it is necessary that you forward the follwing Ports to Your Raspberry Pi 
+If you use an external domain to use SSL-Certificates (what we strongly recommend) it is necessary that you forward the follwing ports to your Raspberry Pi 
 
 - HTTP: 80 (tcp)
-  - Used to generate SSL certificates and redirect http to https
+  - Used to generate SSL-Certificates and redirect http to https
 - HTTPS: 443 (tcp)
-  - Used to access Bitwarden from outside your Network
+  - Used to access Bitwarden from outside your network
 - VPN: 10000 (udp)
   - Used to connect to your homenetwork via a VPN
 
@@ -72,7 +72,7 @@ Applicationfolder           /var/homeautomation/$Applicationname
 
 ## Application default username's
 
-During installation you enter a password. That password will be set for all containers as default password. You can change the passwords after installation in the Webinterface of each container.
+During installation you enter a password. That password will be set for all containers as default password. You can change the passwords after installation in the webinterface of each container.
 
 | Container | Username |
 | --------- | -------- |
@@ -95,7 +95,7 @@ cd /tmp; rm install.sh &> /dev/null; wget https://raw.githubusercontent.com/b-to
 | Portainer:  | https://hub.docker.com/r/portainer/portainer-ce       |
 | Pi-hole:    | https://hub.docker.com/r/pihole/pihole                |
 | Bind9:      | https://hub.docker.com/r/ubuntu/bind9                 |
-| Wireguard:  | https://hub.docker.com/r/weejewel/wg-easy             |
+| WireGuard:  | https://hub.docker.com/r/weejewel/wg-easy             |
 | Bitwarden:  | https://hub.docker.com/r/vaultwarden/server           |
 | Node-RED:   | https://hub.docker.com/r/nodered/node-red             |
 | Database:   | https://hub.docker.com/_/mysql                        |
