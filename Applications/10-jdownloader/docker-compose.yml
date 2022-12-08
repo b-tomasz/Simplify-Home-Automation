@@ -1,0 +1,24 @@
+# docker-compose.yaml for Jdownloader
+
+version: '3.7'
+services:
+  jdownloader-2:
+    container_name: jdownloader
+    image: jlesage/jdownloader-2
+    #ports:
+    #  - "5800:5800"
+    volumes:
+      - "/var/homeautomation/jdownloader/volumes/jdownloader-config:/config:rw"
+      - "/mnt/jdownloader/share/Raspberry:/output:rw"
+
+    restart: unless-stopped
+    networks:
+      jdownloader:
+        ipv4_address: 10.10.100.1
+  
+
+networks:
+  jdownloader:
+    name: homeautomation
+    external: true
+
