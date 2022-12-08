@@ -295,7 +295,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -316,7 +316,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -337,7 +337,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -354,7 +354,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -375,7 +375,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -396,7 +396,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -418,7 +418,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
@@ -449,7 +449,7 @@ server {
 
   #These header fields are required if your application is using Websockets
   proxy_set_header Connection \"upgrade\";
-  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/cert.pem;
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
 }
 
