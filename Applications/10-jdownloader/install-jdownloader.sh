@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-unifi.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/10-jdownloader/install-jdownloader.sh &> /dev/null; bash install-jdownloader.sh
+#cd /tmp; rm install-jdownloader.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/10-jdownloader/install-jdownloader.sh &> /dev/null; bash install-jdownloader.sh
 
 CONTAINER_ID=10
 CONTAINER_NAME=jdownloader
