@@ -1,0 +1,25 @@
+# docker-compose.yaml for Jdownloader
+
+
+version: '3.7'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: kuma
+    #ports:
+    #  - 3001:3001  # <Host Port>:<Container Port>
+    volumes:
+      - "/var/homeautomation/kuma/volumes/kuma-data:/app/data"
+
+    restart: unless-stopped
+    networks:
+      kuma:
+        ipv4_address: 10.10.110.1
+  
+
+networks:
+  kuma:
+    name: homeautomation
+    external: true
+

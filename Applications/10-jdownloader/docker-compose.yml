@@ -10,6 +10,7 @@ services:
     volumes:
       - "/var/homeautomation/jdownloader/volumes/jdownloader-config:/config:rw"
       - "/mnt/jdownloader/share/Raspberry:/output:rw"
+      - "/mnt/jdownloader/share/Filme/0Downloaded:/extracted:rw"
 
     restart: unless-stopped
     networks:
