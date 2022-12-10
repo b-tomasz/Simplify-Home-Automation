@@ -166,6 +166,24 @@ server {
   proxy_set_header Connection \"upgrade\";
 }
 
+###   Influxdb    ###
+
+server {
+  listen 80;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name database.home database.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.120.1:8086;
+  }
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade \$http_upgrade;
+
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Connection \"upgrade\";
+}
         " > /var/homeautomation/$CONTAINER_NAME/volumes/nginx/conf.d/homeautomation.conf
         
         
@@ -444,6 +462,27 @@ server {
 
   }
 
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Upgrade \$http_upgrade;
+
+  #These header fields are required if your application is using Websockets
+  proxy_set_header Connection \"upgrade\";
+  ssl_certificate /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/fullchain.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/$EXTERNAL_DOMAIN/privkey.pem;
+}
+
+###   Influxdb    ###
+
+server {
+  listen 443 ssl;
+  allow  192.168.0.0/16;
+  allow  10.0.0.0/8;
+  allow  172.16.0.0/12;
+  deny   all;
+  server_name database.$EXTERNAL_DOMAIN;
+  location / {
+    proxy_pass http://10.10.120.1:8086;
+  }
   #These header fields are required if your application is using Websockets
   proxy_set_header Upgrade \$http_upgrade;
 

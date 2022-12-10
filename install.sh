@@ -57,6 +57,7 @@ CONTAINER_IDS[nodered]=06
 CONTAINER_IDS[database]=07
 CONTAINER_IDS[grafana]=08
 CONTAINER_IDS[unifi]=09
+CONTAINER_IDS[influxdb]=12
 
 # Decription for each Tool to use in the Selection
 declare -A TOOL_DESCRIPTION
@@ -69,6 +70,7 @@ TOOL_DESCRIPTION[nodered]="Manage and connect homautomation"
 TOOL_DESCRIPTION[database]="Database to store Data"
 TOOL_DESCRIPTION[grafana]="Visualize Data in a nice Gaph"
 TOOL_DESCRIPTION[unifi]="Unifi Controller, for Managing Unifi Devices"
+TOOL_DESCRIPTION[influxdb]="Influxdb , for Storing and Collecting Data"
 
 ### Functions:
 
@@ -611,7 +613,7 @@ install () {
     read -a TOOLS < $CFG_PWD/tools_to_install.txt
     
     # Ask the User fot the Passwords of the Tools to be installed
-    if [[ " ${TOOLS[*]} " =~ "portainer" ]] || [[ " ${TOOLS[*]} " =~ "database" ]] || [[ " ${TOOLS[*]} " =~ "pihole" ]] || [[ " ${TOOLS[*]} " =~ "grafana" ]] || [[ " ${TOOLS[*]} " =~ "vpn" ]]; then
+    if [[ " ${TOOLS[*]} " =~ "portainer" ]] || [[ " ${TOOLS[*]} " =~ "database" ]] || [[ " ${TOOLS[*]} " =~ "pihole" ]] || [[ " ${TOOLS[*]} " =~ "grafana" ]] || [[ " ${TOOLS[*]} " =~ "vpn" ]] || [[ " ${TOOLS[*]} " =~ "influxdb" ]]; then
         # ask User for Default Webinterface Passwords
         while true
         do
@@ -644,6 +646,7 @@ install () {
 +127.0.0.1      database.home
 +127.0.0.1      grafana.home
 +127.0.0.1      unifi.home
++127.0.0.1      influxdb.home
 +127.0.0.1      nginx.$EXTERNAL_DOMAIN
 +127.0.0.1      portainer.$EXTERNAL_DOMAIN
 +127.0.0.1      pihole.$EXTERNAL_DOMAIN
@@ -653,6 +656,7 @@ install () {
 +127.0.0.1      database.$EXTERNAL_DOMAIN
 +127.0.0.1      grafana.$EXTERNAL_DOMAIN
 +127.0.0.1      unifi.$EXTERNAL_DOMAIN
++127.0.0.1      influxdb.$EXTERNAL_DOMAIN
 EOT
     
     patch -l -d /etc -b < $CFG_PWD/hosts.patch >> $LOG_PWD/script.log
@@ -698,6 +702,8 @@ EOT
                 database)
                 install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 grafana)
+                install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
+                influxdb)
                 install_container $TOOL $PASSWORD &>> $LOG_PWD/script.log;;
                 *)
                 install_container $TOOL &>> $LOG_PWD/script.log;;
