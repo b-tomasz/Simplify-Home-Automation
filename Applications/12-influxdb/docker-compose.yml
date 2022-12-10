@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb2
+    volumes:
+      - /var/homeautomation/influxdb2/volumes/influxdb2/influxdb2:/var/lib/influxdb2:rw
+    environment: 
+       # Use these same configurations parameters in your telegraf configuration, mytelegraf.conf.
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=root
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=homeautomation
+    ports:
+      - 8086:8086
+    restart: unless-stopped
+    networks:
+      influxdb:
+        ipv4_address: 10.10.120.1
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+#    links:
+#      - influxdb
+    volumes:
+      #  Sync timezone with host
+      - /etc/localtime:/etc/localtime:ro
+      #  Map Telegraf configuration file
+      #- /var/homeautomation/influxdb2/volumes/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      #  Map /tmp to permanent storage  (this includes /tmp/metrics.out)
+      - /var/homeautomation/influxdb2/volumes/influxdb2/tmp:/tmp:rw
+    restart: unless-stopped
+    depends_on:
+      - influxdb
+    networks:
+      influxdb:
+        ipv4_address: 10.10.120.2
+networks:
+  database:
+    name: homeautomation
+    external: true
