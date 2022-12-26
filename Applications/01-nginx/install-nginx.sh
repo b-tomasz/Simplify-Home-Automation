@@ -174,7 +174,7 @@ server {
   allow  10.0.0.0/8;
   allow  172.16.0.0/12;
   deny   all;
-  server_name database.home database.$EXTERNAL_DOMAIN;
+  server_name influxdb.home influxdb.$EXTERNAL_DOMAIN;
   location / {
     proxy_pass http://10.10.120.1:8086;
   }
@@ -238,6 +238,8 @@ server {
         -d grafana.$EXTERNAL_DOMAIN \
         -d unifi.$EXTERNAL_DOMAIN \
         -d database.$EXTERNAL_DOMAIN \
+        -d influxdb.$EXTERNAL_DOMAIN \
+        -d paperless.$EXTERNAL_DOMAIN \
         -m $EMAIL --agree-tos
         
         
