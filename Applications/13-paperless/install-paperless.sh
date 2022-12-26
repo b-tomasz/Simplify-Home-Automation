@@ -1,9 +1,9 @@
 #!/bin/bash
 #Script ausführen mit:
-#cd /tmp; rm install-influxdb.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/12-influxdb/install-influxdb.sh &> /dev/null; bash install-influxdb.sh
+#cd /tmp; rm install-paperless.sh &> /dev/null; wget https://raw.githubusercontent.com/b-tomasz/Simplify-Home-Automation/main/Applications/13-paperless/install-paperless.sh &> /dev/null; bash install-paperless.sh
 
-CONTAINER_ID=12
-CONTAINER_NAME=influxdb
+CONTAINER_ID=13
+CONTAINER_NAME=paperless
 PASSWORD=$1
 
 install (){
