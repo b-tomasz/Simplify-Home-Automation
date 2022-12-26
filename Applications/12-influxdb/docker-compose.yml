@@ -37,6 +37,6 @@ services:
       influxdb:
         ipv4_address: 10.10.120.2
 networks:
-  database:
+  influxdb:
     name: homeautomation
     external: true
