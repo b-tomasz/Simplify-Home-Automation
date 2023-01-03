@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
+    container_name: homeassistant
+    #network_mode: host
+    environment:
+      #- PUID=1000
+      #- PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /haconf:/config
+    ports:
+      - 8123:8123 #optional
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      #- /path/to/device:/path/to/device #optional
+    restart: unless-stopped
+    networks:
+      homeassistant:
+        ipv4_address: 10.10.140.1
+
+networks:
+  homeassistant:
+    name: homeautomation
+    external: true
+
+volumes:
+  haconf:
+    external: true
