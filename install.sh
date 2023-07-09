@@ -558,9 +558,12 @@ update () {
     # Set Locale
     update_locale
     
-    #Update the System
+    # Update the System
     echo "Start Update" >> $LOG_PWD/script.log
     update_system
+
+    # Include IP Configuration for Container Update
+    source /var/homeautomation/script/config/ip.conf
     
     # Update Containers
     if [ -f "$CFG_PWD/installed_tools.txt" ]; then
