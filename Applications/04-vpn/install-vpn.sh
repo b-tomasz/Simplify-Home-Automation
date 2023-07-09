@@ -28,7 +28,7 @@ install (){
     
     
     # Start openvpn
-    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN PASSWORD=$PASSWORD docker-compose up -d
+     PASSWORD=$PASSWORD docker-compose up -d
     
 }
 
@@ -37,7 +37,7 @@ upgrade (){
     # Upgrade Container
     cd /var/homeautomation/$CONTAINER_NAME
     docker-compose pull
-    docker-compose up -d
+    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN docker-compose up -d
 }
 
 uninstall (){

@@ -5,6 +5,8 @@
 CONTAINER_ID=05
 CONTAINER_NAME=bitwarden
 
+source /var/homeautomation/script/config/ip.conf
+
 install (){
     
     # create Applikations folder
@@ -26,7 +28,7 @@ upgrade (){
     # Upgrade Container
     cd /var/homeautomation/$CONTAINER_NAME
     docker-compose pull
-    docker-compose up -d
+    EXTERNAL_DOMAIN=$EXTERNAL_DOMAIN docker-compose up -d
 }
 
 uninstall (){
